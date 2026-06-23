@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class,
+            /*     RoleSeeder::class,
             AdminSeeder::class,
             DoctorSeeder::class,
-            GuestSeeder::class
-        ]);
+            GuestSeeder::class, */
+            /*    DoctorDetailSeeder::class, */]);
     }
 }
