@@ -1,8 +1,18 @@
 <div>
     <div class="h-full sm:px-6 lg:px-8">
+        {{-- La logica è stata spostata nel componente Livewire `DetailsDoctors` --}}
         <div class="py-12 h-full">
-
             <div class="px-4 space-y-2">
+
+                <button wire:navigate href="/doctors"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-300 bg-gray-50 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                    </svg>
+                    Indietro
+                </button>
 
                 {{-- Header card --}}
                 <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
@@ -12,7 +22,8 @@
                         @if($doctor->doctorDetail && $doctor->doctorDetail->img_url)
                         <figure
                             class="w-18 h-18 overflow-hidden shrink-0 rounded-full bg-gray-200 flex items-center justify-center text-blue-700 font-medium text-xs select-none">
-                            <img class="w-full h-full object-center" src="{{$doctor->doctorDetail->img_url}}" alt="{{$doctor->name}}">
+                            <img class="w-full h-full object-center" src="{{$doctor->doctorDetail->img_url}}"
+                                alt="{{$doctor->name}}">
                         </figure>
                         @else
                         <div class="w-18 h-18 shrink-0 rounded-full bg-gray-200 flex items-center justify-center text-blue-700 font-medium text-xl select-none"
@@ -30,13 +41,13 @@
                                 </h1>
                                 @if($doctor->doctorDetail->is_active)
                                 <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
-                                    Attivo
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                                    Disponibile
                                 </span>
                                 @else
                                 <span
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-600">
-                                    Non attivo
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-600">
+                                    Non disponibile
                                 </span>
                                 @endif
                             </div>
@@ -59,15 +70,7 @@
 
                         {{-- Azioni --}}
                         <div class="flex gap-2 flex-wrap ">
-                            <button wire:navigate href="/doctors"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-300 bg-gray-50 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
-                                </svg>
-                                Indietro
-                            </button>
+
 
                             <button wire:navigate href="/doctors/edit/{{$doctor->id}}"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-medium rounded-xl transition-colors">
@@ -95,14 +98,14 @@
                     <div class="bg-gray-50 rounded-xl border border-gray-200 p-4">
                         <p class="text-xs text-gray-400 mb-1">Giorni disponibili</p>
                         <p class="text-2xl font-medium text-gray-900">
-                            {{ count($doctor->doctorDetail->available_hours ?? []) }}
+                            {{ $availableDaysCount }}
                             <span class="text-sm text-gray-400 font-normal">giorni/sett.</span>
                         </p>
                     </div>
 
                     <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 col-span-2 sm:col-span-1">
                         <p class="text-xs text-gray-400 mb-1">Pazienti seguiti</p>
-                        <p class="text-2xl font-medium text-gray-900">
+                        <p class="text-2xl font-medium text-gray-900"> 0
                             {{-- {{ $doctor->patientsDoctor()->count() }} --}}
                         </p>
                     </div>
@@ -112,82 +115,45 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
 
                     {{-- Biografia --}}
-                    <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
+                    <div class="bg-gray-50 h-full rounded-2xl border border-gray-200 p-6">
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Biografia</h2>
 
-                        @if($doctor->doctorDetail)
-                        <p class="text-sm text-gray-600 leading-relaxed">{{$doctor->doctorDetail->bio}}</p>
+                        @if($doctor->doctorDetail && $doctor->doctorDetail->bio)
+                        <p class="text-sm text-gray-600 h-[100px] leading-relaxed overflow-y-auto">
+                            {{$doctor->doctorDetail->bio}}
+                        </p>
                         @else
                         <p class="text-sm text-gray-400 italic">Nessuna biografia inserita.</p>
                         @endif
                     </div>
 
-                    {{-- Disponibilità settimanale --}}
-                    <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
-                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Disponibilità
-                            settimanale</h2>
+                    {{-- Disponibilità --}}
+                    <div class="bg-gray-50 h-full rounded-2xl border border-gray-200 p-6">
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Disponibilità</h2>
 
-                        @php
-                        $dayLabels = [
-                        'mon' => 'Lun',
-                        'tue' => 'Mar',
-                        'wed' => 'Mer',
-                        'thu' => 'Gio',
-                        'fri' => 'Ven',
-                        'sat' => 'Sab',
-                        'sun' => 'Dom',
-                        ];
+                        <div class="space-y-2">
+                            @foreach ($weekDays as $key => $label)
+                                @php
+                                    $hours = $availableHours[$key] ?? [];
+                                    $from = $hours[0] ?? null;
+                                    $to = $hours[1] ?? null;
+                                    $isAvailable = filled($from) && filled($to);
+                                @endphp
 
-                        // Calcola la durata massima in minuti per normalizzare le barre
-                        $maxMinutes = collect($user_doctor->doctorDetail->available_hours ?? [])->map(function ($range)
-                        {
-                        if (is_array($range) && count($range) >= 2 && !empty($range[0]) && !empty($range[1])) {
-                        $start = \Carbon\Carbon::createFromTimeString($range[0]);
-                        $end = \Carbon\Carbon::createFromTimeString($range[1]);
-                        return $end->diffInMinutes($start);
-                        }
-                        return 0;
-                        })->max() ?: 1;
-                        @endphp
-
-                        <div class="space-y-3">
-                            @foreach($dayLabels as $key => $label)
-                            @php
-                            $range = $user_doctor->doctorDetail->available_hours[$key] ?? null;
-                            $minutes = 0;
-                            if (is_array($range) && count($range) >= 2 && !empty($range[0]) && !empty($range[1])) {
-                            $start = \Carbon\Carbon::createFromTimeString($range[0]);
-                            $end = \Carbon\Carbon::createFromTimeString($range[1]);
-                            $minutes = $end->diffInMinutes($start);
-                            }
-                            $pct = $range ? round(($minutes / $maxMinutes) * 100) : 0;
-                            @endphp
-
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="text-xs font-medium w-8 shrink-0 {{ $range ? 'text-gray-700' : 'text-gray-300' }}">
-                                    {{ $label }}
-                                </span>
-
-                                <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                    @if($range)
-                                    <div class="h-full bg-blue-500 rounded-full" style="width: {{ $pct }}%">
-                                    </div>
-                                    @endif
+                                <div class="flex items-center justify-between gap-4 rounded-xl border px-4 py-2 {{ $isAvailable ? 'border-blue-200  bg-blue-50' : 'border-gray-200 bg-gray-100' }}">
+                                    <span class="text-sm {{ $isAvailable ? 'text-blue-600 font-medium ' : 'text-slate-400' }}">{{ $label }}</span>
+                                    <span class="text-sm {{ $isAvailable ? 'text-blue-600 font-medium ' : 'text-slate-400' }}">
+                                        @if ($isAvailable)
+                                            {{ $from }} → {{ $to }}
+                                        @else
+                                            Non disponibile
+                                        @endif
+                                    </span>
                                 </div>
-
-                                <span
-                                    class="text-xs shrink-0 w-28 text-right {{ $range ? 'text-gray-500' : 'text-gray-300' }}">
-                                    @if($range && count($range) >= 2)
-                                    {{ $range[0] }} {{ $range[1] }}
-                                    @else
-                                    Non disponibile
-                                    @endif
-                                </span>
-                            </div>
                             @endforeach
                         </div>
                     </div>
+
                 </div>
 
                 {{-- Appuntamenti Pazienti --}}
