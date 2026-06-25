@@ -19,6 +19,10 @@
                     wire:navigate>
                     {{ __('Dottori') }}
                 </flux:sidebar.item>
+                <flux:sidebar.item icon="user-plus" :href="route('patients')" :current="request()->routeIs('patients')"
+                    wire:navigate>
+                    {{ __('Pazienti') }}
+                </flux:sidebar.item>
             </flux:sidebar.group>
             <flux:sidebar.group :heading="__('Sistema')" class="grid">
                 <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"

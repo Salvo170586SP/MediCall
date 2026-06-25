@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Admin\Doctors;
 use App\Models\DoctorDetail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class CreateDoctors extends Component
@@ -77,7 +78,7 @@ class CreateDoctors extends Component
                 $user = User::create([
                     'name' => $validated['name'],
                     'email' => $validated['email'],
-                    'password' => bcrypt(substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 16)),
+                    'password' => Hash::make('password'),
                 ]);
 
                 // Assegna il ruolo Doctor

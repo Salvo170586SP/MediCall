@@ -1,6 +1,5 @@
 <div>
     <div class="h-full sm:px-6 lg:px-8">
-        {{-- La logica è stata spostata nel componente Livewire `DetailsDoctors` --}}
         <div class="py-12 h-full">
             <div class="px-4 space-y-2">
 
@@ -133,23 +132,27 @@
 
                         <div class="space-y-2">
                             @foreach ($weekDays as $key => $label)
-                                @php
-                                    $hours = $availableHours[$key] ?? [];
-                                    $from = $hours[0] ?? null;
-                                    $to = $hours[1] ?? null;
-                                    $isAvailable = filled($from) && filled($to);
-                                @endphp
+                            @php
+                            $hours = $availableHours[$key] ?? [];
+                            $from = $hours[0] ?? null;
+                            $to = $hours[1] ?? null;
+                            $isAvailable = filled($from) && filled($to);
+                            @endphp
 
-                                <div class="flex items-center justify-between gap-4 rounded-xl border px-4 py-2 {{ $isAvailable ? 'border-blue-200  bg-blue-50' : 'border-gray-200 bg-gray-100' }}">
-                                    <span class="text-sm {{ $isAvailable ? 'text-blue-600 font-medium ' : 'text-slate-400' }}">{{ $label }}</span>
-                                    <span class="text-sm {{ $isAvailable ? 'text-blue-600 font-medium ' : 'text-slate-400' }}">
-                                        @if ($isAvailable)
-                                            {{ $from }} → {{ $to }}
-                                        @else
-                                            Non disponibile
-                                        @endif
-                                    </span>
-                                </div>
+                            <div
+                                class="flex items-center justify-between gap-4 rounded-xl border px-4 py-2 {{ $isAvailable ? 'border-blue-200  bg-blue-50' : 'border-gray-200 bg-gray-100' }}">
+                                <span
+                                    class="text-sm {{ $isAvailable ? 'text-blue-600 font-medium ' : 'text-slate-400' }}">{{
+                                    $label }}</span>
+                                <span
+                                    class="text-sm {{ $isAvailable ? 'text-blue-600 font-medium ' : 'text-slate-400' }}">
+                                    @if ($isAvailable)
+                                    {{ $from }} → {{ $to }}
+                                    @else
+                                    Non disponibile
+                                    @endif
+                                </span>
+                            </div>
                             @endforeach
                         </div>
                     </div>
