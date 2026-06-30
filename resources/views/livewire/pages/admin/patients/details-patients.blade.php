@@ -102,27 +102,27 @@
 
             <div x-data="{ activeTab: 'params' }">
                 {{-- Tab navigation --}}
-                <div class="bg-white rounded-2xl mt-10 mb-2">
+                <div class="mt-10">
                     <nav class="flex gap-2">
 
                         <button @click="activeTab = 'params'"
-                            :class="activeTab === 'params' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50'"
-                            class="px-4 py-2 text-sm font-medium border rounded-xl transition-colors">
+                            :class="activeTab === 'params' ? 'bg-blue-50 text-blue-800 border border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
+                            class="px-4 py-2 text-sm font-medium border rounded-t-xl transition-colors">
                             Storico Parametri
                         </button>
                         <button @click="activeTab = 'thresholds'"
-                            :class="activeTab === 'thresholds' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50'"
-                            class="px-4 py-2 text-sm font-medium border rounded-xl transition-colors">
+                            :class="activeTab === 'thresholds' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
+                            class="px-4 py-2 text-sm font-medium border rounded-t-xl transition-colors">
                             Soglie
                         </button>
                         <button @click="activeTab = 'appointments'"
-                            :class="activeTab === 'appointments' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50'"
-                            class="px-4 py-2 text-sm font-medium border rounded-xl transition-colors">
+                            :class="activeTab === 'appointments' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
+                            class="px-4 py-2 text-sm font-medium border rounded-t-xl transition-colors">
                             Appuntamenti
                         </button>
                         <button @click="activeTab = 'records'"
-                            :class="activeTab === 'records' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50'"
-                            class="px-4 py-2 text-sm font-medium border rounded-xl transition-colors">
+                            :class="activeTab === 'records' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
+                            class="px-4 py-2 text-sm font-medium border rounded-t-xl transition-colors">
                             Cartella clinica
                         </button>
 
@@ -130,10 +130,11 @@
                 </div>
 
                 {{-- Tab content --}}
-                <div>
+                <div class="bg-gray-50 rounded-2xl rounded-b-2xl rounded-l-none border border-gray-200 p-6">
                     {{-- Parametri Tab --}}
                     <div x-show="activeTab ===  'params'" class="gap-6">
-                        <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
+                        {{-- <div
+                            class="bg-gray-50 rounded-2xl rounded-b-2xl rounded-l-none border border-gray-200 p-6"> --}}
                             <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Storico
                                 parametri
                             </h2>
@@ -142,8 +143,7 @@
                                 <div>
                                     <label for="type"
                                         class="block text-xs font-semibold text-slate-900 mb-2">Tipo</label>
-                                    <input id="type" wire:model.live="type" type="text" 
-                                        placeholder="Cerca per tipo"
+                                    <input id="type" wire:model.live="type" type="text" placeholder="Cerca per tipo"
                                         class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
                                 </div>
                                 <div>
@@ -153,14 +153,13 @@
                                         class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                                         <option value="">Tutte le sorgenti</option>
                                         <option value="manual">
-                                            Manuale
+                                            Dispositivo Medico Manuale
                                         </option>
                                         <option value="device">
-                                            Device
+                                            Dispositivo Medico Elettronico
                                         </option>
                                         <option value="wearable">
-                                            Wearable</option>
-                                        <option value="iot">IoT
+                                            Wearable
                                         </option>
                                     </select>
                                 </div>
@@ -279,541 +278,530 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                            {{--
+                        </div> --}}
                     </div>
 
                     {{-- Soglie Tab --}}
                     <div x-show="activeTab === 'thresholds'" class="gap-6">
-                        <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                                Soglie
-                            </h2>
-                            <!-- Paginazione -->
-                            <div class="mb-6" id="pagination-links-thresholds" data-table="#health-soglie-table" {{--
-                                @click="handleThresholdsPaginationClick($event)" --}}>
-                                {{-- {{ $healthThresholds->links() }} --}}
-                            </div>
-                            <div class="w-full overflow-hidden rounded-xl border border-slate-200">
-                                <table class="w-full text-left text-sm">
-                                    <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
-                                        <tr>
-                                            <th class="px-6 py-3">Parametro</th>
-                                            <th class="px-6 py-3">Min</th>
-                                            <th class="px-6 py-3">Max</th>
-                                            <th class="px-6 py-3">Severità</th>
-                                            <th class="px-6 py-3">Notifica paziente</th>
-                                            <th class="px-6 py-3">Notifica medico</th>
-                                            <th class="px-6 py-3">Creata il</th>
-                                            <th class="px-6 py-3">Creato da</th>
-                                            <th class="px-6 py-3 text-right">Azioni</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{-- @forelse($healthThresholds ?? [] as $threshold)
-                                        <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
-                                            <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
-                                                $threshold->parameter_type }}</td>
-                                            <td class="px-6 py-4 text-slate-600">{{ $threshold->min_value ?? '-' }}
-                                            </td>
-                                            <td class="px-6 py-4 text-slate-600">{{ $threshold->max_value ?? '-' }}
-                                            </td>
-                                            <td class="px-6 py-4 text-slate-900 capitalize">{{ $threshold->severity
-                                                }}</td>
-                                            <td class="px-6 py-4 text-slate-900">{{ $threshold->notify_patient ?
-                                                'Sì' : 'No' }}</td>
-                                            <td class="px-6 py-4 text-slate-900">{{ $threshold->notify_doctor ? 'Sì'
-                                                : 'No' }}</td>
-                                            <td class="px-6 py-4 text-slate-600">{{
-                                                $threshold->created_at->format('d/m/Y') }}</td>
-                                            <td class="px-6 py-4 text-slate-900">{{ $threshold->createdBy?->name ??
-                                                '-' }}</td>
-                                            <td class="px-6 py-4 text-right">
-                                                <div x-data="{ openThreshold: null }" x-cloak>
-                                                    <button @click="openThreshold = {{ $threshold->id }}"
-                                                        title="elimina"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openThreshold === {{ $threshold->id }}"
-                                                        @click="openThreshold = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
+                            Soglie
+                        </h2>
+                        <!-- Paginazione -->
+                        <div class="mb-6" id="pagination-links-thresholds" data-table="#health-soglie-table" {{--
+                            @click="handleThresholdsPaginationClick($event)" --}}>
+                            {{-- {{ $healthThresholds->links() }} --}}
+                        </div>
+                        <div class="w-full overflow-hidden rounded-xl border border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
+                                    <tr>
+                                        <th class="px-6 py-3">Parametro</th>
+                                        <th class="px-6 py-3">Min</th>
+                                        <th class="px-6 py-3">Max</th>
+                                        <th class="px-6 py-3">Severità</th>
+                                        <th class="px-6 py-3">Notifica paziente</th>
+                                        <th class="px-6 py-3">Notifica medico</th>
+                                        <th class="px-6 py-3">Creata il</th>
+                                        <th class="px-6 py-3">Creato da</th>
+                                        <th class="px-6 py-3 text-right">Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- @forelse($healthThresholds ?? [] as $threshold)
+                                    <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
+                                        <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
+                                            $threshold->parameter_type }}</td>
+                                        <td class="px-6 py-4 text-slate-600">{{ $threshold->min_value ?? '-' }}
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-600">{{ $threshold->max_value ?? '-' }}
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-900 capitalize">{{ $threshold->severity
+                                            }}</td>
+                                        <td class="px-6 py-4 text-slate-900">{{ $threshold->notify_patient ?
+                                            'Sì' : 'No' }}</td>
+                                        <td class="px-6 py-4 text-slate-900">{{ $threshold->notify_doctor ? 'Sì'
+                                            : 'No' }}</td>
+                                        <td class="px-6 py-4 text-slate-600">{{
+                                            $threshold->created_at->format('d/m/Y') }}</td>
+                                        <td class="px-6 py-4 text-slate-900">{{ $threshold->createdBy?->name ??
+                                            '-' }}</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div x-data="{ openThreshold: null }" x-cloak>
+                                                <button @click="openThreshold = {{ $threshold->id }}" title="elimina"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openThreshold === {{ $threshold->id }}"
+                                                    @click="openThreshold = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
 
-                                                    <!-- Modal -->
-                                                    <div x-show="openThreshold === {{ $threshold->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <!-- Modal -->
+                                                <div x-show="openThreshold === {{ $threshold->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
 
-                                                        <h2 class="w-full text-center font-bold">Elimina
-                                                            definitivamente?
-                                                        </h2>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="openThreshold = !openThreshold"
-                                                                title="elimina"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
+                                                    <h2 class="w-full text-center font-bold">Elimina
+                                                        definitivamente?
+                                                    </h2>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openThreshold = !openThreshold" title="elimina"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
+                                                        <form
+                                                            action="{{ route('healthThresholds.destroy', [$patient->id, $threshold->id]) }}"
+                                                            method="post" data-table="#health-soglie-table"
+                                                            @submit.prevent="handleHealthThresholdDelete($event)">
+                                                            @method('delete')
+                                                            @csrf
+
+                                                            <button title="elimina"
+                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                                Elimina
                                                             </button>
-                                                            <form
-                                                                action="{{ route('healthThresholds.destroy', [$patient->id, $threshold->id]) }}"
-                                                                method="post" data-table="#health-soglie-table"
-                                                                @submit.prevent="handleHealthThresholdDelete($event)">
-                                                                @method('delete')
-                                                                @csrf
-
-                                                                <button title="elimina"
-                                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                                    Elimina
-                                                                </button>
-                                                            </form>
-                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                                <p>Non ci sono soglie impostate per questo paziente.</p>
-                                            </td>
-                                        </tr>
-                                        @endforelse --}}
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="8" class="px-6 py-8 text-center text-slate-500">
+                                            <p>Non ci sono soglie impostate per questo paziente.</p>
+                                        </td>
+                                    </tr>
+                                    @endforelse --}}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
                     {{-- Appuntamenti Tab --}}
                     <div x-show="activeTab ===  'appointments'" class="gap-6">
-                        <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                                Appuntamenti
-                            </h2>
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
+                            Appuntamenti
+                        </h2>
 
-                            <!-- Paginazione -->
-                            <div class="mb-6" id="pagination-links-appointments" data-table="#appointments-table" {{--
-                                @click="handleAppointmentsPaginationClick($event)" --}}>
-                                {{-- {{ $appointments->links() }} --}}
-                            </div>
+                        <!-- Paginazione -->
+                        <div class="mb-6" id="pagination-links-appointments" data-table="#appointments-table" {{--
+                            @click="handleAppointmentsPaginationClick($event)" --}}>
+                            {{-- {{ $appointments->links() }} --}}
+                        </div>
 
-                            <div class="w-full bg-white overflow-hidden rounded-xl border border-slate-200">
-                                <table class="w-full text-left text-sm">
-                                    <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
-                                        <tr>
-                                            <th class="px-6 py-3">Appuntamento con</th>
-                                            <th class="px-6 py-3">Data</th>
-                                            <th class="px-6 py-3">Durata</th>
-                                            <th class="px-6 py-3 text-center">Modalità</th>
-                                            <th class="px-6 py-3 text-center">Stato</th>
-                                            <th class="px-6 py-3 text-center">Motivazione</th>
-                                            <th class="px-6 py-3 text-center">Note del medico</th>
-                                            <th class="px-6 py-3 text-center">Motivazione cancellazione</th>
-                                            <th class="px-6 py-3">Cancellato da</th>
-                                            <th class="px-6 py-3">Azioni</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{-- @forelse($appointments ?? [] as $appointment)
-                                        <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
-                                            <td class="px-6 py-4 font-medium text-slate-900 capitalize">
-                                                {{ $appointment->doctor->name }}</td>
-                                            <td class="px-6 py-4 font-medium text-slate-900 capitalize">
-                                                {{ $appointment->formatDate($appointment->scheduled_at) }}</td>
-                                            <td class="px-6 py-4 font-medium text-slate-900 capitalize">
-                                                {{ $appointment->duration .'min' }}</td>
-                                            <td class="px-6 py-4 text-center">
-                                                @if($appointment->type)
-                                                <span
-                                                    class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold {{ $appointment->typeClasses() }}">
-                                                    {{ $appointment->typeLabel() }}
-                                                </span>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-center">
-                                                @if($appointment->status)
-                                                <span
-                                                    class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold {{ $appointment->statusClasses() }}">
-                                                    {{ $appointment->statusLabel() }}
-                                                </span>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-center">
-                                                @if($appointment->reason)
-                                                <div x-data="{ openModalReasonPat: null }" x-cloak>
-                                                    <button @click="openModalReasonPat = {{ $appointment->id }}"
-                                                        title="apri"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openModalReasonPat === {{ $appointment->id }}"
-                                                        @click="openModalReasonPat = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
-
-                                                    <!-- Modal -->
-                                                    <div x-show="openModalReasonPat === {{ $appointment->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
-                                                        <p>{{ $appointment->reason ?? '-' }}</p>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="openModalReasonPat = !openModalReasonPat"
-                                                                title="chiudi"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-center">
-                                                @if($appointment->notes)
-                                                <div x-data="{ openModalNotesPat: null }" x-cloak>
-                                                    <button @click="openModalNotesPat = {{ $appointment->id }}"
-                                                        title="apri"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openModalNotesPat === {{ $appointment->id }}"
-                                                        @click="openModalNotesPat = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
-
-                                                    <!-- Modal -->
-                                                    <div x-show="openModalNotesPat === {{ $appointment->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
-                                                        <p>{{ $appointment->notes ?? '-' }}</p>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="openModalNotesPat = !openModalNotesPat"
-                                                                title="chiudi"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-center">
-                                                @if($appointment->cancellation_reason)
-                                                <div x-data="{ openModalCancReasPat: null }" x-cloak>
-                                                    <button @click="openModalCancReasPat = {{ $appointment->id }}"
-                                                        title="apri"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openModalCancReasPat === {{ $appointment->id }}"
-                                                        @click="openModalCancReasPat = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
-
-                                                    <!-- Modal -->
-                                                    <div x-show="openModalCancReasPat === {{ $appointment->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
-                                                        <p>{{ $appointment->cancellation_reason ?? '-' }}</p>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button
-                                                                @click="openModalCancReasPat = !openModalCancReasPat"
-                                                                title="chiudi"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-slate-600">{{ $appointment->cancelled_by ??
-                                                '-' }}</td>
-                                            <td class="px-6 py-4 text-slate-600">
-                                                <div x-data="{ openModalApp: null }" x-cloak>
-                                                    <button @click="openModalApp = {{ $appointment->id }}"
-                                                        title="elimina"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openModalApp === {{ $appointment->id }}"
-                                                        @click="openModalApp = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
-
-                                                    <!-- Modal -->
-                                                    <div x-show="openModalApp === {{ $appointment->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
-
-                                                        <h2 class="w-full text-center font-bold">Elimina
-                                                            definitivamente?
-                                                        </h2>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="openModalApp = !openModalApp"
-                                                                title="elimina"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
-                                                            </button>
-                                                            <form
-                                                                action="{{ route('appointments.destroy', [$patient->id, $appointment->id]) }}"
-                                                                method="post" data-table="#appointments-table"
-                                                                @submit.prevent="handleAppointmentDelete($event)">
-                                                                @method('delete')
-                                                                @csrf
-
-                                                                <button title="elimina"
-                                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                                    Elimina
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
+                        <div class="w-full bg-white overflow-hidden rounded-xl border border-slate-200">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
+                                    <tr>
+                                        <th class="px-6 py-3">Appuntamento con</th>
+                                        <th class="px-6 py-3">Data</th>
+                                        <th class="px-6 py-3">Durata</th>
+                                        <th class="px-6 py-3 text-center">Modalità</th>
+                                        <th class="px-6 py-3 text-center">Stato</th>
+                                        <th class="px-6 py-3 text-center">Motivazione</th>
+                                        <th class="px-6 py-3 text-center">Note del medico</th>
+                                        <th class="px-6 py-3 text-center">Motivazione cancellazione</th>
+                                        <th class="px-6 py-3">Cancellato da</th>
+                                        <th class="px-6 py-3">Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- @forelse($appointments ?? [] as $appointment)
+                                    <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
+                                        <td class="px-6 py-4 font-medium text-slate-900 capitalize">
+                                            {{ $appointment->doctor->name }}</td>
+                                        <td class="px-6 py-4 font-medium text-slate-900 capitalize">
+                                            {{ $appointment->formatDate($appointment->scheduled_at) }}</td>
+                                        <td class="px-6 py-4 font-medium text-slate-900 capitalize">
+                                            {{ $appointment->duration .'min' }}</td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if($appointment->type)
+                                            <span
+                                                class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold {{ $appointment->typeClasses() }}">
+                                                {{ $appointment->typeLabel() }}
+                                            </span>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if($appointment->status)
+                                            <span
+                                                class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold {{ $appointment->statusClasses() }}">
+                                                {{ $appointment->statusLabel() }}
+                                            </span>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if($appointment->reason)
+                                            <div x-data="{ openModalReasonPat: null }" x-cloak>
+                                                <button @click="openModalReasonPat = {{ $appointment->id }}"
+                                                    title="apri"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openModalReasonPat === {{ $appointment->id }}"
+                                                    @click="openModalReasonPat = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
                                                 </div>
 
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                                <p>Non ci sono appuntamenti.</p>
-                                            </td>
-                                        </tr>
-                                        @endforelse --}}
-                                    </tbody>
-                                </table>
-                            </div>
+                                                <!-- Modal -->
+                                                <div x-show="openModalReasonPat === {{ $appointment->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                    <p>{{ $appointment->reason ?? '-' }}</p>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openModalReasonPat = !openModalReasonPat"
+                                                            title="chiudi"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if($appointment->notes)
+                                            <div x-data="{ openModalNotesPat: null }" x-cloak>
+                                                <button @click="openModalNotesPat = {{ $appointment->id }}" title="apri"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openModalNotesPat === {{ $appointment->id }}"
+                                                    @click="openModalNotesPat = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
+
+                                                <!-- Modal -->
+                                                <div x-show="openModalNotesPat === {{ $appointment->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                    <p>{{ $appointment->notes ?? '-' }}</p>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openModalNotesPat = !openModalNotesPat"
+                                                            title="chiudi"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            @if($appointment->cancellation_reason)
+                                            <div x-data="{ openModalCancReasPat: null }" x-cloak>
+                                                <button @click="openModalCancReasPat = {{ $appointment->id }}"
+                                                    title="apri"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openModalCancReasPat === {{ $appointment->id }}"
+                                                    @click="openModalCancReasPat = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
+
+                                                <!-- Modal -->
+                                                <div x-show="openModalCancReasPat === {{ $appointment->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                    <p>{{ $appointment->cancellation_reason ?? '-' }}</p>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openModalCancReasPat = !openModalCancReasPat"
+                                                            title="chiudi"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-600">{{ $appointment->cancelled_by ??
+                                            '-' }}</td>
+                                        <td class="px-6 py-4 text-slate-600">
+                                            <div x-data="{ openModalApp: null }" x-cloak>
+                                                <button @click="openModalApp = {{ $appointment->id }}" title="elimina"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openModalApp === {{ $appointment->id }}"
+                                                    @click="openModalApp = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
+
+                                                <!-- Modal -->
+                                                <div x-show="openModalApp === {{ $appointment->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+
+                                                    <h2 class="w-full text-center font-bold">Elimina
+                                                        definitivamente?
+                                                    </h2>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openModalApp = !openModalApp" title="elimina"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
+                                                        <form
+                                                            action="{{ route('appointments.destroy', [$patient->id, $appointment->id]) }}"
+                                                            method="post" data-table="#appointments-table"
+                                                            @submit.prevent="handleAppointmentDelete($event)">
+                                                            @method('delete')
+                                                            @csrf
+
+                                                            <button title="elimina"
+                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                                Elimina
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="8" class="px-6 py-8 text-center text-slate-500">
+                                            <p>Non ci sono appuntamenti.</p>
+                                        </td>
+                                    </tr>
+                                    @endforelse --}}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
                     {{-- Cartella clinica Tab --}}
                     <div x-show="activeTab ===  'records'" class="gap-6">
-                        <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                                Cartella clinica
-                            </h2>
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
+                            Cartella clinica
+                        </h2>
 
-                            <!-- Paginazione -->
-                            <div class="mb-6" id="pagination-links-records" data-table="#health-records-table" {{--
-                                @click="handleRecordsPaginationClick($event)" --}}>
-                                {{-- {{ $medicalRecordsAsPatient->links() }} --}}
-                            </div>
+                        <!-- Paginazione -->
+                        <div class="mb-6" id="pagination-links-records" data-table="#health-records-table" {{--
+                            @click="handleRecordsPaginationClick($event)" --}}>
+                            {{-- {{ $medicalRecordsAsPatient->links() }} --}}
+                        </div>
 
-                            <div class="w-full bg-white rounded-xl overflow-hidden border border-slate-200">
-                                <table class="w-full h-full" id="health-records-table">
-                                    <thead>
-                                        <tr class="border-b border-slate-200 bg-white text-[11px]">
-                                            <th
-                                                class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                                Medico</th>
-                                            <th
-                                                class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                                Data di Visita</th>
-                                            <th
-                                                class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                                Diagnosi</th>
-                                            <th
-                                                class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                                Prescrizioni</th>
-                                            <th
-                                                class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                                Consigli</th>
-                                            <th
-                                                class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
-                                                Prossimo controllo il</th>
-                                            <th
-                                                class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
-                                                Allegato</th>
-                                            <th
-                                                class="px-6 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                                                Azioni</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{-- @forelse($medicalRecordsAsPatient as $record)
-                                        <tr class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
-                                            <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
-                                                $record->doctor->name }}</td>
-                                            <td class="px-6 py-4 text-slate-600">{{
-                                                $record->formatDate($record->visit_date) }}</td>
-                                            <td class="px-6 py-4 text-slate-900">{{ $record->diagnosis }}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                @if($record->prescription)
-                                                <div x-data="{ openPrescription: null }" x-cloak>
-                                                    <button @click="openPrescription = {{ $record->id }}" title="note"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openPrescription === {{ $record->id }}"
-                                                        @click="openPrescription = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
+                        <div class="w-full bg-white rounded-xl overflow-hidden border border-slate-200">
+                            <table class="w-full h-full" id="health-records-table">
+                                <thead>
+                                    <tr class="border-b border-slate-200 bg-white text-[11px]">
+                                        <th
+                                            class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                            Medico</th>
+                                        <th
+                                            class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                            Data di Visita</th>
+                                        <th
+                                            class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                            Diagnosi</th>
+                                        <th
+                                            class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                            Prescrizioni</th>
+                                        <th
+                                            class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                            Consigli</th>
+                                        <th
+                                            class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
+                                            Prossimo controllo il</th>
+                                        <th
+                                            class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
+                                            Allegato</th>
+                                        <th
+                                            class="px-6 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
+                                            Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- @forelse($medicalRecordsAsPatient as $record)
+                                    <tr class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                                        <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
+                                            $record->doctor->name }}</td>
+                                        <td class="px-6 py-4 text-slate-600">{{
+                                            $record->formatDate($record->visit_date) }}</td>
+                                        <td class="px-6 py-4 text-slate-900">{{ $record->diagnosis }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @if($record->prescription)
+                                            <div x-data="{ openPrescription: null }" x-cloak>
+                                                <button @click="openPrescription = {{ $record->id }}" title="note"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openPrescription === {{ $record->id }}"
+                                                    @click="openPrescription = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
 
-                                                    <!-- Modal -->
-                                                    <div x-show="openPrescription === {{ $record->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <!-- Modal -->
+                                                <div x-show="openPrescription === {{ $record->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
 
-                                                        <h2 class="w-full text-center font-bold">
-                                                            Note
-                                                        </h2>
-                                                        <p>
-                                                            {{ $record->prescription ?? '-'}}
-                                                        </p>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="openPrescription = !openPrescription"
-                                                                title="annulla"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
-                                                            </button>
-                                                        </div>
+                                                    <h2 class="w-full text-center font-bold">
+                                                        Note
+                                                    </h2>
+                                                    <p>
+                                                        {{ $record->prescription ?? '-'}}
+                                                    </p>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openPrescription = !openPrescription"
+                                                            title="annulla"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-slate-900">
-                                                @if($record->instructions)
-                                                <div x-data="{ openInstructions: null }" x-cloak>
-                                                    <button @click="openInstructions = {{ $record->id }}" title="note"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                        </svg>
-                                                    </button>
-                                                    <!-- Overlay -->
-                                                    <div x-show="openInstructions === {{ $record->id }}"
-                                                        @click="openInstructions = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
+                                            </div>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-900">
+                                            @if($record->instructions)
+                                            <div x-data="{ openInstructions: null }" x-cloak>
+                                                <button @click="openInstructions = {{ $record->id }}" title="note"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                    </svg>
+                                                </button>
+                                                <!-- Overlay -->
+                                                <div x-show="openInstructions === {{ $record->id }}"
+                                                    @click="openInstructions = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
 
-                                                    <!-- Modal -->
-                                                    <div x-show="openInstructions === {{ $record->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <!-- Modal -->
+                                                <div x-show="openInstructions === {{ $record->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
 
-                                                        <h2 class="w-full text-center font-bold">
-                                                            Note
-                                                        </h2>
-                                                        <p>
-                                                            {{ $record->instructions ?? '-'}}
-                                                        </p>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="openInstructions = !openInstructions"
-                                                                title="annulla"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
-                                                            </button>
-                                                        </div>
+                                                    <h2 class="w-full text-center font-bold">
+                                                        Note
+                                                    </h2>
+                                                    <p>
+                                                        {{ $record->instructions ?? '-'}}
+                                                    </p>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="openInstructions = !openInstructions"
+                                                            title="annulla"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 text-slate-900 text-center">
-                                                {{ $record->formatDate($record->follow_up_date) }}
-                                            </td>
-                                            <td class="px-6 py-4 text-slate-900 text-center">
-                                                {{ $record->file ?? '-' }}
-                                            </td>
-                                            <td class="px-6 py-4 text-right">
-                                                <div x-data="{ open: null }" x-cloak>
-                                                    <button @click="open = {{ $record->id }}" title="elimina"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                        </svg>
-                                                    </button>
+                                            </div>
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-900 text-center">
+                                            {{ $record->formatDate($record->follow_up_date) }}
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-900 text-center">
+                                            {{ $record->file ?? '-' }}
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div x-data="{ open: null }" x-cloak>
+                                                <button @click="open = {{ $record->id }}" title="elimina"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </button>
 
-                                                    <div x-show="open === {{ $record->id }}" @click="open = false"
-                                                        class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                    </div>
+                                                <div x-show="open === {{ $record->id }}" @click="open = false"
+                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                                </div>
 
 
-                                                    <div x-show="open === {{ $record->id }}"
-                                                        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <div x-show="open === {{ $record->id }}"
+                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
 
-                                                        <h2 class="w-full text-center font-bold">Elimina
-                                                            definitivamente?
-                                                        </h2>
-                                                        <div class="flex items-center justify-end gap-2 mt-5">
-                                                            <button @click="open = !open" title="elimina"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Annulla
+                                                    <h2 class="w-full text-center font-bold">Elimina
+                                                        definitivamente?
+                                                    </h2>
+                                                    <div class="flex items-center justify-end gap-2 mt-5">
+                                                        <button @click="open = !open" title="elimina"
+                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                                                            Annulla
+                                                        </button>
+                                                        <form method="post"
+                                                            action="{{route('medicalRecords.destroy', [$patient->id, $record->id])}}"
+                                                            data-table="#health-records-table"
+                                                            @submit.prevent="handleRecordDelete($event)">
+                                                            @method('delete')
+                                                            @csrf
+
+                                                            <button title="elimina"
+                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                                Elimina
                                                             </button>
-                                                            <form method="post"
-                                                                action="{{route('medicalRecords.destroy', [$patient->id, $record->id])}}"
-                                                                data-table="#health-records-table"
-                                                                @submit.prevent="handleRecordDelete($event)">
-                                                                @method('delete')
-                                                                @csrf
-
-                                                                <button title="elimina"
-                                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                                    Elimina
-                                                                </button>
-                                                            </form>
-                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                                <p>Nessun parametro disponibile.</p>
-                                            </td>
-                                        </tr>
-                                        @endforelse --}}
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="8" class="px-6 py-8 text-center text-slate-500">
+                                            <p>Nessun parametro disponibile.</p>
+                                        </td>
+                                    </tr>
+                                    @endforelse --}}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
