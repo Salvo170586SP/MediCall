@@ -100,7 +100,7 @@
             </div>
 
 
-            <div x-data="{ activeTab: 'thresholds' }">
+            <div x-data="{ activeTab: 'appointments' }">
                 {{-- Tab navigation --}}
                 <div class="mt-10">
                     <nav class="flex gap-2">
@@ -241,7 +241,7 @@
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4 text-right">
-                                                <x-modal title="Elimina definitivamente?" confirm-label="Note"
+                                                <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
                                                     wire:key="deleteParameter-[{{$parameter->id}}]"
                                                     confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                     <x-slot:trigger>
@@ -366,7 +366,7 @@
                                                 @endif
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 text-slate-900 text-center"> 
+                                        <td class="px-6 py-4 text-slate-900 text-center">
                                             <div class="w-full flex justify-center">
                                                 @if($threshold->notify_doctor)
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -392,7 +392,7 @@
                                                 wire:key="deleteThreshold-[{{$threshold->id}}]"
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
-                                                    <button title="note"
+                                                    <button title="elimina"
                                                         class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -434,211 +434,215 @@
                             Appuntamenti
                         </h2>
 
+                        <div class="grid gap-4 lg:grid-cols-4 mb-6">
+                            <div>
+                                <label for="created_at"
+                                    class="block text-xs font-semibold text-slate-900 mb-2">Cerca</label>
+                                <input id="searchDoctor" wire:model.live="searchDoctor" type="text"
+                                    placeholder="Cerca per Dottore"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+                            </div>
+                            <div>
+                                <label for="scheduled_at" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
+                                    per data</label>
+                                <input id="scheduled_at" wire:model.live="searchCreatedAt" type="date"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+                            </div>
+                            <div>
+                                <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
+                                    Modalità</label>
+                                <select id="type" wire:model.live="searchType"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                                    <option value="">Tutti</option>
+                                    @foreach($types as $key => $value)
+                                    <option wire:key="{{$key}}" value="{{$value['type']}}">
+                                        {{$value['label']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
+                                    Stato</label>
+                                <select id="status" wire:model.live="searchStatus"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                                    <option value="">Tutti</option>
+                                    @foreach($statuses as $key => $value)
+                                    <option wire:key="{{$key}}" value="{{$value['status']}}">
+                                        {{$value['label']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <!-- Paginazione -->
-                        <div class="mb-6" id="pagination-links-appointments" data-table="#appointments-table" {{--
-                            @click="handleAppointmentsPaginationClick($event)" --}}>
-                            {{-- {{ $appointments->links() }} --}}
+                        <div class="mb-6" id="pagination-links-appointments" data-table="#appointments-table">
+                            {{ $appointments->links() }}
                         </div>
 
                         <div class="w-full bg-white overflow-hidden rounded-xl border border-slate-200">
                             <table class="w-full text-left text-sm">
                                 <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
                                     <tr>
-                                        <th class="px-6 py-3">Appuntamento con</th>
-                                        <th class="px-6 py-3">Data</th>
-                                        <th class="px-6 py-3">Durata</th>
-                                        <th class="px-6 py-3 text-center">Modalità</th>
-                                        <th class="px-6 py-3 text-center">Stato</th>
-                                        <th class="px-6 py-3 text-center">Motivazione</th>
-                                        <th class="px-6 py-3 text-center">Note del medico</th>
-                                        <th class="px-6 py-3 text-center">Motivazione cancellazione</th>
-                                        <th class="px-6 py-3">Cancellato da</th>
-                                        <th class="px-6 py-3">Azioni</th>
+                                        <th class="px-6 py-2">Appuntamento con</th>
+                                        <th class="px-2 py-2">Data</th>
+                                        <th class="px-6 py-2">Durata</th>
+                                        <th class="px-6 py-2 text-center">Modalità</th>
+                                        <th class="px-6 py-2 text-center">Stato</th>
+                                        <th class="px-6 py-2 text-center">Motivazione</th>
+                                        <th class="px-6 py-2 text-center">Note del medico</th>
+                                        <th class="px-6 py-2 text-center">Motivazione cancellazione</th>
+                                        <th class="px-6 py-2">Cancellato da</th>
+                                        <th class="px-6 py-2">Azioni</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @forelse($appointments ?? [] as $appointment)
+                                    @forelse($appointments ?? [] as $appointment)
                                     <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
                                         <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                             {{ $appointment->doctor->name }}</td>
-                                        <td class="px-6 py-4 font-medium text-slate-900 capitalize">
+                                        <td class="px-2 py-4 font-medium text-slate-900 capitalize w-full">
                                             {{ $appointment->formatDate($appointment->scheduled_at) }}</td>
                                         <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                             {{ $appointment->duration .'min' }}</td>
                                         <td class="px-6 py-4 text-center">
-                                            @if($appointment->type)
-                                            <span
-                                                class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold {{ $appointment->typeClasses() }}">
-                                                {{ $appointment->typeLabel() }}
-                                            </span>
-                                            @else
-                                            -
-                                            @endif
+                                            @foreach($types as $value)
+                                            <div wire:key="types-[{{$appointment->id}}-{{$value['type']}}]">
+                                                @if($appointment->type == $value['type'] )
+                                                <span
+                                                    class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->type == $value['type'] ? $value['color'] : '' }}">
+                                                    {{ $value['label'] }}
+                                                </span>
+                                                @endif
+                                            </div>
+                                            @endforeach
                                         </td>
                                         <td class="px-6 py-4 text-center">
-                                            @if($appointment->status)
-                                            <span
-                                                class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold {{ $appointment->statusClasses() }}">
-                                                {{ $appointment->statusLabel() }}
-                                            </span>
-                                            @else
-                                            -
-                                            @endif
+                                            @foreach($statuses as $value)
+                                            <div wire:key="statuses-[{{$appointment->id}}-{{$value['status']}}]">
+                                                @if($appointment->status == $value['status'] )
+                                                <span
+                                                    class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->status == $value['status'] ? $value['color'] : '' }}">
+                                                    {{ $value['label'] }}
+                                                </span>
+                                                @endif
+                                            </div>
+                                            @endforeach
                                         </td>
                                         <td class="px-6 py-4 text-center">
                                             @if($appointment->reason)
-                                            <div x-data="{ openModalReasonPat: null }" x-cloak>
-                                                <button @click="openModalReasonPat = {{ $appointment->id }}"
-                                                    title="apri"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                    </svg>
-                                                </button>
-                                                <!-- Overlay -->
-                                                <div x-show="openModalReasonPat === {{ $appointment->id }}"
-                                                    @click="openModalReasonPat = false"
-                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                </div>
+                                            <x-modal title="reason" confirm-label="reason"
+                                                wire:key="reason-[{{$appointment->id}}]"
+                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                <x-slot:trigger>
+                                                    <button title="reason"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                        </svg>
+                                                    </button>
+                                                </x-slot:trigger>
 
-                                                <!-- Modal -->
-                                                <div x-show="openModalReasonPat === {{ $appointment->id }}"
-                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <x-slot:body>
                                                     <p>{{ $appointment->reason ?? '-' }}</p>
-                                                    <div class="flex items-center justify-end gap-2 mt-5">
-                                                        <button @click="openModalReasonPat = !openModalReasonPat"
-                                                            title="chiudi"
-                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                            Annulla
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                </x-slot:body>
+
+                                                <x-slot:action>
+                                                </x-slot:action>
+                                            </x-modal>
                                             @else
                                             -
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 text-center">
                                             @if($appointment->notes)
-                                            <div x-data="{ openModalNotesPat: null }" x-cloak>
-                                                <button @click="openModalNotesPat = {{ $appointment->id }}" title="apri"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                    </svg>
-                                                </button>
-                                                <!-- Overlay -->
-                                                <div x-show="openModalNotesPat === {{ $appointment->id }}"
-                                                    @click="openModalNotesPat = false"
-                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                </div>
+                                            <x-modal title="notes" confirm-label="notes"
+                                                wire:key="notes-[{{$appointment->id}}]"
+                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                <x-slot:trigger>
+                                                    <button title="notes"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                        </svg>
+                                                    </button>
+                                                </x-slot:trigger>
 
-                                                <!-- Modal -->
-                                                <div x-show="openModalNotesPat === {{ $appointment->id }}"
-                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <x-slot:body>
                                                     <p>{{ $appointment->notes ?? '-' }}</p>
-                                                    <div class="flex items-center justify-end gap-2 mt-5">
-                                                        <button @click="openModalNotesPat = !openModalNotesPat"
-                                                            title="chiudi"
-                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                            Annulla
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                </x-slot:body>
+
+                                                <x-slot:action>
+                                                </x-slot:action>
+                                            </x-modal>
                                             @else
                                             -
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 text-center">
                                             @if($appointment->cancellation_reason)
-                                            <div x-data="{ openModalCancReasPat: null }" x-cloak>
-                                                <button @click="openModalCancReasPat = {{ $appointment->id }}"
-                                                    title="apri"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                    </svg>
-                                                </button>
-                                                <!-- Overlay -->
-                                                <div x-show="openModalCancReasPat === {{ $appointment->id }}"
-                                                    @click="openModalCancReasPat = false"
-                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                </div>
+                                            <x-modal title="Motivazione" confirm-label="motivazione"
+                                                wire:key="motivazione-[{{$appointment->id}}]"
+                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                <x-slot:trigger>
+                                                    <button title="Motivazione"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                        </svg>
+                                                    </button>
+                                                </x-slot:trigger>
 
-                                                <!-- Modal -->
-                                                <div x-show="openModalCancReasPat === {{ $appointment->id }}"
-                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <x-slot:body>
                                                     <p>{{ $appointment->cancellation_reason ?? '-' }}</p>
-                                                    <div class="flex items-center justify-end gap-2 mt-5">
-                                                        <button @click="openModalCancReasPat = !openModalCancReasPat"
-                                                            title="chiudi"
-                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                            Annulla
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                </x-slot:body>
+
+                                                <x-slot:action>
+                                                </x-slot:action>
+                                            </x-modal>
                                             @else
                                             -
                                             @endif
                                         </td>
-                                        <td class="px-6 py-4 text-slate-600">{{ $appointment->cancelled_by ??
-                                            '-' }}</td>
+                                        <td class="px-6 py-4 text-slate-600">{{ $appointment->cancelledBy->name ?? '-'
+                                            }}</td>
                                         <td class="px-6 py-4 text-slate-600">
-                                            <div x-data="{ openModalApp: null }" x-cloak>
-                                                <button @click="openModalApp = {{ $appointment->id }}" title="elimina"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                    </svg>
-                                                </button>
-                                                <!-- Overlay -->
-                                                <div x-show="openModalApp === {{ $appointment->id }}"
-                                                    @click="openModalApp = false"
-                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                </div>
+                                            <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                                wire:key="deleteAppointment-[{{$appointment->id}}]"
+                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                <x-slot:trigger>
+                                                    <button title="note"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                        </svg>
+                                                    </button>
+                                                </x-slot:trigger>
 
-                                                <!-- Modal -->
-                                                <div x-show="openModalApp === {{ $appointment->id }}"
-                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <x-slot:body>
+                                                    Questa operazione è irreversibile.
+                                                </x-slot:body>
 
-                                                    <h2 class="w-full text-center font-bold">Elimina
-                                                        definitivamente?
-                                                    </h2>
-                                                    <div class="flex items-center justify-end gap-2 mt-5">
-                                                        <button @click="openModalApp = !openModalApp" title="elimina"
-                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                            Annulla
-                                                        </button>
-                                                        <form
-                                                            action="{{ route('appointments.destroy', [$patient->id, $appointment->id]) }}"
-                                                            method="post" data-table="#appointments-table"
-                                                            @submit.prevent="handleAppointmentDelete($event)">
-                                                            @method('delete')
-                                                            @csrf
-
-                                                            <button title="elimina"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Elimina
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                                <x-slot:action>
+                                                    <button wire:click="deleteAppointment({{$appointment->id}})"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                                        Elimina
+                                                    </button>
+                                                </x-slot:action>
+                                            </x-modal>
                                         </td>
                                     </tr>
                                     @empty
@@ -647,7 +651,7 @@
                                             <p>Non ci sono appuntamenti.</p>
                                         </td>
                                     </tr>
-                                    @endforelse --}}
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

@@ -79,9 +79,42 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(HealthParameter::class, 'guest_id');
     }
-   
+
     public function healthThresholds(): HasMany
     {
         return $this->hasMany(HealthThreshold::class, 'guest_id');
+    }
+
+
+    public function appointmentsPatient(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'guest_id');
+    }
+
+    public function appointmentsDoctor(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
+    }
+
+    // pazienti unici seguiti dal medico
+    public function patientsDoctor()
+    {
+        return User::whereIn(
+            'id',
+            $this->appointmentsDoctor()
+                ->distinct('guest_id')
+                ->pluck('guest_id')
+        );
+    }
+
+    // pazienti unici seguiti dal medico
+    public function doctorsPatients()
+    {
+        return User::whereIn(
+            'id',
+            $this->appointmentsPatient()
+                ->distinct('guest_id')
+                ->pluck('guest_id')
+        );
     }
 }
