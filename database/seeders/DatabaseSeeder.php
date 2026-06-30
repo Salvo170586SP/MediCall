@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             GuestSeeder::class,
             DoctorDetailSeeder::class, */
             /*  GuestDetailSeeder::class, */
-            HealthParameterSeeder::class,
+            /* HealthParameterSeeder::class, */
+            HealthThresholdSeeder::class,
         ]);
     }
 }

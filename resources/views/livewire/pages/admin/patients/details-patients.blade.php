@@ -1,6 +1,6 @@
-<div class="h-full sm:px-6 lg:px-8">
-    <div class="py-12 h-full">
-        <div class="px-4 space-y-2">
+<div>
+    <div class="h-full">
+        <div class="space-y-2">
             <button wire:navigate href="{{route('patients') }}"
                 class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -100,7 +100,7 @@
             </div>
 
 
-            <div x-data="{ activeTab: 'params' }">
+            <div x-data="{ activeTab: 'thresholds' }">
                 {{-- Tab navigation --}}
                 <div class="mt-10">
                     <nav class="flex gap-2">
@@ -131,6 +131,7 @@
 
                 {{-- Tab content --}}
                 <div class="bg-gray-50 rounded-2xl rounded-b-2xl rounded-l-none border border-gray-200 p-6">
+
                     {{-- Parametri Tab --}}
                     <div x-show="activeTab ===  'params'" class="gap-6">
                         {{-- <div
@@ -287,89 +288,132 @@
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
                             Soglie
                         </h2>
-                        <!-- Paginazione -->
-                        <div class="mb-6" id="pagination-links-thresholds" data-table="#health-soglie-table" {{--
-                            @click="handleThresholdsPaginationClick($event)" --}}>
-                            {{-- {{ $healthThresholds->links() }} --}}
+
+                        <div class="grid gap-4 lg:grid-cols-3 mb-6">
+                            <div>
+                                <label for="created_at" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
+                                    per data</label>
+                                <input id="created_at" wire:model.live="created_at" type="date"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+                            </div>
+                            <div>
+                                <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
+                                    severità</label>
+                                <select id="severity" wire:model.live="severity"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                                    <option value="">Tutti</option>
+                                    @foreach($severities as $key => $value)
+                                    <option wire:key="{{$key}}" value="{{$value['severity']}}">
+                                        {{$value['label']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                        <div class="w-full overflow-hidden rounded-xl border border-slate-200">
-                            <table class="w-full text-left text-sm">
+
+                        <!-- Paginazione -->
+                        <div class="mb-6">
+                            {{ $healthThresholds->links() }}
+                        </div>
+                        <div class="w-full  overflow-hidden rounded-xl border border-slate-200">
+                            <table class="w-full bg-white text-left text-sm">
                                 <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
                                     <tr>
                                         <th class="px-6 py-3">Parametro</th>
                                         <th class="px-6 py-3">Min</th>
                                         <th class="px-6 py-3">Max</th>
                                         <th class="px-6 py-3">Severità</th>
-                                        <th class="px-6 py-3">Notifica paziente</th>
-                                        <th class="px-6 py-3">Notifica medico</th>
+                                        <th class="px-6 py-3 text-center">Notifica paziente</th>
+                                        <th class="px-6 py-3 text-center">Notifica medico</th>
                                         <th class="px-6 py-3">Creata il</th>
                                         <th class="px-6 py-3">Creato da</th>
                                         <th class="px-6 py-3 text-right">Azioni</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @forelse($healthThresholds ?? [] as $threshold)
-                                    <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
+                                    @forelse($healthThresholds ?? [] as $threshold)
+                                    <tr class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
                                         <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                                             $threshold->parameter_type }}</td>
                                         <td class="px-6 py-4 text-slate-600">{{ $threshold->min_value ?? '-' }}
                                         </td>
                                         <td class="px-6 py-4 text-slate-600">{{ $threshold->max_value ?? '-' }}
                                         </td>
-                                        <td class="px-6 py-4 text-slate-900 capitalize">{{ $threshold->severity
-                                            }}</td>
-                                        <td class="px-6 py-4 text-slate-900">{{ $threshold->notify_patient ?
-                                            'Sì' : 'No' }}</td>
-                                        <td class="px-6 py-4 text-slate-900">{{ $threshold->notify_doctor ? 'Sì'
-                                            : 'No' }}</td>
+                                        <td class="px-2 py-4 text-slate-900 capitalize">
+                                            @foreach($severities as $value)
+                                            @if($threshold->severity == $value['severity'] )
+                                            <span
+                                                class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$threshold->severity == $value['severity'] ? $value['color'] : '' }}">
+                                                {{ $value['label'] }}
+                                            </span>
+                                            @endif
+                                            @endforeach
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-900 text-center">
+                                            <div class="w-full flex justify-center">
+                                                @if($threshold->notify_patient)
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                                                </svg>
+                                                @else
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M9.143 17.082a24.248 24.248 0 0 0 3.844.148m-3.844-.148a23.856 23.856 0 0 1-5.455-1.31 8.964 8.964 0 0 0 2.3-5.542m3.155 6.852a3 3 0 0 0 5.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 0 0 3.536-1.003A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53" />
+                                                </svg>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-slate-900 text-center"> 
+                                            <div class="w-full flex justify-center">
+                                                @if($threshold->notify_doctor)
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                                                </svg>
+                                                @else
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M9.143 17.082a24.248 24.248 0 0 0 3.844.148m-3.844-.148a23.856 23.856 0 0 1-5.455-1.31 8.964 8.964 0 0 0 2.3-5.542m3.155 6.852a3 3 0 0 0 5.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 0 0 3.536-1.003A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53" />
+                                                </svg>
+                                                @endif
+                                            </div>
+                                        </td>
                                         <td class="px-6 py-4 text-slate-600">{{
                                             $threshold->created_at->format('d/m/Y') }}</td>
                                         <td class="px-6 py-4 text-slate-900">{{ $threshold->createdBy?->name ??
                                             '-' }}</td>
                                         <td class="px-6 py-4 text-right">
-                                            <div x-data="{ openThreshold: null }" x-cloak>
-                                                <button @click="openThreshold = {{ $threshold->id }}" title="elimina"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                    </svg>
-                                                </button>
-                                                <!-- Overlay -->
-                                                <div x-show="openThreshold === {{ $threshold->id }}"
-                                                    @click="openThreshold = false"
-                                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                                                </div>
+                                            <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                                wire:key="deleteThreshold-[{{$threshold->id}}]"
+                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                <x-slot:trigger>
+                                                    <button title="note"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                        </svg>
+                                                    </button>
+                                                </x-slot:trigger>
 
-                                                <!-- Modal -->
-                                                <div x-show="openThreshold === {{ $threshold->id }}"
-                                                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+                                                <x-slot:body>
+                                                    Questa operazione è irreversibile.
+                                                </x-slot:body>
 
-                                                    <h2 class="w-full text-center font-bold">Elimina
-                                                        definitivamente?
-                                                    </h2>
-                                                    <div class="flex items-center justify-end gap-2 mt-5">
-                                                        <button @click="openThreshold = !openThreshold" title="elimina"
-                                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                                                            Annulla
-                                                        </button>
-                                                        <form
-                                                            action="{{ route('healthThresholds.destroy', [$patient->id, $threshold->id]) }}"
-                                                            method="post" data-table="#health-soglie-table"
-                                                            @submit.prevent="handleHealthThresholdDelete($event)">
-                                                            @method('delete')
-                                                            @csrf
-
-                                                            <button title="elimina"
-                                                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                                                Elimina
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <x-slot:action>
+                                                    <button wire:click="deleteThreshold({{$threshold->id}})"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                                        Elimina
+                                                    </button>
+                                                </x-slot:action>
+                                            </x-modal>
                                         </td>
                                     </tr>
                                     @empty
@@ -378,7 +422,7 @@
                                             <p>Non ci sono soglie impostate per questo paziente.</p>
                                         </td>
                                     </tr>
-                                    @endforelse --}}
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
