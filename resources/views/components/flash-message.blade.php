@@ -14,6 +14,6 @@ default => 'bg-gray-100 border-gray-300 text-gray-800',
 @if (session()->has($type))
 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" x-transition
     class="mb-6 rounded-xl border px-4 py-3 font-medium {{ $classes }}">
-    {{ session($type) }} asdasdasdasdasdadsad
+    {{ session($type) }}
 </div>
 @endif

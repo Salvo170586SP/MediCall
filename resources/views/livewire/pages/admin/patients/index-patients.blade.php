@@ -17,8 +17,8 @@
 
     <div class="grid gap-4 lg:grid-cols-3 mb-6">
         <div>
-            <input wire:model.live.debounce.300ms="search" placeholder="Cerca per nome o email..."
-                class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
+            <x-search-input inputClass="bg-gray-50" id="search" model="search"
+                placeholder="Cerca per nome o email..." />
         </div>
     </div>
 

@@ -23,10 +23,22 @@ class DetailsPatients extends Component
     public string $created_at = '';
     public string $searchDoctor = '';
     public string $searchCreatedAt = '';
+    public string $searchVisit = '';
+    public string $searchControll = '';
 
     public function mount(User $patient)
     {
         $this->patient = $patient;
+    }
+
+    public function updatingSearchVisit(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearchControll(): void
+    {
+        $this->resetPage();
     }
 
     public function updatingSource(): void
@@ -151,10 +163,25 @@ class DetailsPatients extends Component
 
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
+
+
+        $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient();
+
+        if ($this->searchControll) {
+            $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%' . $this->searchControll . '%');
+        }
+
+        if ($this->searchVisit) {
+            $medicalRecordsAsPatientQuery->where('visit_date', 'like', '%' . $this->searchVisit . '%');
+        }
+
+
+        $medicalRecordsAsPatient = $medicalRecordsAsPatientQuery->paginate(10)->withPath(route('patients.details', $this->patient));
+
         $severities = config('medicall.defaultThresholds.severities');
         $statuses = config('medicall.appointments.statuses');
         $types = config('medicall.appointments.types');
 
-        return view('livewire.pages.admin.patients.details-patients', compact('healthParameters', 'healthThresholds', 'appointments', 'severities', 'statuses', 'types'));
+        return view('livewire.pages.admin.patients.details-patients', compact('healthParameters', 'healthThresholds', 'appointments', 'medicalRecordsAsPatient', 'severities', 'statuses', 'types'));
     }
 }

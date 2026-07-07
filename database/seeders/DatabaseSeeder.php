@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             /*  GuestDetailSeeder::class, */
             /* HealthParameterSeeder::class, */
             /* HealthThresholdSeeder::class, */
-            AppointmentSeeder::class,
+           /*  AppointmentSeeder::class, */
+            MedicalRecordSeeder::class,
         ]);
     }
 }

@@ -117,4 +117,16 @@ class User extends Authenticatable implements PasskeyUser
                 ->pluck('guest_id')
         );
     }
+
+    // cartelle cliniche dove l'utente è il PAZIENTE
+    public function medicalRecordsAsPatient(): HasMany
+    {
+        return $this->hasMany(MedicalRecord::class, 'guest_id');
+    }
+
+    // cartelle cliniche redatte dall'utente come MEDICO
+    public function medicalRecordsAsDoctor(): HasMany
+    {
+        return $this->hasMany(MedicalRecord::class, 'doctor_id');
+    }
 }

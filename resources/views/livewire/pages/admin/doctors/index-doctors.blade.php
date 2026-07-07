@@ -16,17 +16,13 @@
     </div>
 
     <div class="grid gap-4 lg:grid-cols-3 mb-6">
-        <div>
-            <input wire:model.live.debounce.300ms="search" placeholder="Cerca per nome o email..."
-                class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200" />
-        </div>
-
+        <x-search-input inputClass="bg-gray-50" id="search" model="search" placeholder="Cerca per nome o email..." />
     </div>
 
     <div class="m-6">
         {{$users_doctor->links()}}
     </div>
-    
+
     <div class="w-full bg-gray-50 rounded-xl overflow-hidden border border-slate-200">
         <table class="w-full h-full">
             <thead>
@@ -78,7 +74,7 @@
                     <td class="px-3 py-4">
                         <span
                             class="w-full inline-flex items-center justify-center text-center font-medium rounded-full w-[25px] h-[25px] bg-blue-100  }}">
-                            {{ $user_doctor->patientsDoctor ? $user_doctor->patientsDoctor()->count() : '0' }}
+                            {{ $user_doctor->patientsDoctor() ? $user_doctor->patientsDoctor()->count() : '0' }}
                         </span>
                     </td>
                     <td class="px-3 py-4 text-right">
