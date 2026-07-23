@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages\Admin\Doctors;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,7 +13,6 @@ class IndexDoctors extends Component
     use WithPagination;
 
     public string $search = '';
-
 
     public function updatingSearch(): void
     {
@@ -44,6 +45,8 @@ class IndexDoctors extends Component
                 });
             })
             ->paginate(10);
+
+
         return view('livewire.pages.admin.doctors.index-doctors', compact('users_doctor'));
     }
 }

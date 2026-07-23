@@ -33,7 +33,7 @@ class DetailsDoctors extends Component
 
     public function mount(User $doctor)
     {
-        $this->doctor = $doctor;
+        $this->doctor = $doctor->load('doctorDetail');
         $this->availableHours = $doctor->doctorDetail->available_hours ?? [];
         $this->availableDaysCount = collect($this->availableHours)
             ->filter(fn($hours) => isset($hours[0], $hours[1]) && filled($hours[0]) && filled($hours[1]))

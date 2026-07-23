@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Admin\Doctors;
 
+use App\Jobs\GenerateDoctorCodeItemJob;
 use App\Models\DoctorDetail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -73,7 +74,7 @@ class CreateDoctors extends Component
 
         // Crea il Doctor usando una transazione per garantire consistenza
         try {
-            DB::transaction(function () use ($validated) {
+            $doctorId = DB::transaction(function () use ($validated) {
                 // Crea l'utente con ruolo Doctor
                 $user = User::create([
                     'name' => $validated['name'],
@@ -97,10 +98,14 @@ class CreateDoctors extends Component
                     'is_active' => $validated['is_active'],
                     'available_hours' => $validated['available_hours'],
                 ]);
+
+                return $user->id;
             });
 
+            GenerateDoctorCodeItemJob::dispatch($doctorId);
+
             session()->flash('success', 'Elemento creato con successo!');
-            $this->redirect(route('doctors'), navigate: true);
+            $this->redirect(route('doctors.details', $doctorId), navigate: true);
         } catch (\Exception $e) {
             session()->flash('error', 'Errore durante la creazione: ' . $e->getMessage());
         }

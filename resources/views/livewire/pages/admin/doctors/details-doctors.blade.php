@@ -29,12 +29,14 @@
                 </div>
                 @endif
 
-                {{-- Nome e specializzazione --}}
+
                 <div class="flex-1 min-w-0">
+                    <livewire:pages.admin.doctors.code-badge :doctor="$doctor" :key="'doctor-code-'.$doctor->id" />
                     <div class="flex flex-wrap items-center gap-2 mb-1">
                         <h1 class="text-xl font-medium text-gray-900">
                             Dott. {{ $doctor->name }}
                         </h1>
+                        
                         @if($doctor->doctorDetail->is_active)
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">

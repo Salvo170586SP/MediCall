@@ -50,7 +50,7 @@
             <tbody>
                 @forelse($users_doctor as $user_doctor)
                 <tr wire:key="doctors-[{{$user_doctor->id}}]" class="border-b border-slate-200 text-[14px]">
-                    <td class="px-3 py-4 font-medium  text-slate-900">#D-{{$user_doctor->doctorDetail->code_item }}</td>
+                    <td class="px-3 py-4 font-bold text-slate-900">#{{$user_doctor->doctorDetail->code_item }}</td>
                     <td class="px-3 py-4 font-medium text-slate-900">{{ $user_doctor->name }}</td>
                     <td class="px-3 py-4 font-medium text-slate-600">{{ $user_doctor->email }}</td>
                     <td class="px-3 py-4 text-slate-900">{{ $user_doctor->doctorDetail->phone ?? '-' }}
