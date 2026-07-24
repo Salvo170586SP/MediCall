@@ -44,14 +44,14 @@
                                 </div>
 
                                 <p class="text-sm text-gray-400">Città e data di nascita: {{
-                                    $patient->guestDetail->birth_city }}, {{
-                                    $patient->guestDetail->formatDate($patient->guestDetail->birth_date) }}
+                                    $patient->guestDetail?->birth_city ?? '-' }}, {{
+                                    $patient->guestDetail?->formatDate($patient->guestDetail?->birth_date) }}
                                 </p>
 
-                                <p class="text-sm text-gray-400">Cod Fiscale: {{ $patient->guestDetail->tax_id_code
+                                <p class="text-sm text-gray-400">Cod Fiscale: {{ $patient->guestDetail?->tax_id_code ?? '-'
                                     }}
                                 </p>
-                                <p class="text-sm text-gray-400">Telefono: {{ $patient->guestDetail->phone }}
+                                <p class="text-sm text-gray-400">Telefono: {{ $patient->guestDetail?->phone }}
                                 </p>
                             </div>
 
@@ -74,14 +74,14 @@
                         <div class="w-1/8 text-center bg-gray-50 rounded-xl border border-gray-200 p-4">
                             <p class="text-xs text-gray-400 mb-1">Gruppo Sanguigno</p>
                             <p class="text-2xl font-medium text-gray-900">
-                                {{ $patient->guestDetail->blood_type }}
+                                {{ $patient->guestDetail?->blood_type }}
                             </p>
                         </div>
 
                         <div class="w-full bg-gray-50 rounded-xl border border-gray-200 p-4">
                             <p class="text-xs text-gray-400 mb-1">Allergie</p>
                             <p class="font-medium text-gray-900">
-                                {{ $patient->guestDetail->allergies }}
+                                {{ $patient->guestDetail?->allergies }}
                             </p>
                         </div>
                         <div class="w-1/6 text-center bg-gray-50 rounded-xl border border-gray-200 p-4">
@@ -98,7 +98,7 @@
 
                         @if($patient->guestDetail)
                         <p class="text-sm text-gray-600 leading-relaxed h-[150px] overflow-y-auto">
-                            {{$patient->guestDetail->medical_history}}
+                            {{$patient->guestDetail?->medical_history}}
                         </p>
                         @else
                         <p class="text-sm text-gray-400 italic">Nessuna biografia inserita.</p>

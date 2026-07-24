@@ -13,14 +13,14 @@ class CreatePatients extends Component
     public string $name = '';
     public string $email = '';
     public string $img_url = '';
-    public string $phone = '';
-    public string $birth_city = '';
-    public string $birth_date = '';
-    public string $tax_id_code = '';
+    public ?string $phone = null;
+    public ?string $birth_city = null;
+    public ?string $birth_date = null;
+    public ?string $tax_id_code = null;
     public string $gender = '';
-    public string $medical_history = '';
+    public ?string $medical_history = null;
     public string $blood_type = '';
-    public string $allergies = '';
+    public ?string $allergies = null;
 
 
     /**
@@ -28,7 +28,15 @@ class CreatePatients extends Component
      */
     public function addPatient(): void
     {
-        $validated = $this->validate([
+
+        // Normalizza le stringhe vuote in null PRIMA della validazione
+        foreach (['phone', 'birth_city', 'birth_date', 'tax_id_code', 'medical_history', 'allergies'] as $field) {
+            if ($this->$field === '') {
+                $this->$field = null;
+            }
+        }
+
+        $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'birth_date' => ['nullable', 'date'],
@@ -37,8 +45,6 @@ class CreatePatients extends Component
             'medical_history' => ['nullable', 'max:255'],
             'blood_type' => ['required', 'string'],
         ]);
-
-
 
         // Crea il Doctor usando una transazione per garantire consistenza
         try {

@@ -29,8 +29,12 @@ class GuestDetail extends Model
     }
 
     //FUNCTIONS
-    public function formatDate($data)
+    public function formatDate($data) 
     {
+        if (blank($data)) {
+            return null;
+        }
+
         Carbon::setLocale('it');
         return Carbon::parse($data)->translatedFormat('d F Y');
     }
