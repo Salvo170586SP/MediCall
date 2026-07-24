@@ -28,7 +28,7 @@ class DetailsPatients extends Component
 
     public function mount(User $patient)
     {
-        $this->patient = $patient;
+        $this->patient = $patient->load('guestDetail');
     }
 
     public function updatingSearchVisit(): void

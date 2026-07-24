@@ -55,7 +55,7 @@
                 <tr wire:key="patients-[{{$user_patient->id}}]"
                     class="border-b border-slate-200 font-medium text-[14px]">
                     <td class="px-3 py-4 font-medium text-left text-slate-900">
-                        #D-{{$user_patient->guestDetail->code_item ??
+                        #{{$user_patient->guestDetail->code_item ??
                         null}}</td>
                     <td class="px-3 py-4 text-left text-slate-900">{{ $user_patient->name }}</td>
                     <td class="px-3 py-4 ext-slate-600 text-left">{{ $user_patient->email }}</td>

@@ -23,56 +23,56 @@ class GenerateDoctorCodeItemJob implements ShouldQueue
         return 'doctor-code-item-' . $this->doctorId;
     }
 
-  public function handle(): void
-{
-    $doctorDetail = DoctorDetail::query()
-        ->where('doctor_id', $this->doctorId)
-        ->first();
+    public function handle(): void
+    {
+        $doctorDetail = DoctorDetail::query()
+            ->where('doctor_id', $this->doctorId)
+            ->first();
 
-    if ($doctorDetail === null || filled($doctorDetail->code_item)) {
-        return;
-    }
+        if ($doctorDetail === null || filled($doctorDetail->code_item)) {
+            return;
+        }
 
-    $nextNumber = $this->resolveNextCodeNumber();
+        $nextNumber = $this->resolveNextCodeNumber();
 
-    foreach (range(0, 49) as $offset) {
-        $candidate = $this->formatCodeItem($nextNumber + $offset);
+        foreach (range(0, 49) as $offset) {
+            $candidate = $this->formatCodeItem($nextNumber + $offset);
 
-        try {
-            $updated = DB::transaction(function () use ($doctorDetail, $candidate): bool {
-                $doctorDetail->refresh();
+            try {
+                $updated = DB::transaction(function () use ($doctorDetail, $candidate): bool {
+                    $doctorDetail->refresh();
 
-                if (filled($doctorDetail->code_item)) {
-                    return true;
+                    if (filled($doctorDetail->code_item)) {
+                        return true;
+                    }
+
+                    return (bool) $doctorDetail->newQuery()
+                        ->where('id', $doctorDetail->id)
+                        ->whereNull('code_item')
+                        ->update(['code_item' => $candidate]);
+                });
+            } catch (QueryException $exception) {
+                if ($exception->getCode() !== '23000') {
+                    throw $exception;
                 }
 
-                return (bool) $doctorDetail->newQuery()
-                    ->where('id', $doctorDetail->id)
-                    ->whereNull('code_item')
-                    ->update(['code_item' => $candidate]);
-            });
-        } catch (QueryException $exception) {
-            if ($exception->getCode() !== '23000') {
-                throw $exception;
+                continue;
             }
 
-            continue;
+            if ($updated) {
+                return; // ✅ successo, esci subito dal job
+            }
         }
 
-        if ($updated) {
-            return; // ✅ successo, esci subito dal job
-        }
+        throw new RuntimeException("Unable to generate a unique code_item for doctor {$this->doctorId}.");
     }
-
-    throw new RuntimeException("Unable to generate a unique code_item for doctor {$this->doctorId}.");
-}
 
     protected function resolveNextCodeNumber(): int
     {
         $codes = DoctorDetail::query()
             ->whereNotNull('code_item')
             ->pluck('code_item')
-            ->filter(fn(string $code): bool => preg_match('/^DOC-\d{6}$/', $code) === 1)
+            ->filter(fn(string $code): bool => preg_match('/^D-\d{6}$/', $code) === 1)
             ->map(fn(string $code): int => (int) substr($code, 4));
 
         return $codes->isEmpty() ? 1 : $codes->max() + 1;
@@ -80,6 +80,6 @@ class GenerateDoctorCodeItemJob implements ShouldQueue
 
     protected function formatCodeItem(int $number): string
     {
-        return sprintf('DOC-%06d', $number);
+        return sprintf('D-%06d', $number);
     }
 }

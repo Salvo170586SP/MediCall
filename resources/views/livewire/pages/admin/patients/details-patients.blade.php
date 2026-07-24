@@ -34,6 +34,9 @@
 
                             {{-- Nome --}}
                             <div class="flex-1 min-w-0">
+                                <livewire:pages.admin.patients.code-badge :patient="$patient"
+                                    :key="'patient-code-'.$patient->id" />
+
                                 <div class="flex flex-wrap items-center gap-2 mb-1">
                                     <h1 class="text-xl font-medium text-gray-900">
                                         {{ $patient->name }}

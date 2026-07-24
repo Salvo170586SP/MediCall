@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Admin\Patients;
 
+use App\Jobs\GeneratePatientCodeItemJob;
 use App\Models\GuestDetail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -60,8 +61,10 @@ class CreatePatients extends Component
                 'allergies' => $this->allergies,
             ]);
 
+            GeneratePatientCodeItemJob::dispatch($patient->id);
+
             session()->flash('success', 'Elemento creato con successo!');
-            $this->redirect(route('patients'), navigate: true);
+            $this->redirect(route('patients.details', $patient->id), navigate: true);
         } catch (\Exception $e) {
             session()->flash('error', 'Errore durante la creazione: ' . $e->getMessage());
         }
