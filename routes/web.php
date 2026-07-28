@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 
-Route::middleware(['auth', 'verified', 'role:Admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () {
     Route::get('/doctors', IndexDoctors::class)->name('doctors');
     Route::get('/doctors/details/{doctor}', DetailsDoctors::class)->name('doctors.details');
     Route::get('/doctors/create', CreateDoctors::class)->name('doctors.create');

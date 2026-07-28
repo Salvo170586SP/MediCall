@@ -3,6 +3,12 @@
 use App\Models\User;
 use Livewire\Livewire;
 
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+
+uses()->beforeEach(function () {
+    $this->seed = false;
+})->in(__DIR__);
+
 test('profile page is displayed', function () {
     $this->actingAs($user = User::factory()->create());
 
@@ -16,7 +22,7 @@ test('profile information can be updated', function () {
 
     $response = Livewire::test('pages::settings.profile')
         ->set('name', 'Test User')
-        ->set('email', 'test@example.com')
+        ->set('email', 'nuovo-indirizzo@example.com') // <-- email diversa da quella del seeder
         ->call('updateProfileInformation');
 
     $response->assertHasNoErrors();
@@ -24,7 +30,7 @@ test('profile information can be updated', function () {
     $user->refresh();
 
     expect($user->name)->toEqual('Test User');
-    expect($user->email)->toEqual('test@example.com');
+    expect($user->email)->toEqual('nuovo-indirizzo@example.com');
     expect($user->email_verified_at)->toBeNull();
 });
 

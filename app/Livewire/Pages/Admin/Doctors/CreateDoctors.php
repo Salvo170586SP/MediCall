@@ -2,15 +2,20 @@
 
 namespace App\Livewire\Pages\Admin\Doctors;
 
+use App\Enums\DocumentType;
 use App\Jobs\GenerateDoctorCodeItemJob;
 use App\Models\DoctorDetail;
+use App\Models\Document;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateDoctors extends Component
 {
+    use WithFileUploads;
+
     public string $name = '';
     public string $email = '';
     public string $phone = '';
@@ -30,6 +35,17 @@ class CreateDoctors extends Component
         'sat' => ['', ''],
         'sun' => ['', ''],
     ];
+    public  $photo = null;
+
+    /**
+     * Validazione "live" della foto appena selezionata.
+     */
+    public function updatedPhoto(): void
+    {
+        $this->validateOnly('photo', [
+            'photo' => 'image|mimes:jpg,jpeg,png,webp|max:2048', // max 2MB
+        ]);
+    }
 
     /**
      * Valida e crea un nuovo Doctor (User + DoctorDetail)
@@ -55,6 +71,7 @@ class CreateDoctors extends Component
             'available_hours.fri' => 'array|size:2',
             'available_hours.sat' => 'array|size:2',
             'available_hours.sun' => 'array|size:2',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         // Valida che gli orari siano nel formato corretto e logici
@@ -72,9 +89,16 @@ class CreateDoctors extends Component
             }
         }
 
+        // Salva il file fisico PRIMA della transazione DB.
+        // Se la transazione fallisce, va ripulito nel catch.
+        $photoPath = null;
+        if ($this->photo) {
+            $photoPath = $this->photo->store('doctors/photos', 'public');
+        }
+
         // Crea il Doctor usando una transazione per garantire consistenza
         try {
-            $doctorId = DB::transaction(function () use ($validated) {
+            $doctorId = DB::transaction(function () use ($validated, $photoPath) {
                 // Crea l'utente con ruolo Doctor
                 $user = User::create([
                     'name' => $validated['name'],
@@ -98,6 +122,23 @@ class CreateDoctors extends Component
                     'is_active' => $validated['is_active'],
                     'available_hours' => $validated['available_hours'],
                 ]);
+
+                // Salva il riferimento della foto nella tabella documents,
+                // collegata polimorficamente allo User (il dottore)
+                if ($photoPath) {
+                    Document::create([
+                        'documentable_id' => $user->id,
+                        'documentable_type' => User::class,
+                        'uploaded_by' => auth()->id() ?? $user->id, // chi ha caricato (admin loggato)
+                        'type' => DocumentType::Photo,
+                        'title' => 'Foto profilo',
+                        'file_path' => $photoPath,
+                        'original_filename' => $this->photo->getClientOriginalName(),
+                        'mime_type' => $this->photo->getMimeType(),
+                        'file_size' => $this->photo->getSize(),
+                        'is_verified' => true, // caricata direttamente da admin, quindi già verificata
+                    ]);
+                }
 
                 return $user->id;
             });

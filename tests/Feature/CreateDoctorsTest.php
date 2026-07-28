@@ -3,11 +3,13 @@
 use App\Jobs\GenerateDoctorCodeItemJob;
 use App\Livewire\Pages\Admin\Doctors\CreateDoctors;
 use App\Models\User;
-use Illuminate\Support\Facades\Bus;
 use Livewire\Livewire;
+use Spatie\Permission\Models\Role;
+
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('creates a doctor and dispatches a job with a valid doctor id', function () {
-    Bus::fake();
+    Role::create(['name' => 'Doctor']);
 
     Livewire::test(CreateDoctors::class)
         ->set('name', 'Dottor Rossi')
@@ -33,12 +35,8 @@ it('creates a doctor and dispatches a job with a valid doctor id', function () {
         ->assertSessionHas('success')
         ->assertSessionMissing('error');
 
-    Bus::assertDispatchedSync(GenerateDoctorCodeItemJob::class, function (GenerateDoctorCodeItemJob $job): bool {
-        return is_int($job->doctorId) && $job->doctorId > 0;
-    });
-
     $user = User::query()->where('email', 'rossi@example.com')->first();
 
     expect($user)->not->toBeNull();
-    expect($user->doctorDetail->code_item)->toMatch('/^DOC-\d{6}$/');
+    expect($user->doctorDetail->code_item)->toMatch('/^D-\d{6}$/');
 });

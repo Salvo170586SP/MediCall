@@ -38,11 +38,7 @@ class Appointment extends Model
         return $this->belongsTo(User::class, 'cancelled_by');
     }
 
-    // cartella clinica generata dopo la visita
-    /*   public function medicalRecord(): HasOne
-    {
-        return $this->hasOne(MedicalRecord::class);
-    } */
+ 
 
     // -- Scope --
 

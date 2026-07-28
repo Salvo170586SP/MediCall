@@ -1,65 +1,99 @@
 <?php
 
-use App\Events\DoctorCodeItemGenerated;
 use App\Jobs\GenerateDoctorCodeItemJob;
 use App\Models\DoctorDetail;
 use App\Models\User;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
+use Spatie\Permission\Models\Role;
 
-it('assigns a unique doctor code item when the job runs', function () {
-    Bus::fake();
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-    $user = User::factory()->create();
-    $user->assignRole('Doctor');
+test('genera il primo codice per un dottore senza code_item', function () {
+    Role::create(['name' => 'Doctor']);
+    $doctor = User::factory()->create();
+    $doctor->assignRole('Doctor');
 
-    DoctorDetail::create([
-        'doctor_id' => $user->id,
-        'license_number' => 'LIC-001',
-        'phone' => '123456789',
-        'specialty' => 'Cardiologia',
-        'city' => 'Roma',
-        'available_hours' => ['mon' => ['09:00', '17:00']],
-        'slot_duration' => 30,
-        'is_active' => true,
+    $doctorDetail = DoctorDetail::create([
+        'doctor_id'       => $doctor->id,
+        'license_number'  => 'IT-asdasfdadsf',
+        'specialty'       =>  'cardiologo',
+        'available_hours' => [
+            'mon' => ['09:00', '13:00'],
+            'tue' => ['09:00', '13:00', '15:00', '18:00'],
+            'wed' => ['09:00', '13:00'],
+            'thu' => ['14:00', '18:00'],
+            'fri' => ['09:00', '12:00'],
+        ],
+        'slot_duration'   => fake()->randomElement([20, 30, 45]),
+        'is_active'       => true,
     ]);
 
-    GenerateDoctorCodeItemJob::dispatch($user->id);
+    (new GenerateDoctorCodeItemJob($doctorDetail->doctor_id))->handle();
 
-    Bus::assertDispatched(GenerateDoctorCodeItemJob::class, function (GenerateDoctorCodeItemJob $job) use ($user) {
-        return $job->doctorId === $user->id;
-    });
+    expect($doctorDetail->fresh()->code_item)->toBe('D-000001');
+});
 
-    Event::fake();
-    Queue::fake();
+test('genera un codice progressivo se esistono già altri codici', function () {
+    $doctor3 = User::factory()->create();
 
-    $job = new GenerateDoctorCodeItemJob($user->id);
-    $job->handle();
+    DoctorDetail::factory()->withCodeItem('D-000001')->create();
+    DoctorDetail::factory()->withCodeItem('D-000005')->create();
 
-    $detail = $user->fresh()->doctorDetail;
+    // il nuovo dottore, senza codice — anche questo con la factory
+    $newDoctorDetail = DoctorDetail::factory()
+        ->withoutCodeItem()
+        ->create(['doctor_id' => $doctor3->id]);
 
-    expect($detail->code_item)->not->toBeNull()
-        ->and($detail->code_item)->toMatch('/^DOC-\d{6}$/');
+    (new GenerateDoctorCodeItemJob($newDoctorDetail->doctor_id))->handle();
 
-    $secondUser = User::factory()->create();
-    $secondUser->assignRole('Doctor');
+    expect($newDoctorDetail->fresh()->code_item)->toBe('D-000006');
+});
 
-    DoctorDetail::create([
-        'doctor_id' => $secondUser->id,
-        'license_number' => 'LIC-002',
-        'phone' => '987654321',
-        'specialty' => 'Dermatologia',
-        'city' => 'Milano',
-        'available_hours' => ['mon' => ['09:00', '17:00']],
-        'slot_duration' => 30,
-        'is_active' => true,
+test('non fa nulla se il dottore ha già un code_item', function () {
+    $doctor = User::factory()->create();
+
+    $doctorDetail = DoctorDetail::create([
+        'doctor_id' => $doctor->id,
+        'code_item' => 'D-000042',
+        'license_number'  => 'IT' . fake()->unique()->numerify('######'),
+        'city'            => fake()->city(),
+        'phone'           => fake()->numerify('3#########'),
+        'specialty'       =>  'sdfdsfsdf',
+        'available_hours' => [
+            'mon' => ['09:00', '13:00'],
+            'tue' => ['09:00', '13:00', '15:00', '18:00'],
+            'wed' => ['09:00', '13:00'],
+            'thu' => ['14:00', '18:00'],
+            'fri' => ['09:00', '12:00'],
+        ],
+        'slot_duration'   => fake()->randomElement([20, 30, 45]),
+        'is_active'       => true,
     ]);
 
-    $secondJob = new GenerateDoctorCodeItemJob($secondUser->id);
-    $secondJob->handle();
+    (new GenerateDoctorCodeItemJob($doctorDetail->doctor_id))->handle();
 
-    $secondDetail = $secondUser->fresh()->doctorDetail;
+    expect($doctorDetail->fresh()->code_item)->toBe('D-000042');
+});
 
-    expect($secondDetail->code_item)->not->toBe($detail->code_item);
+test('non fa nulla se il doctor_id non esiste', function () {
+    $job = new GenerateDoctorCodeItemJob(doctorId: 9999);
+
+    expect(fn() => $job->handle())->not->toThrow(\Throwable::class);
+});
+
+test('ignora codici mal formattati nel calcolo del prossimo numero', function () {
+    $doctor1 = User::factory()->create();
+    $doctor2 = User::factory()->create();
+    $doctor3 = User::factory()->create();
+
+    // codice "sporco" che non rispetta il pattern D-XXXXXX
+    DoctorDetail::factory()->withCodeItem('INVALID')->create();
+    DoctorDetail::factory()->withCodeItem('D-000010')->create();
+
+    $newDoctorDetail = DoctorDetail::factory()
+        ->withoutCodeItem()
+        ->create(['doctor_id' => $doctor3->id]);
+
+    (new GenerateDoctorCodeItemJob($newDoctorDetail->doctor_id))->handle();
+
+    expect($newDoctorDetail->fresh()->code_item)->toBe('D-000011');
 });

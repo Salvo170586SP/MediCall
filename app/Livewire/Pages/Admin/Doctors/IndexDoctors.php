@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Pages\Admin\Doctors;
 
+use App\Enums\DocumentType;
+use App\Models\Document;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -25,6 +28,19 @@ class IndexDoctors extends Component
             $doctor = User::findOrFail($doctor_id);
 
             if ($doctor) {
+                $photo = Document::where('documentable_id', $doctor->id)
+                    ->where('documentable_type', User::class)
+                    ->where('type', DocumentType::Photo) 
+                    ->first();
+
+                if ($photo) {
+                    if ($photo->file_path && Storage::disk('public')->exists($photo->file_path)) {
+                        Storage::disk('public')->delete($photo->file_path);
+                    }
+
+                    $photo->delete();
+                }
+
                 $doctor->delete();
             }
 
@@ -36,7 +52,7 @@ class IndexDoctors extends Component
 
     public function render()
     {
-        $users_doctor = User::role('doctor')
+        $users_doctor = User::role('Doctor')
             ->with('doctorDetail')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {

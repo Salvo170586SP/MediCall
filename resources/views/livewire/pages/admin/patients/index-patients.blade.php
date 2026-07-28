@@ -60,7 +60,7 @@
                     <td class="px-3 py-4 text-left text-slate-900">{{ $user_patient->name }}</td>
                     <td class="px-3 py-4 ext-slate-600 text-left">{{ $user_patient->email }}</td>
                     <td class="px-3 py-4 text-slate-900 text-left">{{ $user_patient->guestDetail->phone ?? '-' }}</td>
-                    <td class="px-3 py-4 text-slate-900 text-left">{{ 
+                    <td class="px-3 py-4 text-slate-900 text-left">{{
                         $user_patient->guestDetail?->formatDate($user_patient->guestDetail?->birth_date) ?? '-' }}</td>
                     <td class="px-3 py-4 text-slate-900 text-left">{{ $user_patient->guestDetail->birth_city ?? '-' }}
                     </td>
@@ -68,7 +68,7 @@
                     </td>
                     <td class="px-3 py-4 text-slate-900 text-center"> <span
                             class="inline-flex items-center justify-center text-center rounded-full w-[25px] h-[25px] bg-blue-100  }}">
-                            {{-- {{ $user_patient->doctorsPatients()->count() }} --}} 0
+                            {{ $user_patient->doctorsCount}}
                         </span>
                     </td>
                     <td class="px-3 py-4 text-right">

@@ -74,7 +74,7 @@
                     <td class="px-3 py-4">
                         <span
                             class="w-full inline-flex items-center justify-center text-center font-medium rounded-full w-[25px] h-[25px] bg-blue-100  }}">
-                            {{ $user_doctor->patientsDoctor() ? $user_doctor->patientsDoctor()->count() : '0' }}
+                            {{ $user_doctor->patientsCount }}
                         </span>
                     </td>
                     <td class="px-3 py-4 text-right">

@@ -63,7 +63,7 @@ class DetailsDoctors extends Component
     public function render()
     {
         // Carica appuntamenti
-        $appointmentsQuery = $this->doctor->appointmentsDoctor();
+        $appointmentsQuery = $this->doctor->appointmentsDoctor()->with('doctor', 'patient');
 
         if ($this->searchStatus) {
             $appointmentsQuery->where('status', 'like', '%' . $this->searchStatus . '%');
