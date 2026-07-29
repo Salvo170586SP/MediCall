@@ -3,12 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\DocumentType;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -96,26 +100,53 @@ class User extends Authenticatable implements PasskeyUser
         return $this->hasMany(Appointment::class, 'doctor_id');
     }
 
-    // pazienti unici seguiti dal medico
-    public function patientsDoctor()
+    public function documents(): MorphMany
     {
-        return User::whereIn(
-            'id',
-            $this->appointmentsDoctor()
-                ->distinct('guest_id')
-                ->pluck('guest_id')
-        );
+        return $this->morphMany(Document::class, 'documentable');
     }
 
-    // pazienti unici seguiti dal medico
-    public function doctorsPatients()
+    public function photo(): MorphOne
     {
-        return User::whereIn(
+        return $this->morphOne(Document::class, 'documentable')
+            ->where('type', DocumentType::Photo);
+    }
+
+    public function fiscalCode(): MorphOne
+    {
+        return $this->morphOne(Document::class, 'documentable')
+            ->where('type', DocumentType::TaxCode);
+    }
+
+    public function identityCard(): MorphOne
+    {
+        return $this->morphOne(Document::class, 'documentable')
+            ->where('type', DocumentType::IdentityCard);
+    }
+
+
+    // pazienti unici seguiti dal medico
+    protected ?int $patientsCountCache = null;
+
+    public function getPatientsCountAttribute()
+    {
+        return $this->patientsCountCache ??= $this->appointmentsDoctor()
+            ->distinct('guest_id')
+            ->count('guest_id');
+    }
+
+    // medici che seguono il paziente
+    protected ?int $doctorsCountCache = null;
+    public function getDoctorsCountAttribute()
+    {
+        return $this->doctorsCountCache ??= $this->appointmentsPatient()
+            ->distinct('doctor_id')
+            ->count('doctor_id');
+        /*   return User::whereIn(
             'id',
             $this->appointmentsPatient()
                 ->distinct('guest_id')
                 ->pluck('guest_id')
-        );
+        ); */
     }
 
     // cartelle cliniche dove l'utente è il PAZIENTE
@@ -129,4 +160,13 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(MedicalRecord::class, 'doctor_id');
     }
+
+    /*   protected ?int $patientsCountCache = null;
+
+    public function getPatientsCountAttribute()
+    {
+        return $this->patientsCountCache ??= $this->appointmentsDoctor()
+            ->distinct('guest_id')
+            ->count('guest_id');
+    } */
 }

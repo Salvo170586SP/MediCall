@@ -4,9 +4,11 @@ namespace App\Livewire\Pages\Admin\Patients;
 
 use App\Concerns\WithCustomPagination;
 use App\Models\Appointment;
+use App\Models\Document;
 use App\Models\HealthParameter;
 use App\Models\HealthThreshold;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,10 +27,21 @@ class DetailsPatients extends Component
     public string $searchCreatedAt = '';
     public string $searchVisit = '';
     public string $searchControll = '';
+    public string $searchTypeDoc = '';
+    public string $searchNameDoc = '';
 
     public function mount(User $patient)
     {
         $this->patient = $patient->load('guestDetail');
+    }
+
+    public function updatingsearchTypeDoc(): void
+    {
+        $this->resetPage();
+    }
+    public function updatingSearchNameDoc(): void
+    {
+        $this->resetPage();
     }
 
     public function updatingSearchVisit(): void
@@ -108,9 +121,20 @@ class DetailsPatients extends Component
         }
     }
 
+    public function deleteDoc(int $document_id)
+    {
+        $document = Document::findOrFail($document_id);
+
+        if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+            Storage::disk('public')->delete($document->file_path);
+        }
+
+        $document->forceDelete();
+    }
+
     public function render()
     {
-        $healthThresholdsQuery = $this->patient->healthThresholds();
+        $healthThresholdsQuery = $this->patient->healthThresholds()->with(['patient', 'createdBy']);
 
         if ($this->severity) {
             $healthThresholdsQuery->where('severity', 'like', '%' . $this->severity . '%');
@@ -123,10 +147,7 @@ class DetailsPatients extends Component
         $healthThresholds = $healthThresholdsQuery->paginate(20)->withPath(route('patients.details', $this->patient));
 
 
-
-
-
-        $healthParametersQuery = $this->patient->healthParameters();
+        $healthParametersQuery = $this->patient->healthParameters()->with('patient');
 
         if ($this->source) {
             $healthParametersQuery->where('source', 'like', '%' . $this->source . '%');
@@ -139,9 +160,7 @@ class DetailsPatients extends Component
         $healthParameters = $healthParametersQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
 
-
-
-        $appointmentsQuery = $this->patient->appointmentsPatient();
+        $appointmentsQuery = $this->patient->appointmentsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchStatus) {
             $appointmentsQuery->where('status', 'like', '%' . $this->searchStatus . '%');
@@ -164,8 +183,7 @@ class DetailsPatients extends Component
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
 
-
-        $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient();
+        $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchControll) {
             $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%' . $this->searchControll . '%');
@@ -175,13 +193,28 @@ class DetailsPatients extends Component
             $medicalRecordsAsPatientQuery->where('visit_date', 'like', '%' . $this->searchVisit . '%');
         }
 
-
         $medicalRecordsAsPatient = $medicalRecordsAsPatientQuery->paginate(10)->withPath(route('patients.details', $this->patient));
+
+
+        $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
+
+
+        $documentsQuery = $this->patient->documents();
+
+        if ($this->searchTypeDoc) {
+            $documentsQuery->where('title', 'like', '%' . $this->searchTypeDoc . '%');
+        }
+
+        if ($this->searchNameDoc) {
+            $documentsQuery->where('original_filename', 'like', '%' . $this->searchNameDoc . '%');
+        }
+
+        $documents = $documentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
         $severities = config('medicall.defaultThresholds.severities');
         $statuses = config('medicall.appointments.statuses');
         $types = config('medicall.appointments.types');
 
-        return view('livewire.pages.admin.patients.details-patients', compact('healthParameters', 'healthThresholds', 'appointments', 'medicalRecordsAsPatient', 'severities', 'statuses', 'types'));
+        return view('livewire.pages.admin.patients.details-patients', compact('healthParameters', 'healthThresholds', 'appointments', 'medicalRecordsAsPatient', 'documents', 'severities', 'statuses', 'types'));
     }
 }

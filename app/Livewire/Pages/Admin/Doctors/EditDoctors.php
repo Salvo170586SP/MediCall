@@ -2,12 +2,18 @@
 
 namespace App\Livewire\Pages\Admin\Doctors;
 
+use App\Enums\DocumentType;
+use App\Models\Document;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditDoctors extends Component
 {
+    use WithFileUploads;
+
     public User $doctor;
     public string $name = '';
     public string $phone = '';
@@ -26,20 +32,32 @@ class EditDoctors extends Component
         'sat' => ['', ''],
         'sun' => ['', ''],
     ];
+    public  $photo = null;
+
+    /**
+     * Validazione "live" della foto appena selezionata.
+     */
+    public function updatedPhoto(): void
+    {
+        $this->validateOnly('photo', [
+            'photo' => 'image|mimes:jpg,jpeg,png,webp|max:2048', // max 2MB
+        ]);
+    }
+
 
     public function mount(User $doctor)
     {
         $this->doctor = $doctor;
         $this->name = $doctor->name;
-        $this->phone = $doctor->doctorDetail->phone;
-        $this->bio = $doctor->doctorDetail->bio;
-        $this->specialty = $doctor->doctorDetail->specialty;
-        $this->sub_specialty = $doctor->doctorDetail->sub_specialty;
-        $this->city = $doctor->doctorDetail->city;
-        $this->slot_duration = $doctor->doctorDetail->slot_duration;
-        $this->is_active = $doctor->doctorDetail->is_active;
+        $this->phone = $doctor->doctorDetail?->phone ?? '';
+        $this->bio = $doctor->doctorDetail?->bio ?? '';
+        $this->specialty = $doctor->doctorDetail?->specialty ?? '';
+        $this->sub_specialty = $doctor->doctorDetail?->sub_specialty ?? '';
+        $this->city = $doctor->doctorDetail?->city ?? '';
+        $this->slot_duration = $doctor->doctorDetail?->slot_duration ?? 30;
+        $this->is_active = $doctor->doctorDetail?->is_active ?? true;
 
-        $hours = $doctor->doctorDetail->available_hours ?? [];
+        $hours = $doctor->doctorDetail?->available_hours ?? [];
         foreach ($hours as $day => $slots) {
             $this->available_hours[$day] = array_slice($slots, 0, 2);
 
@@ -54,8 +72,6 @@ class EditDoctors extends Component
      */
     public function editDoctor(): void
     {
-
-
         $validated = $this->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
@@ -73,6 +89,7 @@ class EditDoctors extends Component
             'available_hours.fri' => 'array|size:2',
             'available_hours.sat' => 'array|size:2',
             'available_hours.sun' => 'array|size:2',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
 
@@ -91,9 +108,16 @@ class EditDoctors extends Component
             }
         }
 
+        // Salva il file fisico PRIMA della transazione DB.
+        // Se la transazione fallisce, va ripulito nel catch.
+        $photoPath = null;
+        if ($this->photo) {
+            $photoPath = $this->photo->store('doctors/photos', 'public');
+        }
+
         // modifica il Doctor usando una transazione per garantire consistenza
         try {
-            DB::transaction(function () use ($validated) {
+            DB::transaction(function () use ($validated,  $photoPath) {
                 // Crea l'utente con ruolo Doctor
                 $this->doctor->update([
                     'name' => $validated['name'],
@@ -110,6 +134,37 @@ class EditDoctors extends Component
                     'is_active' => $validated['is_active'],
                     'available_hours' => $validated['available_hours'],
                 ]);
+
+
+                // Salva il riferimento della foto nella tabella documents,
+                // collegata polimorficamente allo User (il dottore)
+                if ($photoPath) {
+                    $existing = Document::where('documentable_id', $this->doctor->id)
+                        ->where('documentable_type', User::class)
+                        ->where('type', DocumentType::Photo)
+                        ->first();
+
+                    if ($existing && $existing->file_path && Storage::disk('public')->exists($existing->file_path)) {
+                        Storage::disk('public')->delete($existing->file_path);
+                    }
+
+                    Document::updateOrCreate(
+                        [
+                            'documentable_id' => $this->doctor->id,
+                            'documentable_type' => User::class,
+                            'type' => DocumentType::Photo,
+                        ],
+                        [
+                            'uploaded_by' => auth()->id() ?? $this->doctor->id,
+                            'title' => 'Foto profilo',
+                            'file_path' => $photoPath,
+                            'original_filename' => $this->photo->getClientOriginalName(),
+                            'mime_type' => $this->photo->getMimeType(),
+                            'file_size' => $this->photo->getSize(),
+                            'is_verified' => true,
+                        ]
+                    );
+                }
             });
 
             session()->flash('success', 'Elemento modificato con successo!');

@@ -30,30 +30,75 @@
                 </div>
                 @endif
 
-                <div class="grid grid-cols-2 gap-5">
-                    <!-- Name e Surname -->
-                    <div>
-                        <label for="name" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Nome e Cognome <span class="text-rose-600">*</span>
-                        </label>
-                        <input type="text" name="name" id="name" wire:model.blur="name"
-                            class="w-full px-4 py-2 border border-gray-300 bg-white rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('name') border-rose-600 @enderror"
-                            required>
-                        @error('name')
-                        <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
-                        @enderror
+
+                <div class="w-full flex gap-5">
+                    <div class="flex flex-col ">
+                        <div class="w-full flex flex-col">
+                            <label for="photo" class="block text-sm font-semibold text-slate-900 mb-1">
+                                Foto del dottore
+                            </label>
+
+                            @if ($photo)
+                            <figure class="w-58 h-32">
+                                <img src="{{ $photo->temporaryUrl() }}" alt="Anteprima foto"
+                                    class="w-full h-full rounded-xl object-cover border border-gray-300">
+                            </figure>
+                            @else
+                            <div
+                                class="w-78  h-48 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 border border-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            @endif
+                        </div>
+
+                        <div class="flex flex-col {{-- items-center --}} {{-- justify-center  --}}mt-3">
+                            <input type="file" id="photo" wire:model="photo" accept="image/png, image/jpeg, image/webp"
+                                class="block w-full text-sm text-gray-600 
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-indigo-50 file:text-indigo-700
+                            hover:file:bg-indigo-100">
+
+                            <div wire:loading wire:target="photo" class="text-sm text-gray-500">
+                                Caricamento in corso...
+                            </div>
+
+                            @error('photo')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
-                    <!-- Email -->
-                    <div>
-                        <label for="email" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Email
-                        </label>
-                        <input type="email" name="email" id="email" wire:model.blur="email"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('email') border-rose-600 @enderror">
-                        @error('email')
-                        <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
-                        @enderror
+                    <!-- Name e Surname -->
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            <label for="name" class="block text-sm font-semibold text-slate-900 mb-2">
+                                Nome e Cognome <span class="text-rose-600">*</span>
+                            </label>
+                            <input type="text" name="name" id="name" wire:model.blur="name"
+                                class="w-100 px-4 py-2 border border-gray-300 bg-white rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('name') border-rose-600 @enderror"
+                                required>
+                            @error('name')
+                            <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-slate-900 mb-2">
+                                Email
+                            </label>
+                            <input type="email" name="email" id="email" wire:model.blur="email"
+                                class="w-100 px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('email') border-rose-600 @enderror">
+                            @error('email')
+                            <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 

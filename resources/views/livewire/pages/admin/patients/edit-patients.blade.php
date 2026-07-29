@@ -124,6 +124,99 @@
                 </div>
 
 
+                {{-- sezione caricamento file --}}
+                <div class="flex space-y-5 pt-6 border-t border-gray-200">
+                    <div class="w-80 flex flex-col">
+                        <label for="identity_card" class="block text-sm font-semibold text-slate-900 mb-1">
+                            Carica carta d'identità attuale
+                        </label>
+                        @if($patient->identityCard)
+                        <a href="{{asset('storage/'.$patient->identityCard->file_path)}}" target="_blank" class="w-12 h-12 inline-flex justify-center items-center bg-white border border-gray-300 rounded-xl p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-5 group-hover:size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6" />
+                            </svg>
+                        </a>
+                        @else
+                        -
+                        @endif
+                    </div>
+
+                    <div class="w-80 flex flex-col">
+                        <label for="identity_card" class="block text-sm font-semibold text-slate-900 mb-1">
+                            Codice fiscale attuale
+                        </label>
+                        @if($patient->fiscalCode)
+                        <a href="{{asset('storage/'.$patient->fiscalCode->file_path)}}" target="_blank" class="w-12 h-12 inline-flex justify-center items-center bg-white border border-gray-300 rounded-xl p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6" />
+                            </svg>
+                        </a>
+                        @else
+                        -
+                        @endif
+                    </div>
+
+                </div>
+
+                <div class="flex">
+                    <div class="flex flex-col ">
+                        <div class="w-full flex flex-col">
+                            <label for="identity_card" class="block text-sm font-semibold text-slate-900 mb-1">
+                                Carica carta d'identità
+                            </label>
+                        </div>
+
+                        <div class="flex flex-col mt-3">
+                            <input type="file" id="identity_card" wire:model="identity_card"
+                                accept="image/png, image/jpeg, image/webp, image/pdf" class="block w-full text-sm text-gray-600 
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-indigo-50 file:text-indigo-700
+                            hover:file:bg-indigo-100">
+
+                            <div wire:loading wire:target="identity_card" class="text-sm text-gray-500">
+                                Caricamento in corso...
+                            </div>
+
+                            @error('identity_card')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col ">
+                        <div class="w-full flex flex-col">
+                            <label for="fiscal_code" class="block text-sm font-semibold text-slate-900 mb-1">
+                                Carica codice fiscale
+                            </label>
+                        </div>
+
+                        <div class="flex flex-col mt-3">
+                            <input type="file" id="fiscal_code" wire:model="fiscal_code"
+                                accept="image/png, image/jpeg, image/webp, image/pdf" class="block w-full text-sm text-gray-600 
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-indigo-50 file:text-indigo-700
+                            hover:file:bg-indigo-100">
+
+                            <div wire:loading wire:target="fiscal_code" class="text-sm text-gray-500">
+                                Caricamento in corso...
+                            </div>
+
+                            @error('fiscal_code')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+
                 <!-- Buttons -->
                 <div class="flex gap-3 pt-6 border-t border-gray-200">
                     <button wire:navigate href="{{ route('patients') }}"
