@@ -837,10 +837,10 @@
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                                         Caricato da</th>
                                     <th
-                                        class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                        class="px-6 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
                                         note</th>
                                     <th
-                                        class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                                        class="px-6 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
                                         Verificato</th>
                                     <th
                                         class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
@@ -852,7 +852,8 @@
                             </thead>
                             <tbody>
                                 @forelse($documents as $document)
-                                <tr wire:key="doc-[{{$document->id}}]" class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                                <tr wire:key="doc-[{{$document->id}}]"
+                                    class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                                         $document->original_filename }}</td>
                                     <td class="px-6 py-4 text-slate-600">{{
@@ -861,34 +862,51 @@
                                         {{ $document->uploadedBy->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        @if($document->notes)
-                                        <x-modal title="note" confirm-label="notes" wire:key="notes-[{{$document->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
-                                            <x-slot:trigger>
-                                                <button title="notes"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                    </svg>
-                                                </button>
-                                            </x-slot:trigger>
+                                        <div class="text-center">
+                                            @if($document->notes)
+                                            <x-modal title="note" confirm-label="notes"
+                                                wire:key="notes-[{{$document->id}}]"
+                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                <x-slot:trigger>
+                                                    <button title="notes"
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                            class="size-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                        </svg>
+                                                    </button>
+                                                </x-slot:trigger>
 
-                                            <x-slot:body>
-                                                {{ $document->notes ?? '-'}}
-                                            </x-slot:body>
+                                                <x-slot:body>
+                                                    {{ $document->notes ?? '-'}}
+                                                </x-slot:body>
 
-                                            <x-slot:action>
-                                            </x-slot:action>
-                                        </x-modal>
-                                        @else
-                                        -
-                                        @endif
+                                                <x-slot:action>
+                                                </x-slot:action>
+                                            </x-modal>
+                                            @else
+                                            -
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 text-slate-900">
-                                        {{ $document->is_verified ? 'verificato' : 'non verificato' }}
+                                        <div class="w-full flex justify-center">
+                                            @if($document->is_verified)
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-600">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                            </svg>
+                                            @else
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6 text-red-700">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 text-slate-900 text-center">
                                         @if($document->file_path)
