@@ -4,9 +4,12 @@
 'confirmLabel' => 'Conferma',
 'cancelLabel' => 'Annulla',
 'confirmClass' => 'border-red-200 bg-red-50 hover:bg-red-100 text-red-800',
+'closeOnClick' => true, // comportamento di default invariato per le altre modali
+'closeOnEvent' => null, // nome evento Livewire che chiude la modale
+'resetMethod' => null,
 ])
 
-<div x-data="{ open: false }" x-cloak>
+<div x-data="{ open: false }" x-cloak @if ($closeOnEvent) x-on:{{ $closeOnEvent }}.window="open = false" @endif>
 
     {{-- Trigger slot: qualsiasi bottone/link che apre la modale --}}
     <div @click="open = true">
@@ -25,7 +28,7 @@
         x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-md z-50 p-6">
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl {{-- w-full  --}}{{-- max-w-md  --}} z-50 p-6">
 
         {{-- Titolo --}}
         <h2 class="w-full text-center font-bold text-gray-800">{{ $title }}</h2>
@@ -39,13 +42,13 @@
 
         {{-- Azioni --}}
         <div class="flex items-center justify-end gap-2 mt-5">
-            <button @click="open = false" type="button"
+            <button @click="open = false @if($resetMethod) ; $wire.{{ $resetMethod }}() @endif" type="button"
                 class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
                 {{ $cancelLabel }}
             </button>
 
             {{-- Action slot: il form o qualsiasi azione di conferma --}}
-            <div @click="open = false">
+            <div @if ($closeOnClick) @click="open = false" @endif>
                 {{ $action }}
             </div>
         </div>

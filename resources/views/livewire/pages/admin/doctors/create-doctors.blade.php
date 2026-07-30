@@ -39,13 +39,13 @@
                             </label>
 
                             @if ($photo)
-                            <figure class="w-58 h-32">
+                            <figure class="w-78 h-48">
                                 <img src="{{ $photo->temporaryUrl() }}" alt="Anteprima foto"
                                     class="w-full h-full rounded-xl object-cover border border-gray-300">
                             </figure>
                             @else
                             <div
-                                class="w-78  h-48 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 border border-gray-300">
+                                class="w-78 h-48 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 border border-gray-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -55,7 +55,7 @@
                             @endif
                         </div>
 
-                        <div class="flex flex-col {{-- items-center --}} {{-- justify-center  --}}mt-3">
+                        <div class="flex flex-col mt-3">
                             <input type="file" id="photo" wire:model="photo" accept="image/png, image/jpeg, image/webp"
                                 class="block w-full text-sm text-gray-600 
                             file:mr-4 file:py-2 file:px-4

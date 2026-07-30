@@ -38,7 +38,7 @@ class Appointment extends Model
         return $this->belongsTo(User::class, 'cancelled_by');
     }
 
- 
+
 
     // -- Scope --
 
@@ -120,6 +120,12 @@ class Appointment extends Model
     public function formatDate($data)
     {
         Carbon::setLocale('it');
-        return Carbon::parse($data)->translatedFormat('d F Y');
+        return ucfirst(Carbon::parse($data)->translatedFormat('l d F Y'));
+    }
+
+    public function formatClock($data)
+    {
+        Carbon::setLocale('it');
+        return Carbon::parse($data)->translatedFormat('H:i');
     }
 }

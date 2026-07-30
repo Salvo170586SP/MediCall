@@ -11,7 +11,7 @@
         </button>
 
         {{-- Tab navigation --}}
-        <div x-data="{ activeTab: 'doctor' }" class="mt-10">
+        <div x-data="{ activeTab: 'appointments' }" class="mt-10">
             <div class="flex justify-between">
                 <nav class="flex gap-2">
                     <button @click="activeTab = 'doctor'"
@@ -45,13 +45,12 @@
                         <div class="flex flex-col sm:flex-row sm:items-start gap-5">
                             {{-- Avatar iniziali --}}
                             @if($doctor->photo)
-                            <figure
-                                class="w-48 h-38 overflow-hidden rounded-xl border border-gray-300">
-                                <img class="w-full h-full object-cover" src="{{ asset('storage/'.$doctor->photo?->file_path)}}"
-                                    alt="{{$doctor->name}}">
+                            <figure class="w-48 h-38 overflow-hidden rounded-xl border border-gray-300">
+                                <img class="w-full h-full object-cover"
+                                    src="{{ asset('storage/'.$doctor->photo?->file_path)}}" alt="{{$doctor->name}}">
                             </figure>
                             @else
-                  
+
                             <div class="w-18 h-18 shrink-0 rounded-full bg-gray-200 flex items-center justify-center text-blue-700 font-medium text-xl select-none"
                                 style="width:72px;height:72px;">
                                 {{ collect(explode(' ', $doctor->name))->map(fn($w) =>
@@ -194,9 +193,49 @@
 
                 {{-- Appuntamenti Pazienti --}}
                 <div x-show="activeTab === 'appointments'">
-                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                        Appuntamenti Pazienti
-                    </h2>
+                    <div class="flex items-center justify-between mb-10">
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Appuntamenti Pazienti
+                        </h2>
+                        <livewire:pages.admin.doctors.add-appointment-form :doctor="$doctor"  :key="'add-appointment-'.$doctor->id"  />
+                        {{-- <x-modal title="Aggiungi appuntamento" confirm-label="addAppointment"
+                            confirm-class="border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800">
+                            <x-slot:trigger>
+                                <button title="Aggiungi appuntamento"
+                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    Aggiungi appuntamento
+                                </button>
+                            </x-slot:trigger>
+
+                            <x-slot:body>
+                                <div>
+                                    <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
+                                        Pazienti</label>
+                                    <select id="type" wire:model.live="searchType"
+                                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                                        @foreach($patients as $key => $patient)
+                                        <option wire:key="{{$key}}" value="{{$patient->id}}">
+                                            {{$patient->name}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </x-slot:body>
+
+                            <x-slot:action>
+                                <button
+                                    class="inline-flex items-center gap-1.5 px-4 py-2  bg-sky-100 hover:bg-sky-200 text-sky-900 text-sm font-medium rounded-xl transition-colors">
+                                    Conferma appuntamento
+                                </button>
+                            </x-slot:action>
+                        </x-modal> --}}
+                    </div>
+
 
                     <div class="grid gap-4 lg:grid-cols-4 mb-6">
                         <x-search-input inputClass="bg-white" id="searchGuest" model="searchGuest"
@@ -242,7 +281,7 @@
                                 <tr>
                                     <th class="px-6 py-3">Appuntamento con</th>
                                     <th class="px-3 py-3">Data</th>
-                                    <th class="px-6 py-3">Durata</th>
+                                    <th class="px-3 py-3">Orario</th>
                                     <th class="px-6 py-3 text-center">Modalità</th>
                                     <th class="px-6 py-3 text-center">Stato</th>
                                     <th class="px-6 py-3 text-center">Motivazione visita</th>
@@ -257,10 +296,10 @@
                                     class="border-b border-slate-200 hover:bg-slate-50 transition">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                         {{ $appointment->patient->name }}</td>
-                                    <td class="px-2 py-4 font-medium text-slate-900 capitalize w-[180px]">
+                                    <td class="px-2 py-4 font-medium text-slate-900 capitalize w-[230px]">
                                         {{ $appointment->formatDate($appointment->scheduled_at) }}</td>
-                                    <td class="px-6 py-4 font-medium text-slate-900 capitalize">
-                                        {{ $appointment->duration .' min' }}</td>
+                                    <td class="px-2 py-4 text-center font-medium text-slate-900 capitalize">
+                                        {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 text-center">
                                         @foreach($types as $value)
                                         <div wire:key="types-[{{$appointment->id}}-{{$value['type']}}]">
@@ -309,6 +348,8 @@
                                             <x-slot:action>
                                             </x-slot:action>
                                         </x-modal>
+                                        @else
+                                        -
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-center">

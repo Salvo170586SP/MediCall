@@ -3,7 +3,9 @@
 namespace App\Livewire\Pages\Admin\Doctors;
 
 use App\Concerns\WithCustomPagination;
+use App\Models\Appointment;
 use App\Models\User;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -60,6 +62,15 @@ class DetailsDoctors extends Component
         $this->resetPage();
     }
 
+    public function deleteAppointment(int $appointment_id): void
+    {
+        $appointment = Appointment::findOrFail($appointment_id);
+        if ($appointment) {
+            $appointment->delete();
+        }
+    }
+
+    #[On('appointment-created')]
     public function render()
     {
         // Carica appuntamenti
@@ -85,9 +96,12 @@ class DetailsDoctors extends Component
 
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('doctors.details', $this->doctor));
 
+        $patients = User::role('Guest')->get();
+
+
         $types = config('medicall.appointments.types');
         $statuses = config('medicall.appointments.statuses');
 
-        return view('livewire.pages.admin.doctors.details-doctors', compact('appointments', 'types', 'statuses'));
+        return view('livewire.pages.admin.doctors.details-doctors', compact('appointments', 'types', 'statuses', 'patients'));
     }
 }

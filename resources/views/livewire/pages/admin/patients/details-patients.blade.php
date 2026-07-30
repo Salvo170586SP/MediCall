@@ -474,13 +474,12 @@
                                 <tr>
                                     <th class="px-6 py-2">Appuntamento con</th>
                                     <th class="px-2 py-2">Data</th>
-                                    <th class="px-6 py-2">Durata</th>
+                                    <th class="px-6 py-2">orario</th>
                                     <th class="px-6 py-2 text-center">Modalità</th>
                                     <th class="px-6 py-2 text-center">Stato</th>
-                                    <th class="px-6 py-2 text-center">Motivazione</th>
+                                    <th class="px-6 py-2 text-center">Motivazione visita</th>
                                     <th class="px-6 py-2 text-center">Note del medico</th>
                                     <th class="px-6 py-2 text-center">Motivazione cancellazione</th>
-                                    <th class="px-6 py-2">Cancellato da</th>
                                     <th class="px-6 py-2">Azioni</th>
                                 </tr>
                             </thead>
@@ -489,10 +488,10 @@
                                 <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                         {{ $appointment->doctor->name }}</td>
-                                    <td class="px-2 py-4 font-medium text-slate-900 capitalize w-full">
+                                    <td class="px-2 py-4 font-medium text-slate-900 capitalize w-[230px]">
                                         {{ $appointment->formatDate($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
-                                        {{ $appointment->duration .'min' }}</td>
+                                      {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 text-center">
                                         @foreach($types as $value)
                                         <div wire:key="types-[{{$appointment->id}}-{{$value['type']}}]">
@@ -601,9 +600,6 @@
                                         -
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 text-slate-600">{{ $appointment->cancelledBy->name
-                                        ?? '-'
-                                        }}</td>
                                     <td class="px-6 py-4 text-slate-600">
                                         <x-modal title="Elimina definitivamente?" confirm-label="elimina"
                                             wire:key="deleteAppointment-[{{$appointment->id}}]"
