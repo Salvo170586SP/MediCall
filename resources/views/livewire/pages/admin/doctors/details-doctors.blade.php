@@ -2,7 +2,7 @@
     <div class="space-y-2">
 
         <button wire:navigate href="/doctors"
-            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-300 bg-gray-50 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 px-4 py-3 bg-zinc-100 hover:bg-sky-100 text-gray-700 text-sm font-bold rounded-xl transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -11,7 +11,7 @@
         </button>
 
         {{-- Tab navigation --}}
-        <div x-data="{ activeTab: 'appointments' }" class="mt-10">
+        <div x-data="{ activeTab: 'doctor' }" class="mt-10">
             <div class="flex justify-between">
                 <nav class="flex gap-2">
                     <button @click="activeTab = 'doctor'"
@@ -97,11 +97,9 @@
                             </div>
 
                             {{-- Azioni --}}
-                            <div class="flex gap-2 flex-wrap ">
-
-
+                            <div class="flex gap-2 flex-wrap">
                                 <button wire:navigate href="/doctors/edit/{{$doctor->id}}"
-                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-medium rounded-xl transition-colors">
+                                    class="inline-flex items-center gap-1.5 px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -197,43 +195,8 @@
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Appuntamenti Pazienti
                         </h2>
-                        <livewire:pages.admin.doctors.add-appointment-form :doctor="$doctor"  :key="'add-appointment-'.$doctor->id"  />
-                        {{-- <x-modal title="Aggiungi appuntamento" confirm-label="addAppointment"
-                            confirm-class="border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800">
-                            <x-slot:trigger>
-                                <button title="Aggiungi appuntamento"
-                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                    Aggiungi appuntamento
-                                </button>
-                            </x-slot:trigger>
-
-                            <x-slot:body>
-                                <div>
-                                    <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
-                                        Pazienti</label>
-                                    <select id="type" wire:model.live="searchType"
-                                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                        @foreach($patients as $key => $patient)
-                                        <option wire:key="{{$key}}" value="{{$patient->id}}">
-                                            {{$patient->name}}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </x-slot:body>
-
-                            <x-slot:action>
-                                <button
-                                    class="inline-flex items-center gap-1.5 px-4 py-2  bg-sky-100 hover:bg-sky-200 text-sky-900 text-sm font-medium rounded-xl transition-colors">
-                                    Conferma appuntamento
-                                </button>
-                            </x-slot:action>
-                        </x-modal> --}}
+                        <livewire:pages.admin.doctors.add-appointment-form :doctor="$doctor"
+                            :key="'add-appointment-'.$doctor->id" />
                     </div>
 
 
@@ -293,7 +256,7 @@
                             <tbody>
                                 @forelse($appointments as $appointment)
                                 <tr wire:key="appointment-{{$doctor->id}}-{{ $appointment->id }}"
-                                    class="border-b border-slate-200 hover:bg-slate-50 transition">
+                                    class="border-b border-slate-200">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                         {{ $appointment->patient->name }}</td>
                                     <td class="px-2 py-4 font-medium text-slate-900 capitalize w-[230px]">
@@ -331,7 +294,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="reason"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -359,7 +322,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -387,7 +350,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -412,7 +375,7 @@
                                         <div class="flex space-x-2">
                                             <button wire:navigate href="/patients/details/{{$appointment->patient->id}}"
                                                 title="vedi"
-                                                class="inline-flex items-center px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                class="inline-flex items-center px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-sm font-medium rounded-xl transition-colors">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -427,7 +390,7 @@
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
                                                     <button title="elimina"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                             class="size-5">

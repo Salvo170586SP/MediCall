@@ -3,7 +3,7 @@
 
         <nav class="max-lg:hidden mb-5 flex justify-center items-center w-full gap-5 text-sm">
             <button wire:navigate
-                class="flex items-center justify-between cursor-pointer font-bold text-[15px] px-4 py-1 rounded-lg {{request()->routeIs('dashboard') ? 'bg-sky-100 text-sky-800' : ' bg-zinc-100 text-zinc-800'}}"
+                class="flex items-center justify-between cursor-pointer font-bold text-[15px] px-4 py-1 rounded-lg {{request()->routeIs('dashboard') ? 'bg-sky-100 text-sky-800' : ' bg-zinc-100 text-zinc-900 hover:bg-zinc-200'}}"
                 href="{{route('dashboard')}}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
                     <path fill-rule="evenodd"
@@ -15,7 +15,7 @@
                 </div>
             </button>
             <button wire:navigate href="{{route('doctors')}}"
-                class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('doctors') ? 'bg-sky-50 text-sky-700' : ' bg-zinc-100 text-zinc-800'}}">
+                class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('doctors') ? 'bg-sky-100 text-sky-700' : 'bg-zinc-100 text-zinc-900 hover:bg-zinc-200'}}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
                     <path fill-rule="evenodd"
                         d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z"
@@ -26,7 +26,7 @@
                 </div>
             </button>
             <button wire:navigate href="{{route('patients')}}"
-                class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('patients') ? 'bg-sky-50 text-sky-700' : 'bg-zinc-100 text-zinc-800'}}">
+                class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('patients') ? 'bg-sky-100 text-sky-700' : 'bg-zinc-100 text-zinc-900 hover:bg-zinc-200'}}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
                     <path fill-rule="evenodd"
                         d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z"
@@ -38,7 +38,7 @@
             </button>
 
             <button wire:navigate href="{{route('documents')}}"
-                class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('documents') ? 'bg-sky-50 text-sky-700' : 'bg-zinc-100 text-zinc-800'}}">
+                class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('documents') ? 'bg-sky-100 text-sky-700' : 'bg-zinc-100 text-zinc-900 hover:bg-zinc-200'}}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
                     <path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875Z" />
                     <path

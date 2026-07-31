@@ -5,7 +5,7 @@
             {{ __('Dottori') }}
         </h2>
         <button wire:navigate href="{{route('doctors.create') }}"
-            class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-50 border border-gray-200 hover:bg-slate-100 text-gray-700 font-medium rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 px-4 py-3 bg-sky-50 hover:bg-sky-100 text-gray-700 font-bold rounded-xl transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -23,7 +23,7 @@
         {{$users_doctor->links()}}
     </div>
 
-    <div class="w-full bg-gray-50 rounded-xl overflow-hidden border border-slate-200">
+    <div class="w-full rounded-xl overflow-hidden border border-slate-200">
         <table class="w-full h-full">
             <thead>
                 <tr class="border-b border-slate-200 bg-slate-100 text-[11px]">
@@ -51,21 +51,21 @@
                 @forelse($users_doctor as $user_doctor)
                 <tr wire:key="doctors-[{{$user_doctor->id}}]" class="border-b border-slate-200 text-[14px]">
                     <td class="px-3 py-4 font-bold text-slate-900">#{{$user_doctor->doctorDetail->code_item }}</td>
-                    <td class="px-3 py-4 font-medium text-slate-900">{{ $user_doctor->name }}</td>
-                    <td class="px-3 py-4 font-medium text-slate-600">{{ $user_doctor->email }}</td>
-                    <td class="px-3 py-4 text-slate-900">{{ $user_doctor->doctorDetail->phone ?? '-' }}
+                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->name }}</td>
+                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->email }}</td>
+                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->doctorDetail->phone ?? '-' }}
                     </td>
-                    <td class="px-3 py-4 text-slate-900">{{ $user_doctor->doctorDetail->license_number
+                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->doctorDetail->license_number
                         ?? '-' }}</td>
                     <td class="px-3 py-4">
                         <span
-                            class="w-full inline-flex items-center justify-center w-[200px] rounded-full px-3 py-1 font-medium bg-gray-200 text-gray-800">
+                            class="w-full inline-flex items-center justify-center w-[200px] rounded-full px-3 py-1 font-semibold bg-gray-200 text-slate-900">
                             {{ $user_doctor->doctorDetail->specialty ?? '-' }}
                         </span>
                     </td>
                     <td class="px-3 py-4">
                         <span
-                            class="w-full inline-block text-center rounded-full max-w-[150px] px-5 py-1 font-medium {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
+                            class="w-full inline-block text-center rounded-full max-w-[150px] px-5 py-1 font-semibold {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
                             {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active
                             ? 'Disponibile'
                             : 'Non disponibile' }}
@@ -73,14 +73,14 @@
                     </td>
                     <td class="px-3 py-4">
                         <span
-                            class="w-full inline-flex items-center justify-center text-center font-medium rounded-full w-[25px] h-[25px] bg-blue-100  }}">
+                            class="w-full inline-flex items-center justify-center text-center font-semibold rounded-full w-[25px] h-[25px] bg-blue-100  }}">
                             {{ $user_doctor->patientsCount }}
                         </span>
                     </td>
                     <td class="px-3 py-4 text-right">
                         <div class="inline-flex items-center justify-end gap-2">
                             <button wire:navigate href="doctors/details/{{$user_doctor->id}}" title="dettagli"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -88,7 +88,7 @@
                                 </svg>
                             </button>
                             <button wire:navigate href="doctors/edit/{{$user_doctor->id}}" title="modifica"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -102,7 +102,7 @@
                                 {{-- Bottone che apre la modale --}}
                                 <x-slot:trigger>
                                     <button title="elimina"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -113,12 +113,14 @@
 
                                 {{-- Testo aggiuntivo nel corpo (opzionale) --}}
                                 <x-slot:body>
-                                    Questa operazione è irreversibile.
+                                    <div class="w-[400px]">
+                                        Questa operazione è irreversibile.
+                                    </div>
                                 </x-slot:body>
 
                                 <x-slot:action>
                                     <button wire:click="deleteDoctor({{$user_doctor->id}})"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                         Elimina
                                     </button>
                                 </x-slot:action>

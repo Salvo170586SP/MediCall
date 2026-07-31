@@ -13,7 +13,7 @@
             <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
                 Tipo Documento</label>
             <select id="searchType" wire:model.live="searchType"
-                class="w-full rounded-lg border border-slate-200 bg-gray-50 px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                class="w-full rounded-xl border border-slate-200 bg-gray-50 px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                 <option value="">Tutti</option>
                 <option value="identity_card">Carta d'Identità</option>
                 <option value="tax_code">Codice fiscale</option>
@@ -29,7 +29,7 @@
         {{$documents->links()}}
     </div>
 
-    <div class="w-full bg-gray-50 rounded-xl overflow-hidden border border-slate-200">
+    <div class="w-full rounded-xl overflow-hidden border border-slate-200">
         <table class="w-full h-full">
             <thead>
                 <tr class="border-b border-slate-200 bg-slate-100 text-[11px]">
@@ -77,12 +77,12 @@
                     </td>
                     <td class="px-3 py-4">
                         <div class="w-full flex justify-center">
-                            @if($doc->notes)
+                            @if(!$doc->notes)
                             <x-modal title="Note" confirm-label="notes"
                                 confirm-class="border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800">
                                 <x-slot:trigger>
                                     <button title="Note"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -107,7 +107,7 @@
                         <div class="text-center">
                             @if($doc->file_path)
                             <a title="scarica" download href="{{ asset('storage/'.$doc->file_path) }}"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -121,9 +121,8 @@
                     </td>
                     <td class="px-3 py-4 text-right">
                         <div class="inline-flex items-center justify-end gap-2">
-
                             <button wire:navigate href="patients/details/{{$doc->documentable->id}}" title="dettagli"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -133,10 +132,9 @@
 
                             <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
-
                                 <x-slot:trigger>
                                     <button title="elimina"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -146,12 +144,14 @@
                                 </x-slot:trigger>
 
                                 <x-slot:body>
-                                    Questa operazione è irreversibile.
+                                    <div class="w-[400px]">
+                                        Questa operazione è irreversibile.
+                                    </div>
                                 </x-slot:body>
 
                                 <x-slot:action>
                                     <button wire:click="deleteDoc({{$doc->id}})"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                         Elimina
                                     </button>
                                 </x-slot:action>

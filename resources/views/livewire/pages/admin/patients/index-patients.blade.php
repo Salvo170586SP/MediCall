@@ -2,10 +2,10 @@
 
     <div class="w-full flex items-center justify-between mb-10">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Pazienti') }}
+            {{ __('Lista Pazienti') }}
         </h2>
         <button wire:navigate href="{{route('patients.create') }}"
-            class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-50 border border-gray-200 hover:bg-slate-100 text-gray-700 font-medium rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 px-4 py-3 bg-sky-50 hover:bg-sky-100 text-gray-700 font-bold rounded-xl transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -26,7 +26,7 @@
         {{$users_patients->links()}}
     </div>
 
-    <div class="w-full bg-gray-50 rounded-xl overflow-hidden border border-slate-200">
+    <div class="w-full rounded-xl overflow-hidden border border-slate-200">
         <table class="w-full h-full">
             <thead>
                 <tr class="border-b border-slate-200 bg-slate-100 text-[11px]">
@@ -74,7 +74,7 @@
                     <td class="px-3 py-4 text-right">
                         <div class="inline-flex items-center justify-end gap-2">
                             <button wire:navigate href="patients/details/{{$user_patient->id}}" title="dettagli"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -82,7 +82,7 @@
                                 </svg>
                             </button>
                             <button wire:navigate href="patients/edit/{{$user_patient->id}}" title="modifica"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -91,10 +91,10 @@
                             </button>
 
                             <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
-                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800" >
                                 <x-slot:trigger>
                                     <button title="elimina"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -104,12 +104,14 @@
                                 </x-slot:trigger>
 
                                 <x-slot:body>
-                                    Questa operazione è irreversibile.
+                                    <div class="w-[400px]">
+                                        Questa operazione è irreversibile.
+                                    </div>
                                 </x-slot:body>
 
                                 <x-slot:action>
                                     <button wire:click="deletePatient({{$user_patient->id}})"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                         Elimina
                                     </button>
                                 </x-slot:action>

@@ -28,7 +28,7 @@
         x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl {{-- w-full  --}}{{-- max-w-md  --}} z-50 p-6">
+        class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl {{-- min-w-full --}} {{-- max-w-md  --}} z-50 p-6">
 
         {{-- Titolo --}}
         <h2 class="w-full text-center font-bold text-gray-800">{{ $title }}</h2>
@@ -43,7 +43,7 @@
         {{-- Azioni --}}
         <div class="flex items-center justify-end gap-2 mt-5">
             <button @click="open = false @if($resetMethod) ; $wire.{{ $resetMethod }}() @endif" type="button"
-                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-gray-800 text-sm font-medium rounded-xl transition-colors">
                 {{ $cancelLabel }}
             </button>
 

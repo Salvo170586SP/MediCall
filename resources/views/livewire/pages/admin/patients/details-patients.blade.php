@@ -2,7 +2,7 @@
     <div class="h-full mx-auto">
 
         <button wire:navigate href="{{route('patients') }}"
-            class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 bg-gray-50 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 px-4 py-3 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-bold rounded-xl transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -91,7 +91,7 @@
                         {{-- Azioni --}}
                         <div class="flex gap-2 flex-wrap">
                             <button wire:navigate href="{{ route('patients.edit', $patient->id) }}"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-medium rounded-xl transition-colors">
+                                class="inline-flex items-center gap-1.5 px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-bold rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -218,7 +218,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -245,7 +245,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -256,12 +256,14 @@
                                             </x-slot:trigger>
 
                                             <x-slot:body>
-                                                Questa operazione è irreversibile.
+                                                <div class="w-[400px]">
+                                                    Questa operazione è irreversibile.
+                                                </div>
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteParameter({{$parameter->id}})"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                                     Elimina
                                                 </button>
                                             </x-slot:action>
@@ -387,7 +389,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="elimina"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -398,12 +400,14 @@
                                             </x-slot:trigger>
 
                                             <x-slot:body>
-                                                Questa operazione è irreversibile.
+                                                <div class="w-[400px]">
+                                                    Questa operazione è irreversibile.
+                                                </div>
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteThreshold({{$threshold->id}})"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                                     Elimina
                                                 </button>
                                             </x-slot:action>
@@ -491,7 +495,7 @@
                                     <td class="px-2 py-4 font-medium text-slate-900 capitalize w-[230px]">
                                         {{ $appointment->formatDate($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
-                                      {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
+                                        {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 text-center">
                                         @foreach($types as $value)
                                         <div wire:key="types-[{{$appointment->id}}-{{$value['type']}}]">
@@ -523,7 +527,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="reason"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -551,7 +555,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="notes"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -579,7 +583,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="Motivazione"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -606,7 +610,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -617,12 +621,14 @@
                                             </x-slot:trigger>
 
                                             <x-slot:body>
-                                                Questa operazione è irreversibile.
+                                                <div class="w-[400px]">
+                                                    Questa operazione è irreversibile.
+                                                </div>
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteAppointment({{$appointment->id}})"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                                     Elimina
                                                 </button>
                                             </x-slot:action>
@@ -705,7 +711,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -733,7 +739,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -865,7 +871,7 @@
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
                                                     <button title="notes"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                             class="size-6">
@@ -907,7 +913,7 @@
                                     <td class="px-6 py-4 text-slate-900 text-center">
                                         @if($document->file_path)
                                         <a title="scarica" download href="{{ asset('storage/'.$document->file_path) }}"
-                                            class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -924,7 +930,7 @@
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -940,7 +946,7 @@
 
                                             <x-slot:action>
                                                 <button wire:click="deleteDoc({{$document->id}})"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                                     Elimina
                                                 </button>
                                             </x-slot:action>

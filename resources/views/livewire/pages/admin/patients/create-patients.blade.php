@@ -1,6 +1,6 @@
 <div>
     <button wire:navigate href="{{ route('patients') }}"
-        class="inline-flex items-center gap-1.5 px-4 py-2 mb-5 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+        class="inline-flex items-center gap-1.5 px-4 py-3 mb-5 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-bold rounded-xl transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -37,7 +37,7 @@
                             Email
                         </label>
                         <input type="email" wire:model.blur="email" id="email"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('email') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('email') border-rose-600 @enderror">
                         @error('email')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -53,7 +53,7 @@
                             Telefono
                         </label>
                         <input type="tel" wire:model.blur="phone" id="phone"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('phone') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('phone') border-rose-600 @enderror">
                         @error('phone')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -65,7 +65,7 @@
                             Cod Fiscale *
                         </label>
                         <input type="text" wire:model.blur="tax_id_code" id="tax_id_code"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('tax_id_code') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('tax_id_code') border-rose-600 @enderror">
                         @error('tax_id_code')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -79,7 +79,7 @@
                         Storia Clinica
                     </label>
                     <textarea wire:model.blur="medical_history" id="medical_history" rows="4"
-                        class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('medical_history') border-rose-600 @enderror">{{ old('bio') }}</textarea>
+                        class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('medical_history') border-rose-600 @enderror">{{ old('bio') }}</textarea>
                     @error('medical_history')
                     <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                     @enderror
@@ -92,7 +92,7 @@
                             Città di nascita
                         </label>
                         <input type="text" wire:model.blur="birth_city" id="birth_city"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('birth_city') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('birth_city') border-rose-600 @enderror">
                         @error('birth_city')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -103,7 +103,7 @@
                             Data di nascita
                         </label>
                         <input type="date" wire:model.blur="birth_date" id="birth_date"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('birth_date') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('birth_date') border-rose-600 @enderror">
                         @error('birth_date')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -117,7 +117,7 @@
                             Gruppo sanguigno
                         </label>
                         <input type="text" wire:model.blur="blood_type" id="blood_type" required
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('blood_type') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('blood_type') border-rose-600 @enderror">
                         @error('blood_type')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -128,7 +128,7 @@
                             Allergie
                         </label>
                         <input type="text" wire:model.blur="allergies" id="allergies"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('allergies') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('allergies') border-rose-600 @enderror">
                         @error('allergies')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -148,10 +148,11 @@
                             <input type="file" id="identity_card" wire:model="identity_card"
                                 accept="image/png, image/jpeg, image/webp, image/pdf" class="block w-full text-sm text-gray-600 
                             file:mr-4 file:py-2 file:px-4
-                            file:rounded-md file:border-0
+                            file:rounded-xl file:border-0
                             file:text-sm file:font-semibold
-                            file:bg-indigo-50 file:text-indigo-700
-                            hover:file:bg-indigo-100">
+                            file:transition-colors
+                            file:bg-indigo-100 file:text-indigo-700
+                            hover:file:bg-indigo-200">
 
                             <div wire:loading wire:target="identity_card" class="text-sm text-gray-500">
                                 Caricamento in corso...
@@ -173,11 +174,11 @@
                         <div class="flex flex-col mt-3">
                             <input type="file" id="fiscal_code" wire:model="fiscal_code"
                                 accept="image/png, image/jpeg, image/webp, image/pdf" class="block w-full text-sm text-gray-600 
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-md file:border-0
+                            file:mr-4 file:py-2 file:px-4 file:transition-colors
+                            file:rounded-xl file:border-0
                             file:text-sm file:font-semibold
-                            file:bg-indigo-50 file:text-indigo-700
-                            hover:file:bg-indigo-100">
+                            file:bg-indigo-100 file:text-indigo-700
+                            hover:file:bg-indigo-200">
 
                             <div wire:loading wire:target="fiscal_code" class="text-sm text-gray-500">
                                 Caricamento in corso...

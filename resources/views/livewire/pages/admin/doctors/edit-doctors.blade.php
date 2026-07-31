@@ -1,7 +1,7 @@
 <div>
 
     <button wire:navigate href="/doctors"
-        class="inline-flex items-center gap-1.5 px-4 py-2 mb-5 border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+        class="inline-flex items-center gap-1.5 px-4 py-3 mb-5 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-bold rounded-xl transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -63,7 +63,7 @@
                             <input type="file" id="photo" wire:model="photo" accept="image/png, image/jpeg, image/webp"
                                 class="block w-full text-sm text-gray-600 
                             file:mr-4 file:py-2 file:px-4
-                            file:rounded-md file:border-0
+                            file:rounded-xl file:border-0
                             file:text-sm file:font-semibold
                             file:bg-indigo-50 file:text-indigo-700
                             hover:file:bg-indigo-100">
@@ -98,7 +98,7 @@
                                 Telefono
                             </label>
                             <input type="tel" name="phone" id="phone" wire:model.blur="phone"
-                                class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('phone') border-rose-600 @enderror">
+                                class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('phone') border-rose-600 @enderror">
                             @error('phone')
                             <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                             @enderror
@@ -109,7 +109,7 @@
                                 Città
                             </label>
                             <input type="text" name="city" id="city" wire:model.blur="city"
-                                class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('city') border-rose-600 @enderror">
+                                class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('city') border-rose-600 @enderror">
                             @error('city')
                             <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                             @enderror
@@ -126,7 +126,7 @@
                         Biografia
                     </label>
                     <textarea name="bio" id="bio" rows="4" wire:model.blur="bio"
-                        class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('bio') border-rose-600 @enderror"></textarea>
+                        class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('bio') border-rose-600 @enderror"></textarea>
                     @error('bio')
                     <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                     @enderror
@@ -138,7 +138,7 @@
                             Specializzazione *
                         </label>
                         <input type="text" name="specialty" id="specialty" wire:model.blur="specialty"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('specialty') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('specialty') border-rose-600 @enderror">
                         @error('specialty')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -149,7 +149,7 @@
                             Sub Specializzazione
                         </label>
                         <input type="text" name="sub_specialty" id="sub_specialty" wire:model.blur="sub_specialty"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('sub_specialty') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('sub_specialty') border-rose-600 @enderror">
                         @error('sub_specialty')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
@@ -179,18 +179,18 @@
 
                         <div class="space-y-2 border rounded-xl p-3 border bg-white w-[500px]">
                             @foreach ($days as $key => $label)
-                            <div class="flex items-center justify-between gap-3 ">
+                            <div class="flex items-center justify-between gap-3">
 
                                 <span class="w-24 text-sm text-slate-700">{{ $label }}</span>
 
                                 <div>
                                     <input type="time" wire:model.blur="available_hours.{{ $key }}.0"
-                                        class="px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-slate-500 @error('available_hours.'.$key.'.0') border-rose-600 @enderror">
+                                        class="px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-slate-500 @error('available_hours.'.$key.'.0') border-rose-600 @enderror">
 
                                     <span class="text-sm text-slate-400">→</span>
 
                                     <input type="time" wire:model.blur="available_hours.{{ $key }}.1"
-                                        class="px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-slate-500 @error('available_hours.'.$key.'.1') border-rose-600 @enderror">
+                                        class="px-3 py-1.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-slate-500 @error('available_hours.'.$key.'.1') border-rose-600 @enderror">
 
                                 </div>
                                 @error('available_hours.'.$key.'.0')
@@ -214,7 +214,7 @@
                             Slot visita *
                         </label>
                         <select name="slot_duration" wire:model="slot_duration"
-                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('slot_duration') border-rose-600 @enderror">
+                            class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('slot_duration') border-rose-600 @enderror">
                             <option value="15">15 minuti</option>
                             <option value="20">20 minuti</option>
                             <option value="30" selected>30 minuti</option>
@@ -230,7 +230,7 @@
                 <!-- Is Active -->
                 <div class="flex items-center space-x-3">
                     <input type="checkbox" name="is_active" id="is_active" value="1" wire:model="is_active"
-                        class="rounded border-gray-300">
+                        class="rounded-xl border-gray-300">
 
                     <label for="is_active" class="text-sm font-semibold text-slate-900">
                         Disponibile

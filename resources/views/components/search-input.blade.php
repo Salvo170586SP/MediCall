@@ -19,7 +19,7 @@ $wireModel = $debounce ? "wire:model.live.debounce.{$debounce}" : 'wire:model.li
     </label>
     <input id="{{ $inputId }}" {{ $wireModel }}="{{ $model }}" type="{{ $type }}" placeholder="{{ $placeholder }}" {{
         $attributes->merge([
-    'class' => 'w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-800
+    'class' => 'w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-800
     focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200 ' . $inputClass
     ]) }}
     />

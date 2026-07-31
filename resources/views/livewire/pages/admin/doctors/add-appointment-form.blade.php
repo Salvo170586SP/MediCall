@@ -1,10 +1,10 @@
 <div>
     <x-modal title="Aggiungi appuntamento" confirm-label="addAppointments" :close-on-click="false"
         reset-method="resetForm" close-on-event="appointment-created"
-        confirm-class=" max-w-200 border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+        confirm-class="max-w-200 border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
         <x-slot:trigger>
             <button title="Aggiungi appuntamento"
-                class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                class="inline-flex items-center gap-1.5 px-4 py-3 bg-sky-100 hover:bg-sky-200 text-sky-900 text-sm font-bold rounded-lg transition-colors">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
