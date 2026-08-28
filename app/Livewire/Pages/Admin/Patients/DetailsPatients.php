@@ -9,25 +9,38 @@ use App\Models\HealthParameter;
 use App\Models\HealthThreshold;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class DetailsPatients extends Component
 {
-    use WithPagination, WithCustomPagination;
+    use WithCustomPagination, WithPagination;
 
     public User $patient;
+
     public string $source = '';
+
     public string $type = '';
+
     public string $searchStatus = '';
+
     public string $searchType = '';
+
     public string $severity = '';
+
     public string $created_at = '';
+
     public string $searchDoctor = '';
+
     public string $searchCreatedAt = '';
+
     public string $searchVisit = '';
+
     public string $searchControll = '';
+
     public string $searchTypeDoc = '';
+
     public string $searchNameDoc = '';
 
     public function mount(User $patient)
@@ -39,6 +52,7 @@ class DetailsPatients extends Component
     {
         $this->resetPage();
     }
+
     public function updatingSearchNameDoc(): void
     {
         $this->resetPage();
@@ -94,6 +108,12 @@ class DetailsPatients extends Component
         $this->resetPage();
     }
 
+    #[On('appointment-created')]
+    public function refreshAppointments(): void
+    {
+        $this->resetPage();
+    }
+
     public function deleteParameter(int $parameter_id)
     {
         $parameter = HealthParameter::findOrFail($parameter_id);
@@ -137,76 +157,71 @@ class DetailsPatients extends Component
         $healthThresholdsQuery = $this->patient->healthThresholds()->with(['patient', 'createdBy']);
 
         if ($this->severity) {
-            $healthThresholdsQuery->where('severity', 'like', '%' . $this->severity . '%');
+            $healthThresholdsQuery->where('severity', 'like', '%'.$this->severity.'%');
         }
 
         if ($this->created_at) {
-            $healthThresholdsQuery->where('created_at', 'like', '%' . $this->created_at . '%');
+            $healthThresholdsQuery->where('created_at', 'like', '%'.$this->created_at.'%');
         }
 
         $healthThresholds = $healthThresholdsQuery->paginate(20)->withPath(route('patients.details', $this->patient));
 
-
         $healthParametersQuery = $this->patient->healthParameters()->with('patient');
 
         if ($this->source) {
-            $healthParametersQuery->where('source', 'like', '%' . $this->source . '%');
+            $healthParametersQuery->where('source', 'like', '%'.$this->source.'%');
         }
 
         if ($this->type) {
-            $healthParametersQuery->where('type', 'like', '%' . $this->type . '%');
+            $healthParametersQuery->where('type', 'like', '%'.$this->type.'%');
         }
 
         $healthParameters = $healthParametersQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
-
         $appointmentsQuery = $this->patient->appointmentsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchStatus) {
-            $appointmentsQuery->where('status', 'like', '%' . $this->searchStatus . '%');
+            $appointmentsQuery->where('status', 'like', '%'.$this->searchStatus.'%');
         }
 
         if ($this->searchType) {
-            $appointmentsQuery->where('type', 'like', '%' . $this->searchType . '%');
+            $appointmentsQuery->where('type', 'like', '%'.$this->searchType.'%');
         }
 
         if ($this->searchCreatedAt) {
-            $appointmentsQuery->where('scheduled_at', 'like', '%' . $this->searchCreatedAt . '%');
+            $appointmentsQuery->where('scheduled_at', 'like', '%'.$this->searchCreatedAt.'%');
         }
 
         if ($this->searchDoctor) {
             $appointmentsQuery->whereHas('doctor', function ($query) {
-                $query->where('name', 'like', '%' . $this->searchDoctor . '%');
+                $query->where('name', 'like', '%'.$this->searchDoctor.'%');
             });
         }
 
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
-
         $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchControll) {
-            $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%' . $this->searchControll . '%');
+            $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%'.$this->searchControll.'%');
         }
 
         if ($this->searchVisit) {
-            $medicalRecordsAsPatientQuery->where('visit_date', 'like', '%' . $this->searchVisit . '%');
+            $medicalRecordsAsPatientQuery->where('visit_date', 'like', '%'.$this->searchVisit.'%');
         }
 
         $medicalRecordsAsPatient = $medicalRecordsAsPatientQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
-
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
-
 
         $documentsQuery = $this->patient->documents();
 
         if ($this->searchTypeDoc) {
-            $documentsQuery->where('title', 'like', '%' . $this->searchTypeDoc . '%');
+            $documentsQuery->where('title', 'like', '%'.$this->searchTypeDoc.'%');
         }
 
         if ($this->searchNameDoc) {
-            $documentsQuery->where('original_filename', 'like', '%' . $this->searchNameDoc . '%');
+            $documentsQuery->where('original_filename', 'like', '%'.$this->searchNameDoc.'%');
         }
 
         $documents = $documentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));

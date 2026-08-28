@@ -428,9 +428,13 @@
 
                 {{-- Appuntamenti Tab --}}
                 <div x-show="activeTab ===  'appointments'">
-                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                        Appuntamenti
-                    </h2>
+                    <div class="flex justify-between items-center mb-10">
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                            Appuntamenti
+                        </h2>
+                        <livewire:pages.admin.patients.add-appointment-form :patient="$patient"
+                            :key="'add-appointment-patient-'.$patient->id" />
+                    </div>
 
                     <div class="grid gap-4 lg:grid-cols-4 mb-6">
                         <x-search-input inputClass="bg-white" id="searchDoctor" model="searchDoctor"
