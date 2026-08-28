@@ -60,7 +60,7 @@
 
                             {{-- Nome --}}
                             <div class="flex-1 min-w-0">
-                                <livewire:pages.admin.doctors.code-badge :doctor="$doctor"
+                                <livewire:pages.doctors.code-badge :doctor="$doctor"
                                     :key="'doctor-code-'.$doctor->id" />
                                 <div class="flex flex-wrap items-center gap-2 mb-1">
                                     <h1 class="text-xl font-medium text-gray-900">
@@ -195,7 +195,7 @@
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Appuntamenti Pazienti
                         </h2>
-                        <livewire:pages.admin.doctors.add-appointment-form :doctor="$doctor"
+                        <livewire:pages.doctors.add-appointment-form :doctor="$doctor"
                             :key="'add-appointment-'.$doctor->id" />
                     </div>
 

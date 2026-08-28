@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Patients;
+namespace App\Livewire\Pages\Patients;
 
 use App\Models\User;
 use Livewire\Component;
@@ -45,6 +45,6 @@ class IndexPatients extends Component
             })
             ->paginate(10);
 
-        return view('livewire.pages.admin.patients.index-patients', compact('users_patients'));
+        return view('livewire.pages.patients.index-patients', compact('users_patients'));
     }
 }

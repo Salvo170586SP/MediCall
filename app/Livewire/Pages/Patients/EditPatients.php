@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Patients;
+namespace App\Livewire\Pages\Patients;
 
 use App\Enums\DocumentType;
 use App\Models\Document;
@@ -184,6 +184,6 @@ class EditPatients extends Component
 
     public function render()
     {
-        return view('livewire.pages.admin.patients.edit-patients');
+        return view('livewire.pages.patients.edit-patients');
     }
 }

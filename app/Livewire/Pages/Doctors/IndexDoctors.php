@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Doctors;
+namespace App\Livewire\Pages\Doctors;
 
 use App\Enums\DocumentType;
 use App\Models\Document;
@@ -63,6 +63,6 @@ class IndexDoctors extends Component
             ->paginate(10);
 
 
-        return view('livewire.pages.admin.doctors.index-doctors', compact('users_doctor'));
+        return view('livewire.pages.doctors.index-doctors', compact('users_doctor'));
     }
 }

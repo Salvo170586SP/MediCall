@@ -66,7 +66,7 @@
                         class="flex flex-col sm:flex-row sm:items-start mb-2 bg-white rounded-2xl border border-gray-200 p-4">
                         {{-- Nome --}}
                         <div class="flex-1 min-w-0">
-                            <livewire:pages.admin.patients.code-badge :patient="$patient"
+                            <livewire:pages.patients.code-badge :patient="$patient"
                                 :key="'patient-code-'.$patient->id" />
 
                             <div class="flex flex-wrap items-center gap-2 mb-1">
@@ -432,7 +432,7 @@
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Appuntamenti
                         </h2>
-                        <livewire:pages.admin.patients.add-appointment-form :patient="$patient"
+                        <livewire:pages.patients.add-appointment-form :patient="$patient"
                             :key="'add-appointment-patient-'.$patient->id" />
                     </div>
 

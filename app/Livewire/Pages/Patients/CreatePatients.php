@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Patients;
+namespace App\Livewire\Pages\Patients;
 
 use App\Enums\DocumentType;
 use App\Jobs\GeneratePatientCodeItemJob;
@@ -151,6 +151,6 @@ class CreatePatients extends Component
 
     public function render()
     {
-        return view('livewire.pages.admin.patients.create-patients');
+        return view('livewire.pages.patients.create-patients');
     }
 }

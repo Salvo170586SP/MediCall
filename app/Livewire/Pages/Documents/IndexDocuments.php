@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Documents;
+namespace App\Livewire\Pages\Documents;
 
 use App\Concerns\WithCustomPagination;
 use App\Models\Document;
@@ -94,6 +94,6 @@ class IndexDocuments extends Component
                 ->paginate(8)
             : collect();
 
-        return view('livewire.pages.admin.documents.index-documents', compact('users', 'selectedDocuments'));
+        return view('livewire.pages.documents.index-documents', compact('users', 'selectedDocuments'));
     }
 }

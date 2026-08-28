@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Doctors;
+namespace App\Livewire\Pages\Doctors;
 
 use App\Concerns\WithCustomPagination;
 use App\Models\Appointment;
@@ -102,6 +102,6 @@ class DetailsDoctors extends Component
         $types = config('medicall.appointments.types');
         $statuses = config('medicall.appointments.statuses');
 
-        return view('livewire.pages.admin.doctors.details-doctors', compact('appointments', 'types', 'statuses', 'patients'));
+        return view('livewire.pages.doctors.details-doctors', compact('appointments', 'types', 'statuses', 'patients'));
     }
 }

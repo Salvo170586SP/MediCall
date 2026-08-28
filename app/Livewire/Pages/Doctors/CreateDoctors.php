@@ -1,22 +1,25 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Doctors;
+namespace App\Livewire\Pages\Doctors;
 
 use App\Enums\DocumentType;
+use App\Jobs\GenerateDoctorCodeItemJob;
+use App\Models\DoctorDetail;
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class EditDoctors extends Component
+class CreateDoctors extends Component
 {
     use WithFileUploads;
 
-    public User $doctor;
     public string $name = '';
+    public string $email = '';
     public string $phone = '';
+    public string $license_number = '';
     public string $bio = '';
     public string $specialty = '';
     public string $sub_specialty = '';
@@ -44,37 +47,16 @@ class EditDoctors extends Component
         ]);
     }
 
-
-    public function mount(User $doctor)
-    {
-        $this->doctor = $doctor;
-        $this->name = $doctor->name;
-        $this->phone = $doctor->doctorDetail?->phone ?? '';
-        $this->bio = $doctor->doctorDetail?->bio ?? '';
-        $this->specialty = $doctor->doctorDetail?->specialty ?? '';
-        $this->sub_specialty = $doctor->doctorDetail?->sub_specialty ?? '';
-        $this->city = $doctor->doctorDetail?->city ?? '';
-        $this->slot_duration = $doctor->doctorDetail?->slot_duration ?? 30;
-        $this->is_active = $doctor->doctorDetail?->is_active ?? true;
-
-        $hours = $doctor->doctorDetail?->available_hours ?? [];
-        foreach ($hours as $day => $slots) {
-            $this->available_hours[$day] = array_slice($slots, 0, 2);
-
-            if (count($this->available_hours[$day]) < 2) {
-                $this->available_hours[$day] = ['', ''];
-            }
-        }
-    }
-
     /**
      * Valida e crea un nuovo Doctor (User + DoctorDetail)
      */
-    public function editDoctor(): void
+    public function addDoctor(): void
     {
         $validated = $this->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
             'phone' => 'nullable|string|max:20',
+            'license_number' => 'required|string|max:255|unique:doctor_details,license_number',
             'bio' => 'nullable|string|max:1000',
             'specialty' => 'required|string|max:255',
             'sub_specialty' => 'nullable|string|max:255',
@@ -91,7 +73,6 @@ class EditDoctors extends Component
             'available_hours.sun' => 'array|size:2',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-
 
         // Valida che gli orari siano nel formato corretto e logici
         foreach ($validated['available_hours'] as $day => $hours) {
@@ -115,16 +96,23 @@ class EditDoctors extends Component
             $photoPath = $this->photo->store('doctors/photos', 'public');
         }
 
-        // modifica il Doctor usando una transazione per garantire consistenza
+        // Crea il Doctor usando una transazione per garantire consistenza
         try {
-            DB::transaction(function () use ($validated,  $photoPath) {
+            $doctorId = DB::transaction(function () use ($validated, $photoPath) {
                 // Crea l'utente con ruolo Doctor
-                $this->doctor->update([
+                $user = User::create([
                     'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'password' => Hash::make('password'),
                 ]);
 
+                // Assegna il ruolo Doctor
+                $user->assignRole('Doctor');
+
                 // Crea i dettagli del doctor
-                $this->doctor->doctorDetail->update([
+                DoctorDetail::create([
+                    'doctor_id' => $user->id,
+                    'license_number' => $validated['license_number'],
                     'phone' => $validated['phone'] ?? '',
                     'specialty' => $validated['specialty'],
                     'sub_specialty' => $validated['sub_specialty'] ?? '',
@@ -135,47 +123,37 @@ class EditDoctors extends Component
                     'available_hours' => $validated['available_hours'],
                 ]);
 
-
                 // Salva il riferimento della foto nella tabella documents,
                 // collegata polimorficamente allo User (il dottore)
                 if ($photoPath) {
-                    $existing = Document::where('documentable_id', $this->doctor->id)
-                        ->where('documentable_type', User::class)
-                        ->where('type', DocumentType::Photo)
-                        ->first();
-
-                    if ($existing && $existing->file_path && Storage::disk('public')->exists($existing->file_path)) {
-                        Storage::disk('public')->delete($existing->file_path);
-                    }
-
-                    Document::updateOrCreate(
-                        [
-                            'documentable_id' => $this->doctor->id,
-                            'documentable_type' => User::class,
-                            'type' => DocumentType::Photo,
-                        ],
-                        [
-                            'uploaded_by' => auth()->id() ?? $this->doctor->id,
-                            'title' => 'Foto profilo',
-                            'file_path' => $photoPath,
-                            'original_filename' => $this->photo->getClientOriginalName(),
-                            'mime_type' => $this->photo->getMimeType(),
-                            'file_size' => $this->photo->getSize(),
-                            'is_verified' => true,
-                        ]
-                    );
+                    Document::create([
+                        'documentable_id' => $user->id,
+                        'documentable_type' => User::class,
+                        'uploaded_by' => auth()->id() ?? $user->id, // chi ha caricato (admin loggato)
+                        'type' => DocumentType::Photo,
+                        'title' => 'Foto profilo',
+                        'file_path' => $photoPath,
+                        'original_filename' => $this->photo->getClientOriginalName(),
+                        'mime_type' => $this->photo->getMimeType(),
+                        'file_size' => $this->photo->getSize(),
+                        'is_verified' => true, // caricata direttamente da admin, quindi già verificata
+                    ]);
                 }
+
+                return $user->id;
             });
 
-            session()->flash('success', 'Elemento modificato con successo!');
-            $this->redirect(route('doctors'), navigate: true);
+            GenerateDoctorCodeItemJob::dispatch($doctorId);
+
+            session()->flash('success', 'Elemento creato con successo!');
+            $this->redirect(route('doctors.details', $doctorId), navigate: true);
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la modifica: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la creazione: ' . $e->getMessage());
         }
     }
 
     public function render()
     {
-        return view('livewire.pages.admin.doctors.edit-doctors');
+        return view('livewire.pages.doctors.create-doctors');
     }
 }

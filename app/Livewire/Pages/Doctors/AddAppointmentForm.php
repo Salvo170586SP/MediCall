@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Doctors;
+namespace App\Livewire\Pages\Doctors;
 
 use App\Models\Appointment;
 use App\Models\User;
@@ -335,7 +335,7 @@ class AddAppointmentForm extends Component
 
     public function render()
     {
-        return view('livewire.pages.admin.doctors.add-appointment-form', [
+        return view('livewire.pages.doctors.add-appointment-form', [
             'types' => config('medicall.appointments.types', []),
             'statuses' => config('medicall.appointments.statuses', []),
         ]);

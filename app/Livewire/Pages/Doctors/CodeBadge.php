@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Admin\Doctors;
+namespace App\Livewire\Pages\Doctors;
 
 use App\Models\User;
 use Livewire\Component;
@@ -27,6 +27,6 @@ class CodeBadge extends Component
 
     public function render()
     {
-        return view('livewire.pages.admin.doctors.code-badge');
+        return view('livewire.pages.doctors.code-badge');
     }
 }
