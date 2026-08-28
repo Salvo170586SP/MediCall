@@ -3,8 +3,10 @@
 namespace App\Livewire\Pages\Documents;
 
 use App\Concerns\WithCustomPagination;
+use App\Models\Appointment;
 use App\Models\Document;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -43,7 +45,23 @@ class IndexDocuments extends Component
 
     public function deleteDoc(int $document_id): void
     {
-        $document = Document::findOrFail($document_id);
+        $documentQuery = Document::query()->whereKey($document_id);
+
+        /** @var User|null $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        if ($authenticatedUser?->hasRole('Doctor')) {
+            $patientIds = Appointment::query()
+                ->where('doctor_id', $authenticatedUser->getKey())
+                ->distinct()
+                ->pluck('guest_id');
+
+            $documentQuery
+                ->where('documentable_type', User::class)
+                ->whereIn('documentable_id', $patientIds);
+        }
+
+        $document = $documentQuery->firstOrFail();
 
         if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
             Storage::disk('public')->delete($document->file_path);
@@ -56,6 +74,20 @@ class IndexDocuments extends Component
     {
         $usersQuery = User::query()
             ->select(['id', 'name']);
+
+        $patientIds = collect();
+
+        /** @var User|null $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        if ($authenticatedUser?->hasRole('Doctor')) {
+            $patientIds = Appointment::query()
+                ->where('doctor_id', $authenticatedUser->getKey())
+                ->distinct()
+                ->pluck('guest_id');
+
+            $usersQuery->whereKey($patientIds);
+        }
 
         if ($this->searchUser) {
             $usersQuery->where('name', 'like', '%'.$this->searchUser.'%');
@@ -80,6 +112,9 @@ class IndexDocuments extends Component
                 ])
                 ->where('documentable_id', $this->selectedUserId)
                 ->where('documentable_type', User::class)
+                ->when($authenticatedUser?->hasRole('Doctor'), function ($query) use ($patientIds) {
+                    $query->whereIn('documentable_id', $patientIds);
+                })
                 ->with(['uploadedBy' => fn ($query) => $query->select(['id', 'name'])])
                 ->when($this->search, function ($query) {
                     $query->where(function ($documentQuery) {

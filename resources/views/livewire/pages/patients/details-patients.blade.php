@@ -432,8 +432,11 @@
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
                             Appuntamenti
                         </h2>
+
+                        @role('Admin')
                         <livewire:pages.patients.add-appointment-form :patient="$patient"
                             :key="'add-appointment-patient-'.$patient->id" />
+                        @endrole
                     </div>
 
                     <div class="grid gap-4 lg:grid-cols-4 mb-6">

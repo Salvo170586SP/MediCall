@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Doctors;
 use App\Enums\DocumentType;
 use App\Models\Document;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -15,14 +16,23 @@ class EditDoctors extends Component
     use WithFileUploads;
 
     public User $doctor;
+
     public string $name = '';
+
     public string $phone = '';
+
     public string $bio = '';
+
     public string $specialty = '';
+
     public string $sub_specialty = '';
+
     public string $city = '';
+
     public int $slot_duration = 30;
+
     public bool $is_active = true;
+
     public array $available_hours = [
         'mon' => ['', ''],
         'tue' => ['', ''],
@@ -32,7 +42,8 @@ class EditDoctors extends Component
         'sat' => ['', ''],
         'sun' => ['', ''],
     ];
-    public  $photo = null;
+
+    public $photo = null;
 
     /**
      * Validazione "live" della foto appena selezionata.
@@ -43,7 +54,6 @@ class EditDoctors extends Component
             'photo' => 'image|mimes:jpg,jpeg,png,webp|max:2048', // max 2MB
         ]);
     }
-
 
     public function mount(User $doctor)
     {
@@ -92,17 +102,18 @@ class EditDoctors extends Component
             'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-
         // Valida che gli orari siano nel formato corretto e logici
         foreach ($validated['available_hours'] as $day => $hours) {
-            if (!empty($hours[0]) || !empty($hours[1])) {
+            if (! empty($hours[0]) || ! empty($hours[1])) {
                 if (empty($hours[0]) || empty($hours[1])) {
-                    $this->addError("available_hours.{$day}", "Orario di apertura e chiusura obbligatori se inseriti.");
+                    $this->addError("available_hours.{$day}", 'Orario di apertura e chiusura obbligatori se inseriti.');
+
                     return;
                 }
 
                 if ($hours[0] >= $hours[1]) {
                     $this->addError("available_hours.{$day}", "L'orario di apertura deve essere prima di quello di chiusura.");
+
                     return;
                 }
             }
@@ -117,7 +128,7 @@ class EditDoctors extends Component
 
         // modifica il Doctor usando una transazione per garantire consistenza
         try {
-            DB::transaction(function () use ($validated,  $photoPath) {
+            DB::transaction(function () use ($validated, $photoPath) {
                 // Crea l'utente con ruolo Doctor
                 $this->doctor->update([
                     'name' => $validated['name'],
@@ -134,7 +145,6 @@ class EditDoctors extends Component
                     'is_active' => $validated['is_active'],
                     'available_hours' => $validated['available_hours'],
                 ]);
-
 
                 // Salva il riferimento della foto nella tabella documents,
                 // collegata polimorficamente allo User (il dottore)
@@ -168,9 +178,14 @@ class EditDoctors extends Component
             });
 
             session()->flash('success', 'Elemento modificato con successo!');
-            $this->redirect(route('doctors'), navigate: true);
+            $authenticatedUser = Auth::user();
+            $redirectRoute = $authenticatedUser instanceof User && $authenticatedUser->hasRole('Doctor')
+                ? 'doctor.profile'
+                : 'doctors';
+
+            $this->redirect(route($redirectRoute), navigate: true);
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la modifica: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la modifica: '.$e->getMessage());
         }
     }
 

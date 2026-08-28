@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\Doctors\CreateDoctors;
 use App\Livewire\Pages\Doctors\DetailsDoctors;
 use App\Livewire\Pages\Doctors\EditDoctors;
@@ -9,7 +10,6 @@ use App\Livewire\Pages\Patients\CreatePatients;
 use App\Livewire\Pages\Patients\DetailsPatients;
 use App\Livewire\Pages\Patients\EditPatients;
 use App\Livewire\Pages\Patients\IndexPatients;
-use App\Livewire\Pages\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -17,10 +17,15 @@ Route::view('/', 'welcome')->name('home');
 Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
-    Route::get('/doctors', IndexDoctors::class)->name('doctors');
-    Route::get('/doctors/details/{doctor}', DetailsDoctors::class)->name('doctors.details');
-    Route::get('/doctors/create', CreateDoctors::class)->name('doctors.create');
-    Route::get('/doctors/edit/{doctor}', EditDoctors::class)->name('doctors.edit');
+    Route::get('/doctor/profile', DetailsDoctors::class)->name('doctor.profile');
+    Route::get('/doctor/edit/{doctor}', EditDoctors::class)->name('doctor.edit');
+
+    Route::middleware('role:Admin')->group(function () {
+        Route::get('/doctors', IndexDoctors::class)->name('doctors');
+        Route::get('/doctors/details/{doctor}', DetailsDoctors::class)->name('doctors.details');
+        Route::get('/doctors/create', CreateDoctors::class)->name('doctors.create');
+        Route::get('/doctors/edit/{doctor}', EditDoctors::class)->name('doctors.edit');
+    });
 
     Route::get('/documents', IndexDocuments::class)->name('documents');
 

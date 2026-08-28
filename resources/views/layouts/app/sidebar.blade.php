@@ -19,10 +19,20 @@
 
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Utenti')" class="grid mb-5">
+                @role('Admin')
                 <flux:sidebar.item icon="user-plus" :href="route('doctors')" :current="request()->routeIs('doctors')"
                     wire:navigate>
                     {{ __('Dottori') }}
                 </flux:sidebar.item>
+                @endrole
+
+                @role('Doctor')
+                <flux:sidebar.item icon="user" :href="route('doctor.profile')"
+                    :current="request()->routeIs('doctor.profile')" wire:navigate>
+                    {{ __('Il mio profilo') }}
+                </flux:sidebar.item>
+                @endrole
+                
                 <flux:sidebar.item icon="user-plus" :href="route('patients')" :current="request()->routeIs('patients')"
                     wire:navigate>
                     {{ __('Pazienti') }}

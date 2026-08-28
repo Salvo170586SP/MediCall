@@ -49,11 +49,20 @@
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
 
+                @role('Admin')
                 <flux:sidebar.item wire:navigate :href="route('doctors')" icon="users"
                     :current="request()->routeIs('doctors')">
                     {{ __('Dottori') }}
                 </flux:sidebar.item>
-
+                @endrole
+                
+                @role('Doctor')
+                <flux:sidebar.item icon="user" :href="route('doctor.profile')"
+                    :current="request()->routeIs('doctor.profile')" wire:navigate>
+                    {{ __('Il mio profilo') }}
+                </flux:sidebar.item>
+                @endrole
+                
                 <flux:sidebar.item wire:navigate :href="route('patients')" icon="users"
                     :current="request()->routeIs('patients')">
                     {{ __('Pazienti') }}
@@ -73,7 +82,7 @@
     </flux:sidebar>
 
 
- 
+
     {{ $slot }}
 
     @persist('toast')

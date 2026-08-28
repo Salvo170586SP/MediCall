@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Pages\Patients;
 
+use App\Models\Appointment;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,7 +13,6 @@ class IndexPatients extends Component
     use WithPagination;
 
     public string $search = '';
-
 
     public function updatingSearch(): void
     {
@@ -29,21 +30,34 @@ class IndexPatients extends Component
 
             session()->flash('success', 'Elemento eliminato con successo!');
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la eliminazione: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la eliminazione: '.$e->getMessage());
         }
     }
 
     public function render()
     {
-        $users_patients = User::role('Guest')
+        $patientsQuery = User::role('Guest')
             ->with('guestDetail')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('email', 'like', '%'.$this->search.'%');
                 });
-            })
-            ->paginate(10);
+            });
+
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        if ($authenticatedUser->hasRole('Doctor')) {
+            $patientIds = Appointment::query()
+                ->where('doctor_id', $authenticatedUser->getKey())
+                ->distinct()
+                ->pluck('guest_id');
+
+            $patientsQuery->whereKey($patientIds);
+        }
+
+        $users_patients = $patientsQuery->paginate(10);
 
         return view('livewire.pages.patients.index-patients', compact('users_patients'));
     }
