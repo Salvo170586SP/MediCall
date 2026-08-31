@@ -5,8 +5,7 @@ use Spatie\Permission\Models\Role;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-test('permette a un paziente guest di fare login', function () {
-    // 1. PREPARO: creo un admin nel database di test
+test('permette a un paziente guest di fare login e resta nella welcome', function () {
     Role::create(['name' => 'Guest']);
 
     $guest = User::factory()->create([
@@ -15,12 +14,12 @@ test('permette a un paziente guest di fare login', function () {
     ]);
     $guest->assignRole('Guest');
 
-    // 2. ESEGUO: testo il componente Livewire come farebbe l'utente
     $response = $this->post('/login', [
         'email' => 'guest@medicall.test',
         'password' => 'password123',
     ]);
 
-    // 3. VERIFICO
+    $response->assertRedirect(route('home'));
     $this->assertAuthenticatedAs($guest);
+    $this->assertTrue($guest->fresh()->hasRole('Guest'));
 });

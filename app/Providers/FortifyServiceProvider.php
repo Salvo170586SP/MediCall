@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -18,7 +20,43 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(LoginResponseContract::class, function () {
+            return new class implements LoginResponseContract {
+                public function toResponse($request)
+                {
+                    if ($request->wantsJson()) {
+                        return response()->json(['two_factor' => false]);
+                    }
+
+                    $user = $request->user();
+
+                    if ($user && $user->hasRole('Guest')) {
+                        return redirect()->intended(route('home'));
+                    }
+
+                    return redirect()->intended(Fortify::redirects('login'));
+                }
+            };
+        });
+
+        $this->app->singleton(RegisterResponseContract::class, function () {
+            return new class implements RegisterResponseContract {
+                public function toResponse($request)
+                {
+                    if ($request->wantsJson()) {
+                        return response()->json('', 201);
+                    }
+
+                    $user = $request->user();
+
+                    if ($user && $user->hasRole('Guest')) {
+                        return redirect()->intended(route('home'));
+                    }
+
+                    return redirect()->intended(Fortify::redirects('register'));
+                }
+            };
+        });
     }
 
     /**

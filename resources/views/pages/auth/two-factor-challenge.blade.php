@@ -32,14 +32,14 @@
             <div x-show="!showRecoveryInput">
                 <x-auth-header
                     :title="__('Authentication code')"
-                    :description="__('Enter the authentication code provided by your authenticator application.')"
+                    :description="__('Inserisci il codice di autenticazione fornito dalla tua applicazione di autenticazione.')"
                 />
             </div>
 
             <div x-show="showRecoveryInput">
                 <x-auth-header
                     :title="__('Recovery code')"
-                    :description="__('Please confirm access to your account by entering one of your emergency recovery codes.')"
+                    :description="__('Conferma l\'accesso al tuo account inserendo uno dei tuoi codici di recupero di emergenza.')"
                 />
             </div>
 
@@ -84,15 +84,15 @@
                         type="submit"
                         class="w-full"
                     >
-                        {{ __('Continue') }}
+                        {{ __('Continua') }}
                     </flux:button>
                 </div>
 
                 <div class="mt-5 space-x-0.5 text-sm leading-5 text-center">
-                    <span class="opacity-50">{{ __('or you can') }}</span>
+                    <span class="opacity-50">{{ __('oppure puoi') }}</span>
                     <div class="inline font-medium underline cursor-pointer opacity-80">
-                        <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('login using a recovery code') }}</span>
-                        <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('login using an authentication code') }}</span>
+                        <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('accedi utilizzando un codice di recupero') }}</span>
+                        <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('accedi tramite un codice di autenticazione') }}</span>
                     </div>
                 </div>
             </form>
