@@ -156,6 +156,15 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - You can use Alpine.js for client-side interactions instead of JavaScript frameworks.
 - Keep state server-side so the UI reflects it. Validate and authorize in actions as you would in HTTP requests.
 
+=== specialized agents ===
+
+Use the specialized workspace agents below when a task benefits from focused expertise. They inherit this file, so each agent must read these project guidelines before making changes.
+
+- Front-end work, React.js, Vue.js, Livewire, Flux UI, Tailwind CSS, accessibility, responsive layouts and Vite: [.github/agents/frontend-developer.agent.md](.github/agents/frontend-developer.agent.md)
+- Back-end work, PHP, database schemas, Eloquent, data handling, security, queues and performance: [.github/agents/backend-developer.agent.md](.github/agents/backend-developer.agent.md)
+
+Choose one specialist for a focused task. For work spanning both layers, use both agents in sequence and keep shared contracts aligned through this file and the existing tests.
+
 === pint/core rules ===
 
 # Laravel Pint Code Formatter
