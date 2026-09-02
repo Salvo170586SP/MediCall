@@ -12,19 +12,32 @@
         <flux:sidebar.toggle class="lg:hidden mr-2" icon="bars-2" inset="left" />
 
         <div class="shrink-0 flex items-center justify-center gap-3">
-            <svg class="h-10 w-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.452a6 6 0 00-5.011 1.595m7.988 2.999a8 8 0 01-7.998-8m0 0a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8m0 0l2.5 2.5m0 0l2.5-2.5" />
-            </svg>
+            <x-icon.medicall-ico />
             <div>
                 <h2 class="text-sm font-bold text-slate-900">MediCall</h2>
                 <p class="text-xs text-slate-500">Gestione sanitaria</p>
             </div>
         </div>
 
+
         <flux:spacer />
 
+        <flux:dropdown position="bottom" align="start">
+            @role('Guest')
+            <form method="POST" action="{{ route('logout') }}" class="w-full">
+                @csrf
+                <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
+                    class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                    data-test="logout-button">
+                    {{ __('Log out') }}
+                </flux:menu.item>
+            </form>
+            @endrole
+        </flux:dropdown>
+
+        @role(['Admin','Doctor'])
         <x-desktop-user-menu />
+        @endrole
     </flux:header>
 
 
@@ -35,11 +48,15 @@
     <flux:sidebar collapsible="mobile" sticky
         class="lg:hidden border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
-            <div class="shrink-0 flex items-center justify-center">
-                <figure class="w-[45px] border rounded-full overflow-hidden shadow me-3">
-                    <img class="w-full object-fit" src="{{asset('assets/imgs/logo.png')}}" alt="logo">
-                </figure>
-                <h2 class="font-bold text-sky-800">MediCall</h2>
+            <div class="shrink-0 flex items-center justify-center gap-3">
+                <svg class="h-10 w-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.452a6 6 0 00-5.011 1.595m7.988 2.999a8 8 0 01-7.998-8m0 0a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8m0 0l2.5 2.5m0 0l2.5-2.5" />
+                </svg>
+                <div>
+                    <h2 class="text-sm font-bold text-slate-900">MediCall</h2>
+                    <p class="text-xs text-slate-500">Gestione sanitaria</p>
+                </div>
             </div>
 
             <flux:sidebar.collapse

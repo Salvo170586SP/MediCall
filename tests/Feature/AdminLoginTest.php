@@ -22,5 +22,6 @@ test('permette a un admin di fare login', function () {
     ]);
 
     // 3. VERIFICO
+    $response->assertRedirect(route('dashboard'));
     $this->assertAuthenticatedAs($admin);
 });

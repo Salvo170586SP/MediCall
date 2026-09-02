@@ -9,17 +9,11 @@
     <div class="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
         <div class="flex w-full max-w-md flex-col gap-6">
             <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-               {{--  <span class="flex h-9 w-9 items-center justify-center rounded-md"> --}}
-                    <svg class="h-10 w-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.452a6 6 0 00-5.011 1.595m7.988 2.999a8 8 0 01-7.998-8m0 0a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8m0 0l2.5 2.5m0 0l2.5-2.5" />
-                    </svg>
-                    <div>
-                        <h2 class="text-sm font-bold text-slate-900">MediCall</h2>
-                        <p class="text-xs text-slate-500">Gestione sanitaria</p>
-                    </div>
-                {{-- </span> --}}
-
+                <x-icon.medicall-ico />
+                <div>
+                    <h2 class="text-sm font-bold text-slate-900">MediCall</h2>
+                    <p class="text-xs text-slate-500">Gestione sanitaria</p>
+                </div>
                 <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
             </a>
 

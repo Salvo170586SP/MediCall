@@ -31,10 +31,10 @@ class FortifyServiceProvider extends ServiceProvider
                     $user = $request->user();
 
                     if ($user && $user->hasRole('Guest')) {
-                        return redirect()->intended(route('home'));
+                        return redirect()->intended(route('guest.dashboard'));
                     }
 
-                    return redirect()->intended(Fortify::redirects('login'));
+                    return redirect()->intended(route('dashboard'));
                 }
             };
         });
@@ -50,7 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
                     $user = $request->user();
 
                     if ($user && $user->hasRole('Guest')) {
-                        return redirect()->intended(route('home'));
+                        return redirect()->intended(route('guest.dashboard'));
                     }
 
                     return redirect()->intended(Fortify::redirects('register'));

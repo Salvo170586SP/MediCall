@@ -6,6 +6,7 @@ use App\Livewire\Pages\Doctors\DetailsDoctors;
 use App\Livewire\Pages\Doctors\EditDoctors;
 use App\Livewire\Pages\Doctors\IndexDoctors;
 use App\Livewire\Pages\Documents\IndexDocuments;
+use App\Livewire\Pages\Guest\GuestDashboard;
 use App\Livewire\Pages\Patients\CreatePatients;
 use App\Livewire\Pages\Patients\DetailsPatients;
 use App\Livewire\Pages\Patients\EditPatients;
@@ -35,4 +36,8 @@ Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () 
     Route::get('/patients/edit/{patient}', EditPatients::class)->name('patients.edit');
 });
 
-require __DIR__.'/settings.php';
+Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
+    Route::get('/guest/dashboard', GuestDashboard::class)->name('guest.dashboard');
+});
+
+require __DIR__ . '/settings.php';

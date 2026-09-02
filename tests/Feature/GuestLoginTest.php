@@ -5,7 +5,7 @@ use Spatie\Permission\Models\Role;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-test('permette a un paziente guest di fare login e resta nella welcome', function () {
+test('reindirizza un paziente guest alla dashboard guest dopo il login', function () {
     Role::create(['name' => 'Guest']);
 
     $guest = User::factory()->create([
@@ -19,7 +19,7 @@ test('permette a un paziente guest di fare login e resta nella welcome', functio
         'password' => 'password123',
     ]);
 
-    $response->assertRedirect(route('home'));
+    $response->assertRedirect(route('guest.dashboard'));
     $this->assertAuthenticatedAs($guest);
     $this->assertTrue($guest->fresh()->hasRole('Guest'));
 });

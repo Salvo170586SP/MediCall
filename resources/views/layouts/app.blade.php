@@ -1,6 +1,6 @@
 <x-layouts::app.header :title="$title ?? null">
     <flux:main>
-
+        @role(['Admin','Doctor'])
         <nav class="max-lg:hidden mb-5 flex justify-center items-center w-full gap-5 text-sm">
             <button wire:navigate
                 class="flex items-center justify-between cursor-pointer font-bold text-[15px] px-4 py-1 rounded-lg {{request()->routeIs('dashboard') ? 'bg-sky-100 text-sky-800' : ' bg-zinc-100 text-zinc-900 hover:bg-zinc-200'}}"
@@ -76,7 +76,8 @@
                 </div>
             </button>
         </nav>
-
+        @endrole
+        
         {{ $slot }}
     </flux:main>
 </x-layouts::app.header>

@@ -22,5 +22,6 @@ test('permette a un dottore di fare login', function () {
     ]);
 
     // 3. VERIFICO
+    $response->assertRedirect(route('dashboard'));
     $this->assertAuthenticatedAs($doctor);
 });

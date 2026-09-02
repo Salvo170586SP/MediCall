@@ -11,11 +11,9 @@
         <div
             class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
             <div class="absolute inset-0 bg-neutral-900"></div>
-            <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-2 font-medium" wire:navigate>
-                <svg class="h-10 w-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.452a6 6 0 00-5.011 1.595m7.988 2.999a8 8 0 01-7.998-8m0 0a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8m0 0l2.5 2.5m0 0l2.5-2.5" />
-                </svg>
+            <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-2 font-medium"
+                wire:navigate>
+                <x-icon.medicall-ico />
                 <div class="text-center">
                     <h2 class="text-xl font-bold text-slate-900">MediCall</h2>
                     <p class="text-md text-slate-500">Gestione sanitaria</p>

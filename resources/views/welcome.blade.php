@@ -20,10 +20,7 @@
     <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
         <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
             <div class="flex items-center gap-2">
-                <svg class="h-8 w-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.452a6 6 0 00-5.011 1.595m7.988 2.999a8 8 0 01-7.998-8m0 0a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8m0 0l2.5 2.5m0 0l2.5-2.5" />
-                </svg>
+                <x-icon.medicall-ico />
                 <div>
                     <p class="text-sm font-bold text-slate-900">MediCall</p>
                     <p class="text-xs text-slate-500">Gestione Sanitaria</p>
@@ -41,6 +38,10 @@
                         Esci
                     </button>
                 </form>
+                <a href="{{ route('guest.dashboard') }}"
+                    class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700">
+                    Dashboard
+                </a>
                 @else
                 <a href="{{ route('dashboard') }}"
                     class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700">
@@ -65,30 +66,6 @@
     </header>
 
     <main class="w-full">
-        <!-- Guest Welcome Banner -->
-        @auth
-        @if (auth()->user()->hasRole('Guest'))
-        <section class="border-b border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
-            <div class="mx-auto max-w-7xl">
-                <div class="flex items-start gap-4">
-                    <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                        <svg class="h-6 w-6 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <h2 class="text-xl font-bold text-slate-900">Benvenuto, {{ auth()->user()->name }}</h2>
-                        <p class="mt-1 text-slate-600">La tua area personale: consulta i tuoi appuntamenti, cartelle
-                            cliniche e comunicazioni direttamente dalla home di MediCall.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        @endif
-        @endauth
-
         <!-- Hero Section -->
         <section class="px-6 py-16 lg:px-8">
             <div class="mx-auto max-w-7xl">
@@ -345,7 +322,7 @@
         </section>
 
         <!-- CTA Section -->
-        @guest
+
         <section class="border-t border-slate-200 bg-slate-900 px-6 py-16 text-white lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
                 <h2 class="text-3xl font-bold">Pronto a Trasformare la Tua Pratica?</h2>
@@ -371,7 +348,7 @@
                 </div>
             </div>
         </section>
-        @endguest
+
 
         <!-- Footer -->
         <footer class="border-t border-slate-200 bg-slate-50 px-6 py-8 lg:px-8">
