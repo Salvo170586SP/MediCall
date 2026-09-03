@@ -11,7 +11,8 @@
             </div>
             <div class="flex-1">
                 <h2 class="text-xl font-bold text-slate-900">Benvenuto, {{ auth()->user()->name }}</h2>
-                <p class="mt-1 text-slate-600 text-xs lg:text-base">La tua area personale: consulta i tuoi appuntamenti, cartelle
+                <p class="mt-1 text-slate-600 text-xs lg:text-base">La tua area personale: consulta i tuoi appuntamenti,
+                    cartelle
                     cliniche e comunicazioni direttamente dalla home di MediCall.</p>
             </div>
             <a href=""
@@ -27,11 +28,15 @@
         <div class="flex items-start gap-4 border-t border-gray-200 pt-5 mt-5">
 
             <div class="text-sm">
-                <p class="mt-1 text-slate-600">Utente: <span class="font-bold">#{{ auth()->user()->guestDetail->code_item }}</span> </p>
-                <p class="mt-1 text-slate-600">Città e data di nascita: <span class="font-bold">{{ auth()->user()->guestDetail->birth_city.',
-                    '.auth()->user()->guestDetail->formatDate(auth()->user()->guestDetail->birth_date) }}</span></p>
-                <p class="mt-1 text-slate-600">Cod Fiscale: <span class="font-bold">{{ auth()->user()->guestDetail->tax_id_code }}</span></p>
-                <p class="mt-1 text-slate-600">Telefono: <span class="font-bold">{{ auth()->user()->guestDetail->phone }}</span></p>
+                <p class="mt-1 text-slate-600">Utente: <span class="font-bold">#{{
+                        auth()->user()->guestDetail->code_item }}</span> </p>
+                <p class="mt-1 text-slate-600">Città e data di nascita: <span class="font-bold">{{
+                        auth()->user()->guestDetail->birth_city.',
+                        '.auth()->user()->guestDetail->formatDate(auth()->user()->guestDetail->birth_date) }}</span></p>
+                <p class="mt-1 text-slate-600">Cod Fiscale: <span class="font-bold">{{
+                        auth()->user()->guestDetail->tax_id_code }}</span></p>
+                <p class="mt-1 text-slate-600">Telefono: <span class="font-bold">{{ auth()->user()->guestDetail->phone
+                        }}</span></p>
             </div>
 
         </div>
@@ -137,32 +142,37 @@
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
             <div class="flex items-center">
                 <div class="w-12 h-12 bg-sky-100 border border-gray-200 rounded-full flex items-center justify-center"">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6  text-sky-600">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                    <svg xmlns=" http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6  text-sky-600">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                     </svg>
                 </div>
-                <h2 class="ms-3 text-xl font-bold text-slate-900">I tuoi parametri</h2>
+                <div>
+                    <h2 class="ms-3 text-xl font-bold text-slate-900">I tuoi parametri</h2>
+                    <p class="ms-3 text-sm font-semibold text-sky-800">
+                        {{ $parameters->count() }} parametri misurati
+                    </p>
+                </div>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 rounded-full text-sm  border border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
+                <button wire:navigate href="/guest/parameters/create"
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                     Aggiungi
-                </a>
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 text-sm  rounded-full border border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
+                </button>
+                <button wire:navigate href="/guest/parameters"
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    Storico</a>
+                    Storico</button>
             </div>
         </section>
 

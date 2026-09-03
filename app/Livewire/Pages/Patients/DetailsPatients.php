@@ -154,6 +154,7 @@ class DetailsPatients extends Component
 
     public function render()
     {
+        // Thresholds
         $healthThresholdsQuery = $this->patient->healthThresholds()->with(['patient', 'createdBy']);
 
         if ($this->severity) {
@@ -166,6 +167,7 @@ class DetailsPatients extends Component
 
         $healthThresholds = $healthThresholdsQuery->paginate(20)->withPath(route('patients.details', $this->patient));
 
+        // Parameters
         $healthParametersQuery = $this->patient->healthParameters()->with('patient');
 
         if ($this->source) {
@@ -178,6 +180,7 @@ class DetailsPatients extends Component
 
         $healthParameters = $healthParametersQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
+        // Appointments
         $appointmentsQuery = $this->patient->appointmentsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchStatus) {
@@ -200,6 +203,7 @@ class DetailsPatients extends Component
 
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
+        // MedicalRecordsAsPatient
         $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchControll) {
@@ -214,6 +218,7 @@ class DetailsPatients extends Component
 
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
+        // Documents
         $documentsQuery = $this->patient->documents();
 
         if ($this->searchTypeDoc) {
@@ -226,6 +231,7 @@ class DetailsPatients extends Component
 
         $documents = $documentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
+        // configs
         $severities = config('medicall.defaultThresholds.severities');
         $statuses = config('medicall.appointments.statuses');
         $types = config('medicall.appointments.types');

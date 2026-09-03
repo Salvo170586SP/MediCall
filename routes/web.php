@@ -7,6 +7,9 @@ use App\Livewire\Pages\Doctors\EditDoctors;
 use App\Livewire\Pages\Doctors\IndexDoctors;
 use App\Livewire\Pages\Documents\IndexDocuments;
 use App\Livewire\Pages\Guest\GuestDashboard;
+use App\Livewire\Pages\Guest\Parameters\CreateParameters;
+use App\Livewire\Pages\Guest\Parameters\EditParameter;
+use App\Livewire\Pages\Guest\Parameters\IndexParameters;
 use App\Livewire\Pages\Patients\CreatePatients;
 use App\Livewire\Pages\Patients\DetailsPatients;
 use App\Livewire\Pages\Patients\EditPatients;
@@ -38,6 +41,10 @@ Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () 
 
 Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
     Route::get('/guest/dashboard', GuestDashboard::class)->name('guest.dashboard');
+
+    Route::get('/guest/parameters', IndexParameters::class)->name('guest.parameters');
+    Route::get('/guest/parameters/create', CreateParameters::class)->name('guest.parameters.create');
+    Route::get('/guest/parameters/{parameter}/edit', EditParameter::class)->name('guest.parameters.edit');
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

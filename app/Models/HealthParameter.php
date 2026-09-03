@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Query\Builder;
 
 #[Fillable(['guest_id', 'type', 'value', 'unit', 'measured_at', 'source', 'device_id', 'notes'])]
 class HealthParameter extends Model
