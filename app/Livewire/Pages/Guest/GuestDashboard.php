@@ -10,6 +10,7 @@ use Livewire\Component;
 class GuestDashboard extends Component
 {
     #[On('allergies-updated')]
+    #[On('medical-history-updated')]
     public function render()
     {
         /** @var User $authenticatedUser */
@@ -20,7 +21,8 @@ class GuestDashboard extends Component
             ->get();
 
         $allergies = $authenticatedUser->guestDetail->allergies;
+        $medical_history = $authenticatedUser->guestDetail->medical_history;
 
-        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies'));
+        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history'));
     }
 }

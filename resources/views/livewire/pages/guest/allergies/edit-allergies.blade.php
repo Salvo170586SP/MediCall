@@ -1,8 +1,8 @@
 <div>
     <x-modal title="Modifica allergie" confirm-label="Edit allergies" :close-on-click="false"
-        close-on-event="allergies-updated" reset-method="resetAllergiesForm" wire:key="editAllergies-[{{$user->id}}]">
+        close-on-event="allergies-updated" reset-method="resetAllergiesForm" wire:key="editAllergies-[{{$user->id}}-{{$allergies}}]">
         <x-slot:trigger>
-            <button title="Allergies"
+            <button 
                 class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-5">
@@ -15,7 +15,7 @@
 
         <x-slot:body>
             <textarea id="allergies" wire:model="allergies" cols="50" placeholder="es: latte, medicinale..."
-                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm capitalize text-slate-600 @error('allergies') border-red-500 @enderror"></textarea>
+                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600 @error('allergies') border-red-500 @enderror"></textarea>
             @error('allergies')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -25,7 +25,7 @@
         </x-slot:body>
 
         <x-slot:action>
-            <button title="Aggiungi allergie" wire:click="editAllergies({{$user->id}})"
+            <button wire:click="editAllergies({{$user->id}})"
                 class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
                 Modifica
             </button>

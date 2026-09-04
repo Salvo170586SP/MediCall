@@ -43,12 +43,13 @@
     </section>
 
     <div class="h-full max-w-7xl mx-auto flex flex-col gap-3 lg:grid grid-cols-3 gap-3">
-      
+
         {{-- * Allergie --}}
         <section
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50  px-6 py-8 lg:px-8">
             <div class="flex items-center">
-                <div class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                <div
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,7 +59,7 @@
                 <h2 class="ms-3 text-xl font-bold text-slate-700">Le tue allergie</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2 flex">
-                <x-modal title="Allergie" confirm-label="Allergies" wire:key="allergies-[{{ $authenticatedUser->id}}]">
+                <x-modal title="Allergie" confirm-label="Allergies" wire:key="allergies-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
                         <button title="Allergies"
                             class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
@@ -81,16 +82,16 @@
                     </x-slot:action>
                 </x-modal>
 
-                <livewire:pages.guest.allergies.edit-allergies :user="$authenticatedUser"
-                    :key="$authenticatedUser->id" />
+                <livewire:pages.guest.allergies.edit-allergies wire:key="edit-allergies-{{ $authenticatedUser->id }}" :user="$authenticatedUser" />
             </div>
         </section>
 
-        {{-- La tua storia clinica --}}
+        {{-- * La tua storia clinica --}}
         <section
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50  px-6 py-8 lg:px-8">
             <div class="flex items-center">
-                <div class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                <div
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -99,26 +100,31 @@
                 </div>
                 <h2 class="ms-3 text-xl font-bold text-slate-700">La tua storia clinica</h2>
             </div>
-            <div class="absolute bottom-8 right-8 space-x-2">
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 rounded-full border text-sm border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    Guarda
-                </a>
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 rounded-full border text-sm border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    Aggiungi
-                </a>
+            <div class="absolute bottom-8 right-8 space-x-2 flex">
+                <x-modal title="La mia storia clinica" confirm-label="medical_history" wire:key="medical-history-modal-{{ $authenticatedUser->id }}">
+                    <x-slot:trigger>
+                        <button title="La mia storia clinica"
+                            class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                            La mia storia clinica
+                        </button>
+                    </x-slot:trigger>
 
+                    <x-slot:body>
+                        {{ $medical_history ? $medical_history : 'Nessuna storia clinica'}}
+                    </x-slot:body>
+
+                    <x-slot:action>
+                    </x-slot:action>
+                </x-modal>
+
+                <livewire:pages.guest.medical-history.edit-medical-history wire:key="edit-medical-history-{{ $authenticatedUser->id }}" :user="$authenticatedUser" />
             </div>
         </section>
 
@@ -126,7 +132,8 @@
         <section
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50  px-6 py-8 lg:px-8">
             <div class="flex items-center">
-                <div class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                <div
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -191,7 +198,8 @@
         <section
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
             <div class="flex items-center">
-                <div class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                <div
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -225,7 +233,8 @@
         <section
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
             <div class="flex items-center">
-                <div class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                <div
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                         class="size-6  text-emerald-700">
                         <path fill-rule="evenodd"
