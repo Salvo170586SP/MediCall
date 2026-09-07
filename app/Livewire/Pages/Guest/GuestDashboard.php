@@ -22,7 +22,8 @@ class GuestDashboard extends Component
 
         $allergies = $authenticatedUser->guestDetail->allergies;
         $medical_history = $authenticatedUser->guestDetail->medical_history;
+        $medical_records = $authenticatedUser->medicalRecordsAsPatient;
 
-        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history'));
+        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history','medical_records'));
     }
 }

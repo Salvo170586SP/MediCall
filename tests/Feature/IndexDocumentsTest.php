@@ -1,8 +1,10 @@
 <?php
 
+use App\Enums\DocumentType;
 use App\Livewire\Pages\Documents\IndexDocuments;
 use App\Models\Appointment;
 use App\Models\Document;
+use App\Models\MedicalRecord;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -131,6 +133,32 @@ it('shows the selected user documents and the empty state when nothing is select
         ->set('selectedUserId', $user->id)
         ->assertSee('Documento Mario')
         ->assertDontSee('Documento Giuseppe');
+});
+
+it('shows documents attached to the selected user medical records', function () {
+    $patient = User::factory()->create([
+        'name' => 'Paziente Referto',
+    ]);
+    $doctor = User::factory()->create();
+    $medicalRecord = MedicalRecord::create([
+        'guest_id' => $patient->id,
+        'doctor_id' => $doctor->id,
+        'visit_date' => now()->toDateString(),
+        'diagnosis' => 'Diagnosi di test',
+    ]);
+
+    Document::factory()
+        ->forDocumentable($medicalRecord)
+        ->create([
+            'uploaded_by' => $doctor->id,
+            'title' => 'Referto del paziente',
+            'type' => DocumentType::MedicalRecord,
+        ]);
+
+    Livewire::test(IndexDocuments::class)
+        ->assertSee('Paziente Referto')
+        ->set('selectedUserId', $patient->id)
+        ->assertSee('Referto del paziente');
 });
 
 it('filters the selected user documents only and keeps the users list untouched', function () {

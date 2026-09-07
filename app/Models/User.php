@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,7 +39,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable, HasRoles;
+    use HasFactory, HasRoles, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
     /**
      * Get the attributes that should be cast.
@@ -63,12 +62,11 @@ class User extends Authenticatable implements PasskeyUser
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn($word) => Str::substr($word, 0, 1))
+            ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
 
-
-    //RELATIONS
+    // RELATIONS
     public function doctorDetail()
     {
         return $this->hasOne(DoctorDetail::class, 'doctor_id');
@@ -88,7 +86,6 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(HealthThreshold::class, 'guest_id');
     }
-
 
     public function appointmentsPatient(): HasMany
     {
@@ -123,7 +120,6 @@ class User extends Authenticatable implements PasskeyUser
             ->where('type', DocumentType::IdentityCard);
     }
 
-
     // pazienti unici seguiti dal medico
     protected ?int $patientsCountCache = null;
 
@@ -136,17 +132,12 @@ class User extends Authenticatable implements PasskeyUser
 
     // medici che seguono il paziente
     protected ?int $doctorsCountCache = null;
+
     public function getDoctorsCountAttribute()
     {
         return $this->doctorsCountCache ??= $this->appointmentsPatient()
             ->distinct('doctor_id')
             ->count('doctor_id');
-        /*   return User::whereIn(
-            'id',
-            $this->appointmentsPatient()
-                ->distinct('guest_id')
-                ->pluck('guest_id')
-        ); */
     }
 
     // cartelle cliniche dove l'utente è il PAZIENTE
@@ -160,13 +151,4 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(MedicalRecord::class, 'doctor_id');
     }
-
-    /*   protected ?int $patientsCountCache = null;
-
-    public function getPatientsCountAttribute()
-    {
-        return $this->patientsCountCache ??= $this->appointmentsDoctor()
-            ->distinct('guest_id')
-            ->count('guest_id');
-    } */
 }

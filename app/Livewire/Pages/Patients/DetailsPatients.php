@@ -20,27 +20,16 @@ class DetailsPatients extends Component
     public User $patient;
 
     public string $source = '';
-
     public string $type = '';
-
     public string $searchStatus = '';
-
     public string $searchType = '';
-
     public string $severity = '';
-
     public string $created_at = '';
-
     public string $searchDoctor = '';
-
     public string $searchCreatedAt = '';
-
     public string $searchVisit = '';
-
     public string $searchControll = '';
-
     public string $searchTypeDoc = '';
-
     public string $searchNameDoc = '';
 
     public function mount(User $patient)

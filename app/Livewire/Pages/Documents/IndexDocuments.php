@@ -3,8 +3,10 @@
 namespace App\Livewire\Pages\Documents;
 
 use App\Concerns\WithCustomPagination;
+use App\Enums\DocumentType;
 use App\Models\Appointment;
 use App\Models\Document;
+use App\Models\MedicalRecord;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -41,6 +43,19 @@ class IndexDocuments extends Component
     public function toggleUserSelection(int $userId): void
     {
         $this->selectedUserId = $this->selectedUserId === $userId ? null : $userId;
+    }
+
+    public function deleteDocument(int $document_id): void
+    {
+        $document = Document::findOrFail($document_id);
+
+        if ($document) {
+            if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+                Storage::disk('public')->delete($document->file_path);
+            }
+
+            $document->delete();
+        }
     }
 
     public function deleteDoc(int $document_id): void
@@ -90,43 +105,69 @@ class IndexDocuments extends Component
         }
 
         if ($this->searchUser) {
-            $usersQuery->where('name', 'like', '%'.$this->searchUser.'%');
+            $usersQuery->where('name', 'like', '%' . $this->searchUser . '%');
         }
 
-        $users = $usersQuery->whereHas('documents')
+        $users = $usersQuery->where(function ($query) {
+            $query->whereHas('documents')
+                ->orWhereHas('medicalRecordsAsPatient', function ($medicalRecordsQuery) {
+                    $medicalRecordsQuery->whereHas('medicalRecordDocument')
+                        ->orWhereHas('prescriptionDocument');
+                });
+        })
             ->orderBy('name')
             ->paginate(10);
 
         $selectedDocuments = $this->selectedUserId
             ? Document::query()
-                ->select([
-                    'id',
-                    'documentable_id',
-                    'documentable_type',
-                    'uploaded_by',
-                    'type',
-                    'title',
-                    'original_filename',
-                    'file_path',
-                    'created_at',
-                ])
-                ->where('documentable_id', $this->selectedUserId)
-                ->where('documentable_type', User::class)
-                ->when($authenticatedUser?->hasRole('Doctor'), function ($query) use ($patientIds) {
-                    $query->whereIn('documentable_id', $patientIds);
-                })
-                ->with(['uploadedBy' => fn ($query) => $query->select(['id', 'name'])])
-                ->when($this->search, function ($query) {
-                    $query->where(function ($documentQuery) {
-                        $documentQuery->where('title', 'like', '%'.$this->search.'%')
-                            ->orWhere('original_filename', 'like', '%'.$this->search.'%');
+            ->select([
+                'id',
+                'documentable_id',
+                'documentable_type',
+                'uploaded_by',
+                'type',
+                'title',
+                'original_filename',
+                'file_path',
+                'created_at',
+            ])
+            ->where(function ($query) {
+                $query->where(function ($userDocumentsQuery) {
+                    $userDocumentsQuery->where('documentable_id', $this->selectedUserId)
+                        ->where('documentable_type', User::class);
+                })->orWhere(function ($medicalRecordDocumentsQuery) {
+                    $medicalRecordDocumentsQuery->where('documentable_type', MedicalRecord::class)
+                        ->whereIn('type', [
+                            DocumentType::MedicalRecord,
+                            DocumentType::Prescription,
+                        ])
+                        ->whereHasMorph('documentable', [MedicalRecord::class], function ($medicalRecordsQuery) {
+                            $medicalRecordsQuery->where('guest_id', $this->selectedUserId);
+                        });
+                });
+            })
+            ->when($authenticatedUser?->hasRole('Doctor'), function ($query) use ($patientIds) {
+                $query->where(function ($authorizedDocumentsQuery) use ($patientIds) {
+                    $authorizedDocumentsQuery->where(function ($userDocumentsQuery) use ($patientIds) {
+                        $userDocumentsQuery->where('documentable_type', User::class)
+                            ->whereIn('documentable_id', $patientIds);
+                    })->orWhereHasMorph('documentable', [MedicalRecord::class], function ($medicalRecordsQuery) use ($patientIds) {
+                        $medicalRecordsQuery->whereIn('guest_id', $patientIds);
                     });
-                })
-                ->when($this->searchType, function ($query) {
-                    $query->where('type', 'like', '%'.$this->searchType.'%');
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate(8)
+                });
+            })
+            ->with(['uploadedBy' => fn($query) => $query->select(['id', 'name'])])
+            ->when($this->search, function ($query) {
+                $query->where(function ($documentQuery) {
+                    $documentQuery->where('title', 'like', '%' . $this->search . '%')
+                        ->orWhere('original_filename', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->searchType, function ($query) {
+                $query->where('type', 'like', '%' . $this->searchType . '%');
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(8)
             : collect();
 
         return view('livewire.pages.documents.index-documents', compact('users', 'selectedDocuments'));

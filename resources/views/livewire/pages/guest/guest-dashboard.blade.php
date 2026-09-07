@@ -59,7 +59,8 @@
                 <h2 class="ms-3 text-xl font-bold text-slate-700">Le tue allergie</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2 flex">
-                <x-modal title="Allergie" confirm-label="Allergies" wire:key="allergies-modal-{{ $authenticatedUser->id }}">
+                <x-modal title="Allergie" confirm-label="Allergies"
+                    wire:key="allergies-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
                         <button title="Allergies"
                             class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
@@ -82,7 +83,8 @@
                     </x-slot:action>
                 </x-modal>
 
-                <livewire:pages.guest.allergies.edit-allergies wire:key="edit-allergies-{{ $authenticatedUser->id }}" :user="$authenticatedUser" />
+                <livewire:pages.guest.allergies.edit-allergies wire:key="edit-allergies-{{ $authenticatedUser->id }}"
+                    :user="$authenticatedUser" />
             </div>
         </section>
 
@@ -101,7 +103,8 @@
                 <h2 class="ms-3 text-xl font-bold text-slate-700">La tua storia clinica</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2 flex">
-                <x-modal title="La mia storia clinica" confirm-label="medical_history" wire:key="medical-history-modal-{{ $authenticatedUser->id }}">
+                <x-modal title="La mia storia clinica" confirm-label="medical_history"
+                    wire:key="medical-history-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
                         <button title="La mia storia clinica"
                             class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
@@ -124,7 +127,8 @@
                     </x-slot:action>
                 </x-modal>
 
-                <livewire:pages.guest.medical-history.edit-medical-history wire:key="edit-medical-history-{{ $authenticatedUser->id }}" :user="$authenticatedUser" />
+                <livewire:pages.guest.medical-history.edit-medical-history
+                    wire:key="edit-medical-history-{{ $authenticatedUser->id }}" :user="$authenticatedUser" />
             </div>
         </section>
 
@@ -194,7 +198,7 @@
             </div>
         </section>
 
-        {{-- La mia cartella clinica --}}
+        {{-- I miei referti --}}
         <section
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
             <div class="flex items-center">
@@ -206,26 +210,22 @@
                             d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                     </svg>
                 </div>
-                <h2 class="ms-3 text-xl font-bold text-slate-900">La mia cartella clinica</h2>
+                <div>
+                    <h2 class="ms-3 text-xl font-bold text-slate-900">I miei referti</h2>
+                    <p class="ms-3 text-sm font-semibold text-sky-800">
+                        {{ $medical_records->count() }} referti totali
+                    </p>
+                </div>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 text-sm  rounded-full border border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    Aggiungi
-                </a>
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 text-sm rounded-full border border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
+                <button wire:navigate href="/guest/medical-documents"
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    Storico</a>
+                    Storico</button>
             </div>
         </section>
 
