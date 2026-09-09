@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Document;
 use App\Models\HealthParameter;
 use App\Models\HealthThreshold;
+use App\Models\MedicalRecord;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
@@ -20,16 +21,27 @@ class DetailsPatients extends Component
     public User $patient;
 
     public string $source = '';
+
     public string $type = '';
+
     public string $searchStatus = '';
+
     public string $searchType = '';
+
     public string $severity = '';
+
     public string $created_at = '';
+
     public string $searchDoctor = '';
+
     public string $searchCreatedAt = '';
+
     public string $searchVisit = '';
+
     public string $searchControll = '';
+
     public string $searchTypeDoc = '';
+
     public string $searchNameDoc = '';
 
     public function mount(User $patient)
@@ -103,6 +115,18 @@ class DetailsPatients extends Component
         $this->resetPage();
     }
 
+    #[On('medical-record-created')]
+    public function refreshMedicalRecords(): void
+    {
+        $this->resetPage();
+    }
+
+    #[On('medical-record-edited')]
+    public function refreshEditedMedicalRecord(): void
+    {
+        $this->resetPage();
+    }
+
     public function deleteParameter(int $parameter_id)
     {
         $parameter = HealthParameter::findOrFail($parameter_id);
@@ -128,6 +152,17 @@ class DetailsPatients extends Component
         if ($appointment) {
             $appointment->delete();
         }
+    }
+
+    public function deleteHealthMedical(int $medical_record_id)
+    {
+        $medical_record = MedicalRecord::findOrFail($medical_record_id);
+
+        if ($medical_record->medicalRecordDocument && $medical_record->medicalRecordDocument->file_path && Storage::disk('public')->exists($medical_record->medicalRecordDocument->file_path)) {
+            Storage::disk('public')->delete($medical_record->medicalRecordDocument->file_path);
+        }
+
+        $medical_record->forceDelete();
     }
 
     public function deleteDoc(int $document_id)
@@ -193,7 +228,11 @@ class DetailsPatients extends Component
         $appointments = $appointmentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
         // MedicalRecordsAsPatient
-        $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient()->with(['doctor', 'patient']);
+        $medicalRecordsAsPatientQuery = $this->patient->medicalRecordsAsPatient()->with([
+            'doctor',
+            'patient',
+            'medicalRecordDocument',
+        ]);
 
         if ($this->searchControll) {
             $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%'.$this->searchControll.'%');

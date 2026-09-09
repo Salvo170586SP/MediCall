@@ -30,7 +30,6 @@
                 </div>
                 @endif
 
-
                 <div class="w-full flex gap-5">
                     <div class="flex flex-col ">
                         <div class="w-full flex flex-col">

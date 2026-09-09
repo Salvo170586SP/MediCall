@@ -89,7 +89,7 @@
                                 Nome File
                             </th>
                             <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                Tipo documento
+                                Di
                             </th>
                             <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                                 Caricato da

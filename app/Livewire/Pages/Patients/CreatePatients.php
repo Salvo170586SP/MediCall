@@ -14,18 +14,29 @@ use Livewire\WithFileUploads;
 class CreatePatients extends Component
 {
     use WithFileUploads;
-    
+
     public string $name = '';
+
     public string $email = '';
+
     public ?string $phone = null;
+
     public ?string $birth_city = null;
+
     public ?string $birth_date = null;
+
     public ?string $tax_id_code = null;
+
     public string $gender = '';
+
     public ?string $medical_history = null;
+
     public string $blood_type = '';
+
     public ?string $allergies = null;
+
     public $identity_card = null;
+
     public $fiscal_code = null;
 
     /**
@@ -79,6 +90,7 @@ class CreatePatients extends Component
         if ($this->identity_card) {
             $identityCardPath = $this->identity_card->store('patients/documents', 'public');
         }
+
         // Salva il file fisico PRIMA della transazione DB.
         // Se la transazione fallisce, va ripulito nel catch.
         $fiscalCodePath = null;
@@ -115,7 +127,7 @@ class CreatePatients extends Component
                     'documentable_type' => User::class,
                     'uploaded_by' => auth()->id() ?? $patient->id, // chi ha caricato (admin loggato)
                     'type' => DocumentType::IdentityCard,
-                    'title' => "Carta d\'identità di $patient->name",
+                    'title' => "Carta d'identità di $patient->name",
                     'file_path' => $identityCardPath,
                     'original_filename' => $this->identity_card->getClientOriginalName(),
                     'mime_type' => $this->identity_card->getMimeType(),
@@ -145,7 +157,7 @@ class CreatePatients extends Component
             session()->flash('success', 'Elemento creato con successo!');
             $this->redirect(route('patients.details', $patient->id), navigate: true);
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la creazione: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la creazione: '.$e->getMessage());
         }
     }
 

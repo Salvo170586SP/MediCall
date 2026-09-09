@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\DocumentType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
@@ -10,14 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Query\Builder;
 
-#[Fillable(['guest_id', 'doctor_id', 'appointment_id', 'visit_date', 'diagnosis', 'icd_codes', 'prescription', 'instructions', 'follow_up_date'])]
+#[Fillable(['guest_id', 'doctor_id', 'appointment_id', 'visit_date', 'diagnosis', 'icd_codes', 'prescription', 'instructions'])]
 class MedicalRecord extends Model
 {
     protected function casts(): array
     {
         return [
             'visit_date' => 'date',
-            'follow_up_date' => 'date',
             'icd_codes' => 'array',
         ];
     }
@@ -44,19 +42,7 @@ class MedicalRecord extends Model
      */
     public function medicalRecordDocument(): MorphOne
     {
-        return $this->MorphOne(Document::class, 'documentable')
-            ->whereIn('type', [
-                DocumentType::MedicalRecord,
-            ]);
-    }
-
-    /**
-     * @return MorphOne<Document, $this>
-     */
-    public function prescriptionDocument(): MorphOne
-    {
-        return $this->morphOne(Document::class, 'documentable')
-            ->where('type', DocumentType::Prescription);
+        return $this->morphOne(Document::class, 'documentable');
     }
 
     // -- Scope --
