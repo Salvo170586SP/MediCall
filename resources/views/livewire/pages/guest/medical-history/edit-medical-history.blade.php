@@ -1,9 +1,10 @@
 <div>
     <x-modal title="Modifica Storia Clinica" confirm-label="Edit Medical History" :close-on-click="false"
-        close-on-event="medical-history-updated" reset-method="resetHistoryForm" wire:key="editMedicalHistory-{{ $user->id }}-{{ $medical_history }}">
+        close-on-event="medical-history-updated" reset-method="resetHistoryForm"
+        wire:key="editMedicalHistory-{{ $user->id }}-{{ $medical_history }}">
         <x-slot:trigger>
-            <button 
-                class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+            <button
+                class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-sky-300 bg-sky-50 hover:bg-sky-100 font-bold text-sky-800">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -17,13 +18,13 @@
             <textarea id="medical_history" wire:model="medical_history" cols="50" rows="10"
                 class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600 @error('medical_history') border-red-500 @enderror"></textarea>
             @error('medical_history')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </x-slot:body>
 
         <x-slot:action>
             <button wire:click="editMedicalHistory({{$user->id}})"
-                class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-sky-300 bg-sky-50 hover:bg-sky-100 font-medium text-sky-800">
                 Modifica
             </button>
         </x-slot:action>

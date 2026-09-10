@@ -34,9 +34,9 @@
                             <p class="mt-2 text-sm leading-6 text-slate-600">{{ session('success') }}</p>
                         </div>
                     </div>
-                    <button type="button" x-on:click="open = false"
+                    <button type="button" x-on:click="open = false" wire:navigate href="/guest/appointments"
                         class="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
-                        Chiudi
+                        Chiudi e vai ai tuoi appuntamenti
                     </button>
                 </div>
             </div>

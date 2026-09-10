@@ -16,7 +16,7 @@
                     cliniche e comunicazioni direttamente dalla home di MediCall.</p>
             </div>
             <a href=""
-                class="inline-flex gap-2 px-4 py-2 rounded-full border border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
+                class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-sky-300 bg-sky-50 hover:bg-sky-100 font-bold text-sky-800">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -63,7 +63,7 @@
                     wire:key="allergies-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
                         <button title="Allergies"
-                            class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                            class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -107,7 +107,7 @@
                     wire:key="medical-history-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
                         <button title="La mia storia clinica"
-                            class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                            class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -147,15 +147,16 @@
                 <h2 class="ms-3 text-xl font-bold text-slate-700">I tuoi appuntamenti</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 rounded-full border text-sm border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
+                <button wire:navigate href="/guest/appointments"
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
-                    Prenota
-                </a>
+                    Appuntamenti presi
+                </button>
             </div>
         </section>
 
@@ -179,7 +180,7 @@
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
                 <button wire:navigate href="/guest/parameters/create"
-                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -188,7 +189,7 @@
                     Aggiungi
                 </button>
                 <button wire:navigate href="/guest/parameters"
-                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -219,7 +220,7 @@
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
                 <button wire:navigate href="/guest/medical-documents"
-                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -246,7 +247,7 @@
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
                 <button wire:navigate href="/guest/doctors"
-                     class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"

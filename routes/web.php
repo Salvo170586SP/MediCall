@@ -6,6 +6,7 @@ use App\Livewire\Pages\Doctors\DetailsDoctors;
 use App\Livewire\Pages\Doctors\EditDoctors;
 use App\Livewire\Pages\Doctors\IndexDoctors;
 use App\Livewire\Pages\Documents\IndexDocuments;
+use App\Livewire\Pages\Guest\Appointments\IndexAppointments;
 use App\Livewire\Pages\Guest\Doctors\DetailsDoctors as DoctorsDetailsDoctors;
 use App\Livewire\Pages\Guest\Doctors\IndexDoctors as DoctorsIndexDoctors;
 use App\Livewire\Pages\Guest\GuestDashboard;
@@ -56,6 +57,9 @@ Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
     // dottori
     Route::get('/guest/doctors', DoctorsIndexDoctors::class)->name('guest.doctors');
     Route::get('/guest/doctors/details/{doctor}', DoctorsDetailsDoctors::class)->name('guest.doctors-details');
+
+    // appuntamenti
+    Route::get('/guest/appointments', IndexAppointments::class)->name('guest.appointments');
 });
 
 require __DIR__.'/settings.php';
