@@ -87,6 +87,7 @@
                                         d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                                 </svg>
                             </button>
+
                             <button wire:navigate href="doctors/edit/{{$user_doctor->id}}" title="modifica"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
@@ -96,6 +97,7 @@
                                 </svg>
                             </button>
 
+                            @role('Admin')
                             <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
 
@@ -126,6 +128,7 @@
                                 </x-slot:action>
 
                             </x-modal>
+                            @endrole
                         </div>
                     </td>
                 </tr>

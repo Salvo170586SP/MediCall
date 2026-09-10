@@ -6,6 +6,8 @@ use App\Livewire\Pages\Doctors\DetailsDoctors;
 use App\Livewire\Pages\Doctors\EditDoctors;
 use App\Livewire\Pages\Doctors\IndexDoctors;
 use App\Livewire\Pages\Documents\IndexDocuments;
+use App\Livewire\Pages\Guest\Doctors\DetailsDoctors as DoctorsDetailsDoctors;
+use App\Livewire\Pages\Guest\Doctors\IndexDoctors as DoctorsIndexDoctors;
 use App\Livewire\Pages\Guest\GuestDashboard;
 use App\Livewire\Pages\Guest\MedicalDocuments\IndexMedicalDocuments;
 use App\Livewire\Pages\Guest\Parameters\CreateParameters;
@@ -50,6 +52,10 @@ Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
 
     // cartelle cliniche
     Route::get('/guest/medical-documents', IndexMedicalDocuments::class)->name('guest.medical-documents');
+
+    // dottori
+    Route::get('/guest/doctors', DoctorsIndexDoctors::class)->name('guest.doctors');
+    Route::get('/guest/doctors/details/{doctor}', DoctorsDetailsDoctors::class)->name('guest.doctors-details');
 });
 
 require __DIR__.'/settings.php';

@@ -245,16 +245,15 @@
                 <h2 class="ms-3 text-xl font-bold text-slate-900">Lista medici</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
-                <a href=""
-                    class="inline-flex gap-2 px-3 py-2 text-sm  rounded-full border border-blue-200 bg-blue-50 hover:bg-blue-100 font-medium text-blue-700">
+                <button wire:navigate href="/guest/doctors"
+                     class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full bg-black hover:bg-gray-700 font-medium text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
-
                     Trova nuovo
-                    medico</a>
+                    medico</button>
             </div>
         </section>
 

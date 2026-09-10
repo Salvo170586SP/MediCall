@@ -135,7 +135,7 @@
                         </td>
                         <td class="px-6 py-4 text-slate-900 text-center">
                             @if($record->medicalRecordDocument)
-                            <a href="{{$record->medicalRecordDocument->file_path}}"
+                             <a download href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
                                 title="Scarica {{ $record->medicalRecordDocument->file_path }}"
                                 class="inline-flex items-center justify-center rounded-xl bg-emerald-100 p-2 text-emerald-800 transition-colors hover:bg-emerald-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

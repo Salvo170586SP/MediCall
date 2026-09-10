@@ -1,7 +1,7 @@
 <div>
     <div class="space-y-2">
 
-        <button wire:navigate href="{{ auth()->user()->hasRole('Admin') ? route('doctors') : route('dashboard') }}"
+        <button wire:navigate href="{{ route('doctors') }}"
             class="inline-flex items-center gap-1.5 px-4 py-3 bg-zinc-100 hover:bg-sky-100 text-gray-700 text-sm font-bold rounded-xl transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
@@ -25,7 +25,6 @@
                         Appuntamenti <span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$appointments->total()}}</span>
                     </button>
-
                 </nav>
                 <div class="px-4 py-2 border border border-b-0 rounded-t-xl bg-gray-100 border-gray-200">
                     <p class="font-medium">
@@ -67,7 +66,7 @@
                                         Dott. {{ $doctor->name }}
                                     </h1>
 
-                                    @if($doctor->doctorDetail->is_active)
+                                    @if($doctor->doctorDetail && $doctor->doctorDetail->is_active)
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
                                         Disponibile
@@ -81,18 +80,14 @@
                                 </div>
 
                                 <p class="text-sm text-gray-500 mb-1">
-                                    @if($doctor->doctorDetail)
-                                    {{ $doctor->doctorDetail->specialty }}
-                                    · <span class="text-gray-400">{{ $doctor->doctorDetail->sub_specialty }}</span>
-                                    @endif
+                                    {{ $doctor->doctorDetail?->specialty }} · <span class="text-gray-400">{{
+                                        $doctor->doctorDetail?->sub_specialty }}</span>
                                 </p>
-
-                                <p class="text-xs text-gray-400">Matricola: {{ $doctor->doctorDetail->license_number }}
+                                <p class="text-xs text-gray-400">Matricola: {{ $doctor->doctorDetail?->license_number }}
                                 </p>
-
                                 <p class="text-sm text-gray-400 mt-3">Email: {{ $doctor->email }}
                                 </p>
-                                <p class="text-sm text-gray-400">Telefono: {{ $doctor->doctorDetail->phone }}
+                                <p class="text-sm text-gray-400">Telefono: {{ $doctor->doctorDetail?->phone }}
                                 </p>
                             </div>
 
@@ -110,7 +105,7 @@
                                 </button>
                             </div>
                             @endrole
-                       
+
                             @role('Doctor')
                             <div class="flex gap-2 flex-wrap">
                                 <button wire:navigate href="/doctor/edit/{{$doctor->id}}"
@@ -132,7 +127,7 @@
                         <div class="bg-white rounded-xl border border-gray-200 p-4">
                             <p class="text-xs text-gray-400 mb-1">Durata slot</p>
                             <p class="text-2xl font-medium text-gray-900">
-                                {{ $doctor->doctorDetail->slot_duration }}
+                                {{ $doctor->doctorDetail?->slot_duration }}
                                 <span class="text-sm text-gray-400 font-normal">min</span>
                             </p>
                         </div>
@@ -212,8 +207,8 @@
                             Appuntamenti Pazienti
                         </h2>
                         @role('Doctor')
-                            <livewire:pages.doctors.add-appointment-form :doctor="$doctor"
-                                :key="'add-appointment-'.$doctor->id" />
+                        <livewire:pages.doctors.add-appointment-form :doctor="$doctor"
+                            :key="'add-appointment-'.$doctor->id" />
                         @endrole
                     </div>
 
