@@ -1,4 +1,16 @@
 <div>
+    @if(auth()->user()->guestDetail?->is_active)
+    <x-welcome-modal id="welcome-guest-{{ auth()->user()->id }}" :is_active="auth()->user()->guestDetail?->is_active">
+        <x-slot:action>
+            <button wire:click="closeWelcomeModal({{auth()->user()->id}})"
+                class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-xl bg-slate-100 hover:bg-slate-100 font-semibold text-slate-800">
+                Chiudi
+            </button>
+        </x-slot:action>
+    </x-welcome-modal>
+    @endif
+
+
     <section
         class="max-w-7xl mx-auto mb-5 border border-emerald-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
         <div class="flex items-start gap-4">
@@ -11,7 +23,8 @@
             </div>
             <div class="flex-1">
                 <h2 class="text-xl font-bold text-slate-900">Benvenuto, {{ auth()->user()->name }}</h2>
-                <p class="mt-1 text-slate-600 text-xs lg:text-base">La tua area personale: consulta i tuoi appuntamenti,
+                <p class="mt-1 text-slate-600 text-xs lg:text-base">La tua area personale: consulta i tuoi
+                    appuntamenti,
                     cartelle
                     cliniche e comunicazioni direttamente dalla home di MediCall.</p>
             </div>
@@ -32,10 +45,12 @@
                         auth()->user()->guestDetail?->code_item }}</span> </p>
                 <p class="mt-1 text-slate-600">Città e data di nascita: <span class="font-bold">{{
                         auth()->user()->guestDetail?->birth_city.',
-                        '.auth()->user()->guestDetail?->formatDate(auth()->user()->guestDetail->birth_date) }}</span></p>
+                        '.auth()->user()->guestDetail?->formatDate(auth()->user()->guestDetail->birth_date)
+                        }}</span></p>
                 <p class="mt-1 text-slate-600">Cod Fiscale: <span class="font-bold">{{
                         auth()->user()->guestDetail?->tax_id_code }}</span></p>
-                <p class="mt-1 text-slate-600">Telefono: <span class="font-bold">{{ auth()->user()->guestDetail?->phone
+                <p class="mt-1 text-slate-600">Telefono: <span class="font-bold">{{
+                        auth()->user()->guestDetail?->phone
                         }}</span></p>
             </div>
 

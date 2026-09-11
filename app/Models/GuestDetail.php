@@ -6,10 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['guest_id', 'code_item', 'img_url', 'birth_city', 'birth_date', 'tax_id_code', 'gender', 'phone', 'medical_history', 'blood_type', 'allergies'])]
+#[Fillable(['guest_id', 'code_item', 'img_url', 'birth_city', 'birth_date', 'tax_id_code', 'gender', 'phone', 'medical_history', 'blood_type', 'allergies', 'is_active'])]
 class GuestDetail extends Model
 {
-
     /**
      * Get the attributes that should be cast.
      *
@@ -18,24 +17,26 @@ class GuestDetail extends Model
     protected function casts(): array
     {
         return [
-            'birth_date' => 'date'
+            'birth_date' => 'date',
+            'is_active' => 'boolean',
         ];
     }
 
-    //RELATIONS
+    // RELATIONS
     public function user()
     {
         return $this->belongsTo(User::class, 'guest_id');
     }
 
-    //FUNCTIONS
-    public function formatDate($data) 
+    // FUNCTIONS
+    public function formatDate($data)
     {
         if (blank($data)) {
             return null;
         }
 
         Carbon::setLocale('it');
+
         return Carbon::parse($data)->translatedFormat('d F Y');
     }
 }

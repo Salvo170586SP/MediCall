@@ -9,6 +9,15 @@ use Livewire\Component;
 
 class GuestDashboard extends Component
 {
+    public function closeWelcomeModal(int $user_id): void
+    {
+        $guest = User::findOrFail($user_id);
+
+        $guest->guestDetail->update([
+            'is_active' => false,
+        ]);
+    }
+
     #[On('allergies-updated')]
     #[On('medical-history-updated')]
     public function render()
