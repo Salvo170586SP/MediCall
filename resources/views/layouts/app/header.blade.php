@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('partials.head')
@@ -18,7 +18,6 @@
                 <p class="text-xs text-slate-500">Gestione sanitaria</p>
             </div>
         </div>
-
 
         <flux:spacer />
 
@@ -39,7 +38,6 @@
         <x-desktop-user-menu />
         @endrole
     </flux:header>
-
 
 
 

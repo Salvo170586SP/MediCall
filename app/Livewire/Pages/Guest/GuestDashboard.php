@@ -20,10 +20,10 @@ class GuestDashboard extends Component
             ->latestFirst()
             ->get();
 
-        $allergies = $authenticatedUser->guestDetail->allergies;
-        $medical_history = $authenticatedUser->guestDetail->medical_history;
+        $allergies = $authenticatedUser->guestDetail?->allergies;
+        $medical_history = $authenticatedUser->guestDetail?->medical_history;
         $medical_records = $authenticatedUser->medicalRecordsAsPatient;
 
-        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history','medical_records'));
+        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history', 'medical_records'));
     }
 }

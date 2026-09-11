@@ -4,6 +4,8 @@ namespace App\Actions\Fortify;
 
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
+use App\Jobs\GeneratePatientCodeItemJob;
+use App\Models\GuestDetail;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -33,6 +35,12 @@ class CreateNewUser implements CreatesNewUsers
 
         Role::firstOrCreate(['name' => 'Guest']);
         $user->assignRole('Guest');
+
+        GuestDetail::create([
+            'guest_id' => $user->id,
+        ]);
+
+        GeneratePatientCodeItemJob::dispatch($user->id);
 
         return $user;
     }

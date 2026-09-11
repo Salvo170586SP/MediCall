@@ -8,6 +8,7 @@ use Livewire\Component;
 class EditMedicalHistory extends Component
 {
     public User $user;
+
     public string $medical_history = '';
 
     public function mount(User $user): void
@@ -34,7 +35,7 @@ class EditMedicalHistory extends Component
 
     public function resetHistoryForm(): void
     {
-        $this->medical_history = $this->user->guestDetail->refresh()->medical_history ?? '';
+        $this->medical_history = $this->user->guestDetail?->refresh()->medical_history ?? '';
         $this->resetValidation();
     }
 
@@ -47,7 +48,6 @@ class EditMedicalHistory extends Component
             'medical_history' => ['nullable', 'string'],
         ];
     }
-
 
     public function render()
     {

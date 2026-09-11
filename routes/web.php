@@ -9,6 +9,7 @@ use App\Livewire\Pages\Documents\IndexDocuments;
 use App\Livewire\Pages\Guest\Appointments\IndexAppointments;
 use App\Livewire\Pages\Guest\Doctors\DetailsDoctors as DoctorsDetailsDoctors;
 use App\Livewire\Pages\Guest\Doctors\IndexDoctors as DoctorsIndexDoctors;
+use App\Livewire\Pages\Guest\EditProfile;
 use App\Livewire\Pages\Guest\GuestDashboard;
 use App\Livewire\Pages\Guest\MedicalDocuments\IndexMedicalDocuments;
 use App\Livewire\Pages\Guest\Parameters\CreateParameters;
@@ -45,6 +46,9 @@ Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () 
 
 Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
     Route::get('/guest/dashboard', GuestDashboard::class)->name('guest.dashboard');
+
+    // modifica profilo
+    Route::get('/guest/edit/{patient}', EditProfile::class)->name('guest.edit-profile');
 
     // parametri
     Route::get('/guest/parameters', IndexParameters::class)->name('guest.parameters');

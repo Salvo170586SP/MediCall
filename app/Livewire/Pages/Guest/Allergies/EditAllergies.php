@@ -13,7 +13,7 @@ class EditAllergies extends Component
 
     public function mount(User $user): void
     {
-        $this->allergies = $user->guestDetail->allergies ?? '';
+        $this->allergies = $user->guestDetail?->allergies ?? '';
     }
 
     public function editAllergies(int $user_id): void
@@ -26,7 +26,7 @@ class EditAllergies extends Component
         }
 
         $guest = User::findOrFail($user_id);
-        $guest->guestDetail->update([
+        $guest->guestDetail?->update([
             'allergies' => $allergies,
         ]);
 
@@ -35,7 +35,7 @@ class EditAllergies extends Component
 
     public function resetAllergiesForm(): void
     {
-        $this->allergies = $this->user->guestDetail->refresh()->allergies ?? '';
+        $this->allergies = $this->user->guestDetail?->refresh()->allergies ?? '';
         $this->resetValidation();
     }
 
