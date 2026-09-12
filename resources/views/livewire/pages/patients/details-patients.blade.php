@@ -491,7 +491,6 @@
                                     <th class="px-6 py-2 text-center">Stato</th>
                                     <th class="px-6 py-2 text-center">Motivazione visita</th>
                                     <th class="px-6 py-2 text-center">Note del medico</th>
-                                    <th class="px-6 py-2 text-center">Motivazione cancellazione</th>
                                     <th class="px-6 py-2">Azioni</th>
                                 </tr>
                             </thead>
@@ -575,34 +574,6 @@
 
                                             <x-slot:body>
                                                 <p>{{ $appointment->notes ?? '-' }}</p>
-                                            </x-slot:body>
-
-                                            <x-slot:action>
-                                            </x-slot:action>
-                                        </x-modal>
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        @if($appointment->cancellation_reason)
-                                        <x-modal title="Motivazione" confirm-label="motivazione"
-                                            wire:key="motivazione-[{{$appointment->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
-                                            <x-slot:trigger>
-                                                <button title="Motivazione"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                    </svg>
-                                                </button>
-                                            </x-slot:trigger>
-
-                                            <x-slot:body>
-                                                <p>{{ $appointment->cancellation_reason ?? '-' }}</p>
                                             </x-slot:body>
 
                                             <x-slot:action>
@@ -790,8 +761,7 @@
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex justify-end space-x-3">
                                             <livewire:pages.patients.edit-medical-records-form :patient="$patient"
-                                                :medical-record="$record"
-                                                :key="'edit-medical-records-'.$record->id" />
+                                                :medical-record="$record" :key="'edit-medical-records-'.$record->id" />
                                             <x-modal title="Elimina definitivamente?" confirm-label="elimina"
                                                 wire:key="deleteRecord-[{{$record->id}}]"
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">

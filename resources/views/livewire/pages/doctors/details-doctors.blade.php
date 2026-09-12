@@ -262,7 +262,6 @@
                                     <th class="px-6 py-3 text-center">Stato</th>
                                     <th class="px-6 py-3 text-center">Motivazione visita</th>
                                     <th class="px-6 py-3 text-center">Note del medico</th>
-                                    <th class="px-6 py-3 text-center">Motivazione cancellazione</th>
                                     <th class="px-6 py-3 text-end">Azioni</th>
                                 </tr>
                             </thead>
@@ -277,28 +276,40 @@
                                     <td class="px-2 py-4 text-center font-medium text-slate-900 capitalize">
                                         {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 text-center">
-                                        @foreach($types as $value)
-                                        <div wire:key="types-[{{$appointment->id}}-{{$value['type']}}]">
-                                            @if($appointment->type == $value['type'] )
-                                            <span
-                                                class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->type == $value['type'] ? $value['color'] : '' }}">
-                                                {{ $value['label'] }}
-                                            </span>
-                                            @endif
-                                        </div>
-                                        @endforeach
+                                        @php
+                                        $typesColor = collect($types)->firstWhere('type',
+                                        $appointment->type)['color'] ?? '';
+                                        @endphp
+                                        <select id="type-{{ $appointment->id }}"
+                                            class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $typesColor }}"
+                                            wire:change="editTypeAppointment({{ $appointment->id }}, $event.target.value)">
+                                            <option value="">- Seleziona -</option>
+
+                                            @foreach($types as $value)
+                                            <option wire:key="type-{{$value['type']}}" value="{{$value['type']}}"
+                                                @selected($appointment->type == $value['type'])>
+                                                {{$value['label'] }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td class="px-6 py-4 text-center">
-                                        @foreach($statuses as $value)
-                                        <div wire:key="statuses-[{{$appointment->id}}-{{$value['status']}}]">
-                                            @if($appointment->status == $value['status'] )
-                                            <span
-                                                class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->status == $value['status'] ? $value['color'] : '' }}">
-                                                {{ $value['label'] }}
-                                            </span>
-                                            @endif
-                                        </div>
-                                        @endforeach
+                                        @php
+                                        $statusColor = collect($statuses)->firstWhere('status',
+                                        $appointment->status)['color'] ?? '';
+                                        @endphp
+                                        <select id="status-{{ $appointment->id }}"
+                                            class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $statusColor }}"
+                                            wire:change="editStatusAppointment({{ $appointment->id }}, $event.target.value)">
+                                            <option value="">- Seleziona -</option>
+
+                                            @foreach($statuses as $value)
+                                            <option wire:key="status-{{$value['status']}}" value="{{$value['status']}}"
+                                                @selected($appointment->status == $value['status'])>
+                                                {{$value['label'] }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->reason)
@@ -347,34 +358,6 @@
 
                                             <x-slot:body>
                                                 <p>{{ $appointment->notes ?? '-' }}</p>
-                                            </x-slot:body>
-
-                                            <x-slot:action>
-                                            </x-slot:action>
-                                        </x-modal>
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        @if($appointment->cancellation_reason)
-                                        <x-modal title="Motivazione cancellazione" confirm-label="note"
-                                            wire:key="noteAppointment-[{{$appointment->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
-                                            <x-slot:trigger>
-                                                <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                                    </svg>
-                                                </button>
-                                            </x-slot:trigger>
-
-                                            <x-slot:body>
-                                                <p>{{ $appointment->cancellation_reason ?? '-' }}</p>
                                             </x-slot:body>
 
                                             <x-slot:action>

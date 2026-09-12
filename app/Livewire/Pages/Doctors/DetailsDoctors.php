@@ -74,6 +74,18 @@ class DetailsDoctors extends Component
         $this->resetPage();
     }
 
+    public function editTypeAppointment(int $appointmentId, string $type): void
+    {
+        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment->update(['type' => $type]);
+    }
+  
+    public function editStatusAppointment(int $appointmentId, string $status): void
+    {
+        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment->update(['status' => $status]);
+    }
+
     public function deleteAppointment(int $appointment_id): void
     {
         $appointment = Appointment::findOrFail($appointment_id);
