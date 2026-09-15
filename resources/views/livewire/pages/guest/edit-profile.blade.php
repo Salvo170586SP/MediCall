@@ -1,7 +1,6 @@
 <div>
     <div class="mx-auto flex w-full max-w-5xl flex-col gap-6">
         <div>
-
             <button wire:navigate href="/guest/dashboard"
                 class="inline-flex items-center gap-1.5 px-4 py-3 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
