@@ -6,6 +6,7 @@ use App\Livewire\Pages\Doctors\DetailsDoctors;
 use App\Livewire\Pages\Doctors\EditDoctors;
 use App\Livewire\Pages\Doctors\IndexDoctors;
 use App\Livewire\Pages\Documents\IndexDocuments;
+use App\Livewire\Pages\EditProfileAdmin;
 use App\Livewire\Pages\Guest\Appointments\IndexAppointments;
 use App\Livewire\Pages\Guest\Doctors\DetailsDoctors as DoctorsDetailsDoctors;
 use App\Livewire\Pages\Guest\Doctors\IndexDoctors as DoctorsIndexDoctors;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () {
+    Route::get('/edit-profile/{user}', EditProfileAdmin::class)->name('edit-profile');
+
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
     Route::get('/doctor/profile', DetailsDoctors::class)->name('doctor.profile');
@@ -66,4 +69,5 @@ Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
     Route::get('/guest/appointments', IndexAppointments::class)->name('guest.appointments');
 });
 
-require __DIR__.'/settings.php';
+/* require __DIR__.'/settings.php';
+ */
