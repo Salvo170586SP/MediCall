@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Doctors;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Notifications\UserNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -13,15 +14,23 @@ class AddAppointmentForm extends Component
     public User $doctor;
 
     public ?int $guest_id = null;
+
     public string $guestSearch = '';
+
     public bool $showGuestDropdown = false;
 
     public string $calendarMonth = ''; // formato Y-m
+
     public string $scheduled_date = '';
+
     public string $scheduled_time = '';
+
     public string $type = '';
+
     public string $status = '';
+
     public string $reason = '';
+
     public string $notes = '';
 
     // quanti mesi in avanti è possibile navigare
@@ -36,25 +45,25 @@ class AddAppointmentForm extends Component
     protected function rules(): array
     {
         return [
-            'guest_id'       => ['required', 'integer', 'exists:users,id'],
+            'guest_id' => ['required', 'integer', 'exists:users,id'],
             'scheduled_date' => ['required', 'date', 'after_or_equal:today'],
             'scheduled_time' => ['required', 'date_format:H:i'],
-            'type'           => ['required', 'string'],
-            'status'           => ['required', 'string'],
-            'reason'         => ['nullable', 'string', 'max:500'],
-            'notes'          => ['nullable', 'string', 'max:1000'],
+            'type' => ['required', 'string'],
+            'status' => ['required', 'string'],
+            'reason' => ['nullable', 'string', 'max:500'],
+            'notes' => ['nullable', 'string', 'max:1000'],
         ];
     }
 
     protected function messages(): array
     {
         return [
-            'guest_id.required'             => 'Seleziona un paziente.',
-            'scheduled_date.required'       => 'Seleziona una data.',
+            'guest_id.required' => 'Seleziona un paziente.',
+            'scheduled_date.required' => 'Seleziona una data.',
             'scheduled_date.after_or_equal' => 'La data deve essere odierna o futura.',
-            'scheduled_time.required'       => 'Seleziona un orario.',
-            'type.required'                 => 'Seleziona il tipo di appuntamento.',
-            'status.required'                 => 'Seleziona il tipo di appuntamento.',
+            'scheduled_time.required' => 'Seleziona un orario.',
+            'type.required' => 'Seleziona il tipo di appuntamento.',
+            'status.required' => 'Seleziona il tipo di appuntamento.',
         ];
     }
 
@@ -102,7 +111,7 @@ class AddAppointmentForm extends Component
 
     public function previousMonth(): void
     {
-        $target = Carbon::parse($this->calendarMonth . '-01')->subMonth();
+        $target = Carbon::parse($this->calendarMonth.'-01')->subMonth();
 
         if ($target->lt(Carbon::today()->startOfMonth())) {
             return;
@@ -113,7 +122,7 @@ class AddAppointmentForm extends Component
 
     public function nextMonth(): void
     {
-        $target = Carbon::parse($this->calendarMonth . '-01')->addMonth();
+        $target = Carbon::parse($this->calendarMonth.'-01')->addMonth();
 
         if ($target->gt(Carbon::today()->addMonths($this->maxMonthsAhead)->startOfMonth())) {
             return;
@@ -151,8 +160,8 @@ class AddAppointmentForm extends Component
 
         return User::role('Guest')
             ->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->guestSearch . '%')
-                    ->orWhere('email', 'like', '%' . $this->guestSearch . '%');
+                $query->where('name', 'like', '%'.$this->guestSearch.'%')
+                    ->orWhere('email', 'like', '%'.$this->guestSearch.'%');
             })
             ->orderBy('name')
             ->limit(8)
@@ -167,7 +176,7 @@ class AddAppointmentForm extends Component
         $hours = $this->doctor->doctorDetail->available_hours ?? [];
 
         return collect($hours)
-            ->filter(fn($h) => isset($h[0], $h[1]) && filled($h[0]) && filled($h[1]))
+            ->filter(fn ($h) => isset($h[0], $h[1]) && filled($h[0]) && filled($h[1]))
             ->keys()
             ->all();
     }
@@ -191,21 +200,21 @@ class AddAppointmentForm extends Component
 
         $slotDuration = $this->doctor->doctorDetail->slot_duration ?: 30;
 
-        $start = Carbon::parse($date->toDateString() . ' ' . $hours[0]);
-        $end   = Carbon::parse($date->toDateString() . ' ' . $hours[1]);
+        $start = Carbon::parse($date->toDateString().' '.$hours[0]);
+        $end = Carbon::parse($date->toDateString().' '.$hours[1]);
 
         $slots = [];
         $cursor = $start->copy();
 
         while ($cursor->copy()->addMinutes($slotDuration)->lte($end)) {
             $slotStart = $cursor->copy();
-            $slotEnd   = $cursor->copy()->addMinutes($slotDuration);
+            $slotEnd = $cursor->copy()->addMinutes($slotDuration);
 
             $isPast = $date->isToday() && $slotStart->lte(now());
 
             $overlaps = $bookedForDay->contains(function ($appointment) use ($slotStart, $slotEnd) {
                 $bookedStart = Carbon::parse($appointment->scheduled_at);
-                $bookedEnd   = $bookedStart->copy()->addMinutes($appointment->duration);
+                $bookedEnd = $bookedStart->copy()->addMinutes($appointment->duration);
 
                 return $slotStart->lt($bookedEnd) && $slotEnd->gt($bookedStart);
             });
@@ -213,7 +222,7 @@ class AddAppointmentForm extends Component
             if (! $isPast && ! $overlaps) {
                 $slots[] = [
                     'value' => $slotStart->format('H:i'),
-                    'label' => $slotStart->format('H:i') . ' - ' . $slotEnd->format('H:i'),
+                    'label' => $slotStart->format('H:i').' - '.$slotEnd->format('H:i'),
                 ];
             }
 
@@ -222,6 +231,7 @@ class AddAppointmentForm extends Component
 
         return $slots;
     }
+
     /**
      * Appuntamenti prenotati raggruppati per data, per un range di date.
      * Una sola query per tutto il mese visualizzato (invece di una per giorno).
@@ -232,7 +242,7 @@ class AddAppointmentForm extends Component
             ->whereBetween('scheduled_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
             ->where('status', '!=', 'cancelled')
             ->get(['scheduled_at', 'duration'])
-            ->groupBy(fn($a) => Carbon::parse($a->scheduled_at)->toDateString());
+            ->groupBy(fn ($a) => Carbon::parse($a->scheduled_at)->toDateString());
     }
 
     /**
@@ -241,14 +251,14 @@ class AddAppointmentForm extends Component
      */
     public function getCalendarDaysProperty(): array
     {
-        $monthStart = Carbon::parse($this->calendarMonth . '-01');
-        $monthEnd   = $monthStart->copy()->endOfMonth();
+        $monthStart = Carbon::parse($this->calendarMonth.'-01');
+        $monthEnd = $monthStart->copy()->endOfMonth();
 
         $startPad = $monthStart->dayOfWeekIso - 1; // 0 = lunedì
-        $endPad   = (7 - $monthEnd->dayOfWeekIso) % 7;
+        $endPad = (7 - $monthEnd->dayOfWeekIso) % 7;
 
         $gridStart = $monthStart->copy()->subDays($startPad);
-        $gridEnd   = $monthEnd->copy()->addDays($endPad);
+        $gridEnd = $monthEnd->copy()->addDays($endPad);
 
         $weekDays = $this->availableWeekDays();
         $bookedByDate = $this->bookedByDateInRange($gridStart, $gridEnd);
@@ -259,8 +269,8 @@ class AddAppointmentForm extends Component
         while ($cursor->lte($gridEnd)) {
             $dateStr = $cursor->toDateString();
             $inMonth = $cursor->month === $monthStart->month;
-            $isPast  = $cursor->lt(Carbon::today());
-            $dayKey  = strtolower($cursor->format('D'));
+            $isPast = $cursor->lt(Carbon::today());
+            $dayKey = strtolower($cursor->format('D'));
             $worksThisDay = in_array($dayKey, $weekDays, true);
 
             $isAvailable = false;
@@ -271,13 +281,13 @@ class AddAppointmentForm extends Component
             }
 
             $days[] = [
-                'date'        => $dateStr,
-                'day'         => $cursor->day,
-                'inMonth'     => $inMonth,
-                'isPast'      => $isPast,
+                'date' => $dateStr,
+                'day' => $cursor->day,
+                'inMonth' => $inMonth,
+                'isPast' => $isPast,
                 'isAvailable' => $isAvailable,
-                'isSelected'  => $this->scheduled_date === $dateStr,
-                'isToday'     => $cursor->isToday(),
+                'isSelected' => $this->scheduled_date === $dateStr,
+                'isToday' => $cursor->isToday(),
             ];
 
             $cursor->addDay();
@@ -308,6 +318,7 @@ class AddAppointmentForm extends Component
 
         if (! User::role('Guest')->whereKey($this->guest_id)->exists()) {
             $this->addError('guest_id', 'Paziente non valido.');
+
             return;
         }
 
@@ -315,21 +326,29 @@ class AddAppointmentForm extends Component
 
         if (! in_array($this->scheduled_time, $validValues, true)) {
             $this->addError('scheduled_time', 'Lo slot selezionato non è più disponibile, scegline un altro.');
+
             return;
         }
 
-        Appointment::create([
-            'guest_id'     => $this->guest_id,
-            'doctor_id'    => $this->doctor->id,
-            'scheduled_at' => Carbon::parse($this->scheduled_date . ' ' . $this->scheduled_time),
-            'duration'     => $this->doctor->doctorDetail->slot_duration ?: 30,
-            'type'         => $this->type,
-            'status'       => $this->status,
-            'reason'       => $this->reason,
-            'notes'        => $this->notes,
+        $appointment = Appointment::create([
+            'guest_id' => $this->guest_id,
+            'doctor_id' => $this->doctor->id,
+            'scheduled_at' => Carbon::parse($this->scheduled_date.' '.$this->scheduled_time),
+            'duration' => $this->doctor->doctorDetail->slot_duration ?: 30,
+            'type' => $this->type,
+            'status' => $this->status,
+            'reason' => $this->reason,
+            'notes' => $this->notes,
         ]);
 
-        $this->dispatch('appointment-created');
+        $guest = User::findOrFail($this->guest_id);
+        $guest->notify(new UserNotification(
+            'appointment_created',
+            'Il dottor '.$this->doctor->name.' ha creato un nuovo appuntamento.',
+            appointmentId: $appointment->id,
+        ));
+
+        $this->dispatch('appointment_created');
         $this->resetForm();
     }
 

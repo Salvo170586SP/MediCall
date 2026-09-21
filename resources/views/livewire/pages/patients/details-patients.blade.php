@@ -10,7 +10,7 @@
             Indietro
         </button>
 
-        <div class="mt-5" x-data="{ activeTab: 'records' }">
+        <div class="mt-5" x-data="{ activeTab: 'patient' }">
             {{-- Tab navigation --}}
             <div class="mt-10 flex justify-between">
                 <nav class="flex gap-2">
@@ -320,8 +320,6 @@
                                     <th class="px-6 py-3">Min</th>
                                     <th class="px-6 py-3">Max</th>
                                     <th class="px-6 py-3">Severità</th>
-                                    <th class="px-6 py-3 text-center">Notifica paziente</th>
-                                    <th class="px-6 py-3 text-center">Notifica medico</th>
                                     <th class="px-6 py-3">Creata il</th>
                                     <th class="px-6 py-3">Creato da</th>
                                     <th class="px-6 py-3 text-right">Azioni</th>
@@ -345,40 +343,6 @@
                                         </span>
                                         @endif
                                         @endforeach
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-900 text-center">
-                                        <div class="w-full flex justify-center">
-                                            @if($threshold->notify_patient)
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-                                            </svg>
-                                            @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9.143 17.082a24.248 24.248 0 0 0 3.844.148m-3.844-.148a23.856 23.856 0 0 1-5.455-1.31 8.964 8.964 0 0 0 2.3-5.542m3.155 6.852a3 3 0 0 0 5.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 0 0 3.536-1.003A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53" />
-                                            </svg>
-                                            @endif
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 text-slate-900 text-center">
-                                        <div class="w-full flex justify-center">
-                                            @if($threshold->notify_doctor)
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-                                            </svg>
-                                            @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9.143 17.082a24.248 24.248 0 0 0 3.844.148m-3.844-.148a23.856 23.856 0 0 1-5.455-1.31 8.964 8.964 0 0 0 2.3-5.542m3.155 6.852a3 3 0 0 0 5.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 0 0 3.536-1.003A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53" />
-                                            </svg>
-                                            @endif
-                                        </div>
                                     </td>
                                     <td class="px-6 py-4 text-slate-600">{{
                                         $threshold->created_at->format('d/m/Y') }}</td>
@@ -434,7 +398,7 @@
                             Appuntamenti
                         </h2>
 
-                        @role('Admin')
+                        @role('Doctor')
                         <livewire:pages.patients.add-appointment-form :patient="$patient"
                             :key="'add-appointment-patient-'.$patient->id" />
                         @endrole
@@ -491,7 +455,7 @@
                                     <th class="px-6 py-2 text-center">Stato</th>
                                     <th class="px-6 py-2 text-center">Motivazione visita</th>
                                     <th class="px-6 py-2 text-center">Note del medico</th>
-                                    <th class="px-6 py-2">Azioni</th>
+                                    <th class="px-6 py-2 text-end">Azioni</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -583,7 +547,7 @@
                                         -
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 text-slate-600">
+                                    <td class="px-6 py-4 text-end text-slate-600">
                                         <x-modal title="Elimina definitivamente?" confirm-label="elimina"
                                             wire:key="deleteAppointment-[{{$appointment->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
@@ -633,7 +597,7 @@
                             Cartella clinica
                         </h2>
 
-                        @role(['Admin', 'Doctor'])
+                        @role(['Doctor'])
                         <livewire:pages.patients.add-medical-records-form :patient="$patient"
                             :key="'add-medical-records-patient-'.$patient->id" />
                         @endrole

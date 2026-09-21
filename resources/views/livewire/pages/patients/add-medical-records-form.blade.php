@@ -16,7 +16,7 @@
             <div class="mt-10 gap-5">
                 <div class="w-[500px] space-y-3">
                     <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">Data di Visita *</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">Data di visita</label>
                         <input type="date" wire:model="visit_date"
                             class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
                         @error('visit_date') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 
-#[Fillable(['guest_id', 'doctor_by', 'parameter_type', 'min_value', 'max_value', 'severity', 'notify_doctor', 'notify_guest'])]
+#[Fillable(['guest_id', 'doctor_by', 'parameter_type', 'min_value', 'max_value', 'severity'])]
 class HealthThreshold extends Model
 {
     protected function casts(): array
@@ -15,8 +15,6 @@ class HealthThreshold extends Model
         return [
             'min_value' => 'decimal:2',
             'max_value' => 'decimal:2',
-            'notify_doctor' => 'boolean',
-            'notify_guest' => 'boolean',
         ];
     }
 

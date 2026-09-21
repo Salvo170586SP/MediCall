@@ -15,7 +15,7 @@
         </div>
     </button>
 
-    <div x-show="isOpen == true" cloak @click.outside="isOpen = false" class="absolute top-14 right-0 bg-white border rounded-xl w-50 p-2 shadow">
+    <div x-show="isOpen == true" x-cloak @click.outside="isOpen = false" class="absolute top-14 right-0 bg-white border rounded-xl w-50 p-2 shadow">
         <flux:menu.radio.group>
             <flux:menu.item href="/edit-profile/{{auth()->user()->id}}" icon="cog" wire:navigate class="hover:bg-slate-50 cursor-pointer">
                 {{ __('Modifica account') }}

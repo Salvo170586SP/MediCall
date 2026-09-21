@@ -34,6 +34,22 @@ class IndexPatients extends Component
         }
     }
 
+    public function detachPatientOnDoctor(int $patient_id)
+    {
+        /** @var User $authenticatedUser */
+        $authenticatedUser = Auth::user();
+
+        abort_unless($authenticatedUser->hasRole('Doctor'), 403);
+
+        try {
+            $authenticatedUser->patients()->detach($patient_id);
+
+            session()->flash('success', 'Paziente scollegato con successo!');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Errore durante la eliminazione: '.$e->getMessage());
+        }
+    }
+
     public function render()
     {
         $patientsQuery = User::role('Guest')

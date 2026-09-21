@@ -44,8 +44,10 @@
                         Città di nascita</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                         Cod.fiscale</th>
+                    @role('Admin')
                     <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
                         Medici</th>
+                    @endrole
                     <th class="px-3 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
                         Azioni</th>
                 </tr>
@@ -66,11 +68,13 @@
                     </td>
                     <td class="px-3 py-4 text-slate-900 text-left">{{ $user_patient->guestDetail->tax_id_code ?? '-' }}
                     </td>
+                    @role('Admin')
                     <td class="px-3 py-4 text-slate-900 text-center"> <span
                             class="inline-flex items-center justify-center text-center rounded-full w-[25px] h-[25px] bg-blue-100  }}">
                             {{ $user_patient->doctorsCount}}
                         </span>
                     </td>
+                    @endrole
                     <td class="px-3 py-4 text-right">
                         <div class="inline-flex items-center justify-end gap-2">
                             <button wire:navigate href="patients/details/{{$user_patient->id}}" title="dettagli"
@@ -91,7 +95,7 @@
                             </button>
 
                             <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
-                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800" >
+                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                 <x-slot:trigger>
                                     <button title="elimina"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
@@ -109,12 +113,23 @@
                                     </div>
                                 </x-slot:body>
 
+                                @role('Admin')
                                 <x-slot:action>
                                     <button wire:click="deletePatient({{$user_patient->id}})"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
                                         Elimina
                                     </button>
                                 </x-slot:action>
+                                @endrole
+
+                                @role('Doctor')
+                                <x-slot:action>
+                                    <button wire:click="detachPatientOnDoctor({{$user_patient->id}})"
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
+                                        Elimina
+                                    </button>
+                                </x-slot:action>
+                                @endrole
 
                             </x-modal>
                         </div>

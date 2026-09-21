@@ -19,6 +19,7 @@
             </div>
         </flux:card>
 
+        @role('Admin')
         <flux:card class="border-emerald-100 bg-emerald-50/70 p-5">
             <div class="flex items-start justify-between gap-4">
                 <div>
@@ -31,6 +32,7 @@
                 </span>
             </div>
         </flux:card>
+        @endrole
 
         <flux:card class="border-amber-100 bg-amber-50/70 p-5">
             <div class="flex items-start justify-between gap-4">

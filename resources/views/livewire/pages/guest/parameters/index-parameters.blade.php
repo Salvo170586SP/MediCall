@@ -1,12 +1,11 @@
 <div>
-    <div class="mx-auto max-w-7xl flex justify-end">
+    <div class="mx-auto max-w-7xl">
         <button wire:navigate href="/guest/dashboard"
-            class="inline-flex items-center gap-1.5 px-4 py-3 mb-5 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
             </svg>
-            Indietro
         </button>
     </div>
 
@@ -83,7 +82,7 @@
                         <th class="px-5 py-3 font-semibold">Data e ora</th>
                         <th class="px-5 py-3 font-semibold">Origine</th>
                         <th class="px-5 py-3 font-semibold">Note</th>
-                        <th class="px-5 py-3 font-semibold">Azioni</th>
+                        <th class="px-5 py-3 text-end font-semibold">Azioni</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -128,7 +127,7 @@
                         <td class="max-w-xs px-5 py-4 text-slate-500">
                             <div class="flex justify-end gap-3">
                                 <button wire:navigate href="/guest/parameters/{{$parameter->id}}/edit" title="modifica"
-                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
+                                    class="inline-flex items-center gap-1.5 p-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -140,7 +139,7 @@
                                     confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                     <x-slot:trigger>
                                         <button title="elimina"
-                                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                            class="inline-flex items-center gap-1.5 p-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"

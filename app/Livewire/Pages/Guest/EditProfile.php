@@ -37,6 +37,8 @@ class EditProfile extends Component
 
     public string $password_confirmation = '';
 
+    public bool $notifications = false;
+
     public function mount(User $patient): void
     {
         abort_unless($patient->is(Auth::user()), 403);
@@ -50,6 +52,7 @@ class EditProfile extends Component
         $this->birth_date = $detail?->birth_date?->format('Y-m-d') ?? '';
         $this->tax_id_code = $detail->tax_id_code ?? '';
         $this->gender = $detail->gender ?? '';
+        $this->notifications = $detail->notifications ?? false;
     }
 
     public function updateProfileInformation(): void
@@ -64,6 +67,7 @@ class EditProfile extends Component
             'birth_date' => ['nullable', 'date', 'before_or_equal:today'],
             'tax_id_code' => ['nullable', 'string', 'max:20'],
             'gender' => ['nullable', 'string', 'max:30'],
+            'notifications' => ['nullable'],
         ]);
 
         $user->fill([
@@ -82,6 +86,7 @@ class EditProfile extends Component
             'birth_date' => blank($validated['birth_date']) ? null : $validated['birth_date'],
             'tax_id_code' => $validated['tax_id_code'],
             'gender' => $validated['gender'],
+            'notifications' => $validated['notifications'],
         ];
 
         $guestDetail = $user->guestDetail;

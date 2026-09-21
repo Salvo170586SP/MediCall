@@ -13,6 +13,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/fortify (FORTIFY) - v1
 - laravel/framework (LARAVEL) - v13
 - laravel/prompts (PROMPTS) - v0
+- laravel/reverb (REVERB) - v1
 - livewire/flux (FLUXUI_FREE) - v2
 - livewire/livewire (LIVEWIRE) - v4
 - larastan/larastan (LARASTAN) - v3
@@ -155,15 +156,6 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Livewire allow to build dynamic, reactive interfaces in PHP without writing JavaScript.
 - You can use Alpine.js for client-side interactions instead of JavaScript frameworks.
 - Keep state server-side so the UI reflects it. Validate and authorize in actions as you would in HTTP requests.
-
-=== specialized agents ===
-
-Use the specialized workspace agents below when a task benefits from focused expertise. They inherit this file, so each agent must read these project guidelines before making changes.
-
-- Front-end work, React.js, Vue.js, Livewire, Flux UI, Tailwind CSS, accessibility, responsive layouts and Vite: [.github/agents/frontend-developer.agent.md](.github/agents/frontend-developer.agent.md)
-- Back-end work, PHP, database schemas, Eloquent, data handling, security, queues and performance: [.github/agents/backend-developer.agent.md](.github/agents/backend-developer.agent.md)
-
-Choose one specialist for a focused task. For work spanning both layers, use both agents in sequence and keep shared contracts aligned through this file and the existing tests.
 
 === pint/core rules ===
 

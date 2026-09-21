@@ -20,7 +20,7 @@ class EditMedicalRecordsForm extends Component
     public MedicalRecord $medicalRecord;
     public ?int $doctor_id = null;
     public ?int $appintment_id = null;
-    public string $visit_date = '';
+    public ?string $visit_date = null;
     public string $diagnosis = '';
     public string $prescription = '';
     public string $instructions = '';
@@ -61,7 +61,7 @@ class EditMedicalRecordsForm extends Component
     protected function rules(): array
     {
         return [
-            'visit_date' => ['required', 'date'],
+            'visit_date' => ['nullable', 'date'],
             'diagnosis' => ['required', 'string'],
             'prescription' => ['nullable', 'string'],
             'instructions' => ['nullable', 'string'],
@@ -73,7 +73,6 @@ class EditMedicalRecordsForm extends Component
     protected function messages(): array
     {
         return [
-            'visit_date.required' => 'Seleziona una data.',
             'diagnosis.required' => 'Il campo è obbligatorio.',
             'file_type.required_with' => 'Seleziona il tipo di file.',
         ];
@@ -108,7 +107,7 @@ class EditMedicalRecordsForm extends Component
 
             DB::transaction(function () use ($newFilePath): void {
                 $this->medicalRecord->update([
-                    'visit_date' => $this->visit_date,
+                   'visit_date' => $this->visit_date ?: null,
                     'diagnosis' => $this->diagnosis,
                     'prescription' => $this->prescription,
                     'instructions' => $this->instructions,
@@ -163,7 +162,7 @@ class EditMedicalRecordsForm extends Component
 
     private function loadRecordData(): void
     {
-        $this->visit_date = $this->medicalRecord->visit_date->toDateString();
+        $this->visit_date = $this->medicalRecord->visit_date?->toDateString();
         $this->diagnosis = $this->medicalRecord->diagnosis;
         $this->prescription = $this->medicalRecord->prescription ?? '';
         $this->instructions = $this->medicalRecord->instructions ?? '';

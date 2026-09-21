@@ -27,6 +27,8 @@
                     appuntamenti,
                     cartelle
                     cliniche e comunicazioni direttamente dalla home di MediCall.</p>
+                <p class="mt-1 text-slate-600 text-xs font-medium">*Se non 'hai ancora fatto, ti invitiamo di completare
+                    l'aggiunta dei tuoi dati tramite la modifica del profilo.</p>
             </div>
             <button wire:navigate href="/guest/edit/{{auth()->user()->id}}"
                 class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-sky-300 bg-sky-50 hover:bg-sky-100 font-bold text-sky-800">
@@ -57,7 +59,7 @@
         </div>
     </section>
 
-    <div class="h-full max-w-7xl mx-auto flex flex-col gap-3 lg:grid grid-cols-3 gap-3">
+    <div class="h-full max-w-7xl  mx-auto flex flex-col gap-3 lg:grid grid-cols-3 gap-3">
 
         {{-- * Allergie --}}
         <section
@@ -152,14 +154,23 @@
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50  px-6 py-8 lg:px-8">
             <div class="flex items-center">
                 <div
-                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center relative">
+                    @if ($hasNewAppointment)
+                    <span class="w-3 h-3 rounded-full absolute right-0 top-0 bg-blue-800"
+                        title="nuovo appuntamento"></span>
+                    @endif
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                     </svg>
                 </div>
-                <h2 class="ms-3 text-xl font-bold text-slate-700">I tuoi appuntamenti</h2>
+                <div>
+                    <h2 class="ms-3 text-xl font-bold text-slate-700">I tuoi appuntamenti</h2>
+                    <p class="ms-3 text-sm font-semibold text-sky-800">
+                        {{ $appointments->count() }} appuntamenti presi
+                    </p>
+                </div>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
                 <button wire:navigate href="/guest/appointments"
@@ -219,7 +230,10 @@
             class="h-45 relative border border-gray-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
             <div class="flex items-center">
                 <div
-                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
+                    class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center relative">
+                    @if ($hasNewReport)
+                    <span class="w-3 h-3 rounded-full absolute right-0 top-0 bg-blue-800" title="nuovo referto"></span>
+                    @endif
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -251,11 +265,10 @@
             <div class="flex items-center">
                 <div
                     class="w-12 h-12 bg-emerald-100 border border-gray-200 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="size-6  text-emerald-700">
-                        <path fill-rule="evenodd"
-                            d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z"
-                            clip-rule="evenodd" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6 text-emerald-700">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                     </svg>
                 </div>
                 <h2 class="ms-3 text-xl font-bold text-slate-900">Lista medici</h2>

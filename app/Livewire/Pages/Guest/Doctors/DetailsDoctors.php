@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Guest\Doctors;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Notifications\UserNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -118,7 +119,7 @@ class DetailsDoctors extends Component
             return;
         }
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'guest_id' => Auth::id(),
             'doctor_id' => $this->doctor->id,
             'scheduled_at' => $date->setTimeFromTimeString($this->scheduled_time),
@@ -127,6 +128,13 @@ class DetailsDoctors extends Component
             'status' => 'pending',
             'reason' => $this->reason,
         ]);
+
+        $guest = User::findOrFail($appointment->guest_id);
+        $this->doctor->notify(new UserNotification(
+            'appointment_created',
+            'Il paziente '.$guest->name.' ha richiesto un nuovo appuntamento.',
+            appointmentId: $appointment->id,
+        ));
 
         $this->scheduled_time = '';
         $this->reason = '';

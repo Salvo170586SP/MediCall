@@ -1,46 +1,47 @@
 <div class="mx-auto max-w-7xl space-y-5">
-    <div class="flex items-center justify-between gap-4">
+    <button wire:navigate href="{{ route('guest.doctors') }}"
+        class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
+        <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+        </svg>
+    </button>
+
+    <div class="flex items-center justify-between">
         <div>
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-600">Profilo medico</p>
             <h1 class="mt-1 text-2xl font-semibold text-slate-900">Dettagli del dottore</h1>
         </div>
-        <a wire:navigate href="{{ route('guest.doctors') }}"
-            class="inline-flex items-center gap-1.5 rounded-xl bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
-            <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                    d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
-            </svg>
-            Indietro
-        </a>
     </div>
 
     @if (session('success'))
-        <div x-data="{ open: true }" x-on:keydown.escape.window="open = false">
-            <div x-cloak x-show="open" x-transition.opacity
-                class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 sm:p-6"
-                role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
-                <div x-on:click="open = false" class="absolute inset-0 bg-slate-900/50"></div>
-                <div x-show="open" x-transition.scale.95
-                    class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-                    <div class="flex items-start gap-4">
-                        <div class="flex size-11 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="m5 12 4 4L19 6" />
-                            </svg>
-                        </div>
-                        <div class="min-w-0">
-                            <h2 id="booking-success-title" class="text-lg font-semibold text-slate-900">Prenotazione completata</h2>
-                            <p class="mt-2 text-sm leading-6 text-slate-600">{{ session('success') }}</p>
-                        </div>
+    <div x-data="{ open: true }" x-on:keydown.escape.window="open = false">
+        <div x-cloak x-show="open" x-transition.opacity
+            class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 sm:p-6" role="dialog"
+            aria-modal="true" aria-labelledby="booking-success-title">
+            <div x-on:click="open = false" class="absolute inset-0 bg-slate-900/50"></div>
+            <div x-show="open" x-transition.scale.95
+                class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="flex size-11 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12 4 4L19 6" />
+                        </svg>
                     </div>
-                    <button type="button" x-on:click="open = false" wire:navigate href="/guest/appointments"
-                        class="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
-                        Chiudi e vai ai tuoi appuntamenti
-                    </button>
+                    <div class="min-w-0">
+                        <h2 id="booking-success-title" class="text-lg font-semibold text-slate-900">Prenotazione
+                            completata</h2>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">{{ session('success') }}</p>
+                    </div>
                 </div>
+                <button type="button" x-on:click="open = false" wire:navigate href="/guest/appointments"
+                    class="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                    Chiudi e vai ai tuoi appuntamenti
+                </button>
             </div>
         </div>
+    </div>
     @endif
 
     <section class="overflow-hidden rounded-2xl border border-slate-200  bg-gradient-to-r from-emerald-50 to-teal-50">
@@ -48,13 +49,13 @@
             class="flex flex-col gap-5 border-b border-slate-200 bg-slate-100 px-5 py-5 sm:flex-row sm:items-start sm:justify-between">
             <div class="flex min-w-0 items-center gap-4">
                 @if ($doctor->photo)
-                    <img class="size-20 rounded-full border border-slate-300 object-cover"
-                        src="{{ asset('storage/'.$doctor->photo->file_path) }}" alt="{{ $doctor->name }}">
+                <img class="size-20 rounded-full border border-slate-300 object-cover"
+                    src="{{ asset('storage/'.$doctor->photo->file_path) }}" alt="{{ $doctor->name }}">
                 @else
-                    <div
-                        class="flex size-20 shrink-0 items-center justify-center border border-slate-300 rounded-full bg-sky-100 text-xl font-bold text-sky-700">
-                        {{ $doctor->initials() }}
-                    </div>
+                <div
+                    class="flex size-20 shrink-0 items-center justify-center border border-slate-300 rounded-full bg-sky-100 text-xl font-bold text-sky-700">
+                    {{ $doctor->initials() }}
+                </div>
                 @endif
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-2">
@@ -63,10 +64,11 @@
                             class="rounded-full px-3 py-1 text-xs font-semibold {{ $doctor->doctorDetail?->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">{{
                             $doctor->doctorDetail?->is_active ? 'Disponibile' : 'Non disponibile' }}</span>
                     </div>
-                    <p class="mt-1 text-sm text-slate-700 ">{{ $doctor->doctorDetail?->specialty ?? 'Specializzazione non
+                    <p class="mt-1 text-sm text-slate-700 ">{{ $doctor->doctorDetail?->specialty ?? 'Specializzazione
+                        non
                         indicata' }} · {{ $doctor->doctorDetail?->sub_specialty ?? 'Profilo medico' }}</p>
-                    <p class="mt-2 text-sm text-slate-700">{{ $doctor->email }} · {{ $doctor->doctorDetail?->phone ??
-                        'Telefono non indicato' }}</p>
+                    <p class="mt-2 text-sm text-slate-700">Email:<span class="font-semibold"> {{ $doctor->email }}</span>  Tel: <span class="font-semibold">  {{ $doctor->doctorDetail?->phone ??
+                        'Telefono non indicato' }} </span> </p>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-2 text-center sm:min-w-52">
@@ -83,7 +85,8 @@
         <div class="grid gap-5 p-5 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Biografia</h3>
-                <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600">{{ $doctor->doctorDetail && $doctor->doctorDetail?->bio ? $doctor->doctorDetail?->bio : 'Biografia non disponibile.' }}</p>
+                <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600">{{ $doctor->doctorDetail &&
+                    $doctor->doctorDetail?->bio ? $doctor->doctorDetail?->bio : 'Biografia non disponibile.' }}</p>
             </div>
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Orari settimanali</h3>
@@ -127,7 +130,7 @@
                 <div class="rounded-xl border border-slate-200 p-3 sm:p-5 bg-white">
                     <div class="mb-2 grid grid-cols-7 text-center text-xs font-semibold text-slate-400">
                         @foreach (['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'] as $day)
-                            <span>{{ $day }}</span>
+                        <span>{{ $day }}</span>
                         @endforeach
                     </div>
                     <div class="grid grid-cols-7 gap-1.5">

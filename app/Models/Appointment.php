@@ -125,6 +125,10 @@ class Appointment extends Model
 
     public function formatClock($data)
     {
+        if (blank($data)) {
+            return '-';
+        }
+        
         Carbon::setLocale('it');
         return Carbon::parse($data)->translatedFormat('H:i');
     }

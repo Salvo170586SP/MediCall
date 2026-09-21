@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Pages;
 
-use App\Models\User;
-use Livewire\Component;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Livewire\Component;
 
 class EditProfileAdmin extends Component
 {
@@ -16,15 +16,16 @@ class EditProfileAdmin extends Component
     use ProfileValidationRules;
 
     public string $name = '';
+
     public string $email = '';
-    public string $phone = '';
-    public string $birth_city = '';
-    public string $birth_date = '';
-    public string $tax_id_code = '';
-    public string $gender = '';
+
     public string $current_password = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
+
+    public bool $notifications = false;
 
     public function mount(User $user): void
     {
@@ -32,11 +33,7 @@ class EditProfileAdmin extends Component
 
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->phone = $user->doctorDetail?->phone ?? '';
-        $this->birth_city = $user->doctorDetail?->birth_city ?? '';
-        $this->birth_date = $user->doctorDetail?->birth_date?->format('Y-m-d') ?? '';
-        $this->tax_id_code = $user->doctorDetail?->tax_id_code ?? '';
-        $this->gender = $user->doctorDetail?->gender ?? '';
+        $this->notifications = $user->doctorDetail?->notifications ?? false;
     }
 
     public function updateProfileInformation(): void
@@ -46,11 +43,6 @@ class EditProfileAdmin extends Component
 
         $validated = $this->validate([
             ...$this->profileRules($user->id),
-            'phone' => ['nullable', 'string', 'max:20', 'regex:/^[0-9]+$/'],
-            'birth_city' => ['nullable', 'string', 'max:255'],
-            'birth_date' => ['nullable', 'date', 'before_or_equal:today'],
-            'tax_id_code' => ['nullable', 'string', 'max:20'],
-            'gender' => ['nullable', 'string', 'max:30'],
         ]);
 
         $user->fill([
@@ -63,23 +55,26 @@ class EditProfileAdmin extends Component
         }
 
         $user->save();
-        $detailData = [
-            'phone' => $validated['phone'],
-            'birth_city' => $validated['birth_city'],
-            'birth_date' => blank($validated['birth_date']) ? null : $validated['birth_date'],
-            'tax_id_code' => $validated['tax_id_code'],
-            'gender' => $validated['gender'],
-        ];
-
-        $guestDetail = $user->guestDetail;
-        if ($guestDetail !== null || collect($detailData)->contains(filled(...))) {
-            $user->guestDetail()->updateOrCreate([], [
-                ...$detailData,
-                'blood_type' => $guestDetail?->blood_type ?? '',
-            ]);
-        }
 
         Flux::toast(variant: 'success', text: __('Profilo aggiornato.'));
+    }
+
+    public function submitNotificated(): void
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $validated = $this->validate([
+            'notifications' => ['required', 'boolean'],
+        ]);
+
+        $detailData = [
+            'notifications' => $validated['notifications'],
+        ];
+
+        $user->doctorDetail()->updateOrCreate([], $detailData);
+
+        Flux::toast(variant: 'success', text: __('Stato notifiche aggiornate.'));
     }
 
     public function updatePassword(): void

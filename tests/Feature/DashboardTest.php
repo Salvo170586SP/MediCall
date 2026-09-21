@@ -274,3 +274,39 @@ test('doctor sees only their patients in the patient list', function () {
         ->assertSee('Paziente del Dottore')
         ->assertSee('Paziente di un Altro Dottore');
 });
+
+test('doctor can detach only their patient without deleting the patient', function () {
+    Role::create(['name' => 'Doctor']);
+    Role::create(['name' => 'Guest']);
+
+    $doctor = User::factory()->create();
+    $doctor->assignRole('Doctor');
+    $otherDoctor = User::factory()->create();
+    $otherDoctor->assignRole('Doctor');
+    $patient = User::factory()->create();
+    $patient->assignRole('Guest');
+
+    $doctorAppointment = Appointment::create([
+        'guest_id' => $patient->id,
+        'doctor_id' => $doctor->id,
+        'scheduled_at' => now()->addDay(),
+        'duration' => 30,
+        'status' => 'confirmed',
+    ]);
+    $otherDoctorAppointment = Appointment::create([
+        'guest_id' => $patient->id,
+        'doctor_id' => $otherDoctor->id,
+        'scheduled_at' => now()->addDays(2),
+        'duration' => 30,
+        'status' => 'confirmed',
+    ]);
+
+    Livewire::actingAs($doctor)
+        ->test(IndexPatients::class)
+        ->call('detachPatientOnDoctor', $patient->id)
+        ->assertHasNoErrors();
+
+    expect(User::find($patient->id))->not->toBeNull();
+    expect(Appointment::find($doctorAppointment->id))->toBeNull();
+    expect(Appointment::find($otherDoctorAppointment->id))->not->toBeNull();
+});

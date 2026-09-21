@@ -24,7 +24,7 @@
                 <flux:badge color="emerald" icon="check-circle">Account attivo</flux:badge>
             </div>
         </div>
-        
+
         {{-- modifica nome e email --}}
         <section class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-700 dark:bg-zinc-900">
             <div class="mb-6 flex items-start gap-3">
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <form wire:submit="updateProfileInformation" class="space-y-6">
+            <form wire:submit="updateProfileInformation" class="space-y-6 mb-6">
                 <div class="grid gap-5 md:grid-cols-2">
                     <flux:input wire:model="name" label="Nome e cognome" type="text" required autocomplete="name" />
                     <flux:input wire:model="email" label="Email" type="email" required autocomplete="email" />
@@ -50,8 +50,15 @@
                     </flux:button>
                 </div>
             </form>
+
+            <div class="flex justify-between items-center border-t border-zinc-200 py-5">
+                <flux:checkbox wire:model="notifications" label="Attiva \ Disattiva Notifiche" />
+                <flux:button variant="primary" wire:click="submitNotificated">
+                    Salva cambiamento
+                </flux:button>
+            </div>
         </section>
-        
+
         {{-- modifica password --}}
         <section class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-700 dark:bg-zinc-900">
             <div class="mb-6 flex items-start gap-3">

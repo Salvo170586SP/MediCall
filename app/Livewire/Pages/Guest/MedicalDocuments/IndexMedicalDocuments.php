@@ -12,6 +12,11 @@ class IndexMedicalDocuments extends Component
 {
     use WithCustomPagination, WithPagination;
 
+    public function mount(): void
+    {
+        session()->forget('guest.has_new_report');
+    }
+
     public function render()
     {
         /** @var User $authenticatedUser */

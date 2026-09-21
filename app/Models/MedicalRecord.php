@@ -55,8 +55,11 @@ class MedicalRecord extends Model
 
     public function formatDate($data)
     {
-        Carbon::setLocale('it');
+        if (blank($data)) {
+            return '-';
+        }
 
+        Carbon::setLocale('it');
         return Carbon::parse($data)->translatedFormat('d F Y');
     }
 }

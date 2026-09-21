@@ -280,6 +280,7 @@
                                         $typesColor = collect($types)->firstWhere('type',
                                         $appointment->type)['color'] ?? '';
                                         @endphp
+                                        @role('Doctor')
                                         <select id="type-{{ $appointment->id }}"
                                             class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $typesColor }}"
                                             wire:change="editTypeAppointment({{ $appointment->id }}, $event.target.value)">
@@ -292,12 +293,24 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        @endrole
+                                        @role('Admin')
+                                        @foreach($types as $value)
+                                        @if($appointment->type == $value['type'])
+                                        <div wire:key="type-{{$value['type']}}"
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border {{ $typesColor }}">
+                                            {{$value['label'] }}
+                                        </div>
+                                        @endif
+                                        @endforeach
+                                        @endrole
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @php
                                         $statusColor = collect($statuses)->firstWhere('status',
                                         $appointment->status)['color'] ?? '';
                                         @endphp
+                                        @role('Doctor')
                                         <select id="status-{{ $appointment->id }}"
                                             class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $statusColor }}"
                                             wire:change="editStatusAppointment({{ $appointment->id }}, $event.target.value)">
@@ -310,6 +323,18 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        @endrole
+
+                                        @role('Admin')
+                                        @foreach($statuses as $value)
+                                        @if($appointment->status == $value['status'])
+                                        <div wire:key="status-{{$value['status']}}"
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border {{ $statusColor }}">
+                                            {{$value['label'] }}
+                                        </div>
+                                        @endif
+                                        @endforeach
+                                        @endrole
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->reason)

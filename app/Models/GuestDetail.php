@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['guest_id', 'code_item', 'img_url', 'birth_city', 'birth_date', 'tax_id_code', 'gender', 'phone', 'medical_history', 'blood_type', 'allergies', 'is_active'])]
+#[Fillable(['guest_id', 'code_item', 'img_url', 'birth_city', 'birth_date', 'tax_id_code', 'gender', 'phone', 'medical_history', 'blood_type', 'allergies', 'is_active', 'notifications'])]
 class GuestDetail extends Model
 {
     /**
@@ -19,6 +19,7 @@ class GuestDetail extends Model
         return [
             'birth_date' => 'date',
             'is_active' => 'boolean',
+            'notifications' => 'boolean',
         ];
     }
 
@@ -32,11 +33,10 @@ class GuestDetail extends Model
     public function formatDate($data)
     {
         if (blank($data)) {
-            return null;
+            return '-';
         }
 
         Carbon::setLocale('it');
-
         return Carbon::parse($data)->translatedFormat('d F Y');
     }
 }

@@ -1,12 +1,11 @@
 <div>
-    <div class="mx-auto max-w-7xl flex justify-end">
+    <div class="mx-auto max-w-7xl">
         <button wire:navigate href="/guest/dashboard"
-            class="inline-flex items-center gap-1.5 px-4 py-3 mb-5 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
             </svg>
-            Indietro
         </button>
     </div>
 
@@ -135,7 +134,7 @@
                         </td>
                         <td class="px-6 py-4 text-slate-900 text-center">
                             @if($record->medicalRecordDocument)
-                             <a download href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
+                            <a download href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
                                 title="Scarica {{ $record->medicalRecordDocument->file_path }}"
                                 class="inline-flex items-center justify-center rounded-xl bg-emerald-100 p-2 text-emerald-800 transition-colors hover:bg-emerald-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

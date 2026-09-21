@@ -14,7 +14,7 @@
                     {{ __('Dashboard') }}
                 </div>
             </button>
-            
+
             @role('Admin')
             <button wire:navigate href="{{route('doctors')}}"
                 class="flex items-center justify-between cursor-pointer text-[15px] font-bold px-4 py-1 rounded-lg {{request()->routeIs('doctors') ? 'bg-sky-100 text-sky-700' : 'bg-zinc-100 text-zinc-900 hover:bg-zinc-200'}}">
@@ -77,7 +77,7 @@
             </button>
         </nav>
         @endrole
-        
+
         {{ $slot }}
     </flux:main>
 </x-layouts::app.header>

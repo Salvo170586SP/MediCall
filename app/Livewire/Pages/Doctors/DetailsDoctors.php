@@ -3,8 +3,8 @@
 namespace App\Livewire\Pages\Doctors;
 
 use App\Concerns\WithCustomPagination;
-use App\Models\Appointment;
 use App\Models\User;
+use App\Notifications\UserNotification;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -76,22 +76,45 @@ class DetailsDoctors extends Component
 
     public function editTypeAppointment(int $appointmentId, string $type): void
     {
-        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment = $this->doctor->appointmentsDoctor()->findOrFail($appointmentId);
+
+        if ($appointment->type === $type) {
+            return;
+        }
+
         $appointment->update(['type' => $type]);
+        $appointment->patient->notify(new UserNotification(
+            'appointment_updated',
+            'Il tipo del tuo appuntamento è stato modificato dal dottor '.$this->doctor->name.'.',
+            appointmentId: $appointment->id,
+        ));
     }
-  
+
     public function editStatusAppointment(int $appointmentId, string $status): void
     {
-        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment = $this->doctor->appointmentsDoctor()->findOrFail($appointmentId);
+
+        if ($appointment->status === $status) {
+            return;
+        }
+
         $appointment->update(['status' => $status]);
+        $appointment->patient->notify(new UserNotification(
+            'appointment_updated',
+            'Lo stato del tuo appuntamento è stato modificato dal dottor '.$this->doctor->name.'.',
+            appointmentId: $appointment->id,
+        ));
     }
 
     public function deleteAppointment(int $appointment_id): void
     {
-        $appointment = Appointment::findOrFail($appointment_id);
-        if ($appointment) {
-            $appointment->delete();
-        }
+        $appointment = $this->doctor->appointmentsDoctor()->findOrFail($appointment_id);
+        $appointment->patient->notify(new UserNotification(
+            'appointment_updated',
+            'Il tuo appuntamento è stato cancellato dal dottor '.$this->doctor->name.'.',
+            appointmentId: $appointment->id,
+        ));
+        $appointment->delete();
     }
 
     #[On('appointment-created')]

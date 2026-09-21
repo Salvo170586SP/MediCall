@@ -7,7 +7,7 @@
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
 
-    <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <flux:header class="border-b border-zinc-200 bg-zinc-50">
 
         <flux:sidebar.toggle class="lg:hidden mr-2" icon="bars-2" inset="left" />
 
@@ -20,6 +20,12 @@
         </div>
 
         <flux:spacer />
+
+        @role(['Guest','Doctor'])
+        <div class="flex items-center gap-10">
+            <x-accordion-notifications title="Notifiche" />
+        </div>
+        @endrole
 
         <flux:dropdown position="bottom" align="start">
             @role('Guest')
@@ -35,7 +41,9 @@
         </flux:dropdown>
 
         @role(['Admin','Doctor'])
-        <x-desktop-user-menu />
+        <div class="flex items-center gap-5">
+            <x-desktop-user-menu />
+        </div>
         @endrole
     </flux:header>
 

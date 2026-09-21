@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Patients;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Notifications\UserNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -308,7 +309,7 @@ class AddAppointmentForm extends Component
             return;
         }
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'guest_id' => $this->patient->id,
             'doctor_id' => $doctor->id,
             'scheduled_at' => Carbon::parse($this->scheduled_date.' '.$this->scheduled_time),
@@ -319,7 +320,14 @@ class AddAppointmentForm extends Component
             'notes' => $this->notes,
         ]);
 
-        $this->dispatch('appointment-created');
+        $guest = User::findOrFail($appointment->guest_id);
+        $guest->notify(new UserNotification(
+            'appointment_created',
+            'Il dottor '.$doctor->name.' ha creato un nuovo appuntamento.',
+            appointmentId: $appointment->id,
+        ));
+
+        $this->dispatch('appointment_created');
         $this->resetForm();
     }
 

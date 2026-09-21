@@ -9,6 +9,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -62,7 +63,7 @@ class User extends Authenticatable implements PasskeyUser
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
 
@@ -77,24 +78,38 @@ class User extends Authenticatable implements PasskeyUser
         return $this->hasOne(GuestDetail::class, 'guest_id');
     }
 
+    //parametri
     public function healthParameters(): HasMany
     {
         return $this->hasMany(HealthParameter::class, 'guest_id');
     }
 
+    //parametri
     public function healthThresholds(): HasMany
     {
         return $this->hasMany(HealthThreshold::class, 'guest_id');
     }
 
+    //appuntamenti dal paziente
     public function appointmentsPatient(): HasMany
     {
         return $this->hasMany(Appointment::class, 'guest_id');
     }
 
+    //appuntamenti dal dottore
     public function appointmentsDoctor(): HasMany
     {
         return $this->hasMany(Appointment::class, 'doctor_id');
+    }
+
+    public function patients(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            self::class,
+            'appointments',
+            'doctor_id',
+            'guest_id',
+        );
     }
 
     public function documents(): MorphMany

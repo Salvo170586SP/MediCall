@@ -1,6 +1,6 @@
 <div>
 	<x-modal title="Aggiungi appuntamento" confirm-label="addAppointments" :close-on-click="false"
-		reset-method="resetForm" close-on-event="appointment-created"
+		reset-method="resetForm" close-on-event="appointment_created"
 		confirm-class="max-w-200 border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
 		<x-slot:trigger>
 			<button type="button" title="Aggiungi appuntamento"
