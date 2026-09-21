@@ -254,10 +254,19 @@
 
                 <!-- Buttons -->
                 <div class="flex gap-3 pt-6 border-t border-gray-200">
+                    @role('Doctor')
+                    <button wire:navigate href="/doctor/profile"
+                        class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">
+                        Annulla
+                    </button>
+                    @endrole
+                    @role('Admin')
                     <button wire:navigate href="/doctors"
                         class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">
                         Annulla
                     </button>
+                    @endrole
+
                     <button wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
                         class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition">
                         <span wire:loading.remove>Modifica</span>

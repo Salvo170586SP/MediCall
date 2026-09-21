@@ -1,7 +1,10 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
+
+uses(RefreshDatabase::class);
 
 test('login screen can be rendered', function () {
     $response = $this->get(route('login'));
@@ -64,4 +67,30 @@ test('users can logout', function () {
     $response->assertRedirect(route('home'));
 
     $this->assertGuest();
+});
+
+test('doctors can register with their professional details', function () {
+    $response = $this->post(route('doctor.register.store'), [
+        'name' => 'Mario Rossi',
+        'email' => 'mario.rossi@example.com',
+        'phone' => '3331234567',
+        'license_number' => 'MED-12345',
+        'city' => 'Milano',
+        'specialty' => 'Cardiologia',
+        'sub_specialty' => 'Elettrofisiologia',
+        'bio' => 'Medico cardiologo.',
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+    ]);
+
+    $response->assertSessionHasNoErrors()->assertRedirect(route('dashboard', absolute: false));
+
+    $doctor = User::query()->where('email', 'mario.rossi@example.com')->firstOrFail();
+
+    expect($doctor->hasRole('Doctor'))->toBeTrue();
+    $this->assertDatabaseHas('doctor_details', [
+        'doctor_id' => $doctor->id,
+        'license_number' => 'MED-12345',
+        'specialty' => 'Cardiologia',
+    ]);
 });

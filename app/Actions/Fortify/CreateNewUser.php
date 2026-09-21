@@ -24,6 +24,11 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             ...$this->profileRules(),
+            'phone' => ['nullable', 'string', 'max:255'],
+            'tax_id_code' => ['required', 'string', 'max:255'],
+            'birth_city' => ['required', 'string', 'max:255'],
+            'birth_date' => ['nullable', 'date'],
+            'gender' => ['nullable', 'string', 'max:255'],
             'password' => $this->passwordRules(),
         ])->validate();
 
@@ -38,6 +43,11 @@ class CreateNewUser implements CreatesNewUsers
 
         GuestDetail::create([
             'guest_id' => $user->id,
+            'phone' => $input['phone'] ?? null,
+            'tax_id_code' => $input['tax_id_code'],
+            'birth_city' => $input['birth_city'],
+            'birth_date' => $input['birth_date'] ?? null,
+            'gender' => $input['gender'] ?? null,
         ]);
 
         GeneratePatientCodeItemJob::dispatch($user->id);

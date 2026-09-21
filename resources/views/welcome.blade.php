@@ -53,12 +53,6 @@
                     class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100">
                     Accedi
                 </a>
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}"
-                    class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-700">
-                    Registrati
-                </a>
-                @endif
                 @endauth
             </nav>
             @endif
@@ -107,38 +101,12 @@
                     </div>
 
                     <!-- Right: Visual -->
-                    <div class="relative hidden h-96 lg:block">
-                        <div class="absolute inset-0 bg-gradient-to-br from-teal-100 to-blue-100 rounded-3xl"></div>
-                        <div
-                            class="absolute inset-4 flex items-center justify-center rounded-2xl bg-gradient-to-br from-teal-50 to-blue-50">
-                            <div class="relative w-64 h-64">
-                                <!-- Circle 1 -->
-                                <div
-                                    class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
-                                    <svg class="w-10 h-10 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" />
-                                    </svg>
-                                </div>
-                                <!-- Circle 2 -->
-                                <div
-                                    class="absolute bottom-8 left-4 w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
-                                    <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M10 2a8 8 0 100 16 8 8 0 000-16zM8.707 9.707a1 1 0 00-1.414-1.414L6 10.586 4.707 9.293a1 1 0 00-1.414 1.414L4.586 12l-1.293 1.293a1 1 0 101.414 1.414L6 13.414l1.293 1.293a1 1 0 001.414-1.414L7.414 12l1.293-1.293z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                                <!-- Circle 3 -->
-                                <div
-                                    class="absolute bottom-8 right-4 w-28 h-28 bg-cyan-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
-                                    <svg class="w-14 h-14 text-cyan-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M10.5 1.5H5.75A2.75 2.75 0 003 4.25v11.5A2.75 2.75 0 005.75 18.5h8.5A2.75 2.75 0 0017 15.75V8.5M10.5 1.5v4.75m0-4.75L14 6.25M10.5 6.25h3.5M6 10.5h8m-8 3h8" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="text-end">
+                        <figure class="w-full h-full overflow-hidden rounded-2xl">
+                            <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                src="{{asset('assets/imgs/img.jpg')}}" alt="wlcome-img">
+                        </figure>
+                        <span class="text-xs text-slate-400">*Immagine generata con Google Gemini</span>
                     </div>
                 </div>
             </div>
@@ -322,28 +290,20 @@
         </section>
 
         <!-- CTA Section -->
-
-        <section class="border-t border-slate-200 bg-slate-900 px-6 py-16 text-white lg:px-8">
+        <section class="bg-slate-700 px-6 py-16 text-white lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold">Pronto a Trasformare la Tua Pratica?</h2>
-                <p class="mt-4 text-lg text-slate-300">Inizia gratuitamente e scopri come MediCall può semplificare la
-                    gestione della tua pratica sanitaria.</p>
+                <h2 class="text-3xl font-bold">Sei un medico?</h2>
+                <p class="mt-4 text-lg font-medium text-slate-300">Inizia gratuitamente e scopri come puoi semplificare
+                    la
+                    gestione dei tuoi pazienti.</p>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
-                    <a href="{{ route('register') }}"
+                    <a href="{{ route('doctor.register') }}"
                         class="inline-flex items-center justify-center gap-2 rounded-lg bg-teal-600 px-8 py-3 font-semibold transition hover:bg-teal-700">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                         </svg>
-                        Registrati Gratuitamente
-                    </a>
-                    <a href="{{ route('login') }}"
-                        class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-600 px-8 py-3 font-semibold transition hover:border-slate-400 hover:bg-slate-800">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                        </svg>
-                        Accedi
+                        Registrati qui
                     </a>
                 </div>
             </div>

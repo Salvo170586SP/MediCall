@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorRegistrationController;
 use App\Livewire\Pages\Dashboard;
 use App\Livewire\Pages\Doctors\CreateDoctors;
 use App\Livewire\Pages\Doctors\DetailsDoctors;
@@ -23,6 +24,11 @@ use App\Livewire\Pages\Patients\IndexPatients;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/doctor/register', [DoctorRegistrationController::class, 'create'])->name('doctor.register');
+    Route::post('/doctor/register', [DoctorRegistrationController::class, 'store'])->name('doctor.register.store');
+});
 
 Route::middleware(['auth', 'verified', 'role:Admin|Doctor'])->group(function () {
     Route::get('/edit-profile/{user}', EditProfileAdmin::class)->name('edit-profile');

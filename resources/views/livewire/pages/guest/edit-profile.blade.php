@@ -90,5 +90,24 @@
                 </div>
             </form>
         </section>
+
+        {{-- elimina account --}}
+        <section class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-700 dark:bg-zinc-900">
+            <div class="mb-6 flex items-start justify-between">
+                <div class="flex items-start space-x-3">
+                    <div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-700">
+                        <flux:icon.exclamation-triangle class="size-5" />
+                    </div>
+                    <div>
+                        <flux:heading size="lg">Elimina account</flux:heading>
+                        <flux:subheading>Attenzione! Eliminando l'account perderai le tue credenziali di accesso e tutti
+                            i dati correlati non saranno più recuperabili
+                        </flux:subheading>
+                    </div>
+                </div>
+
+                <livewire:pages::settings.delete-user-form />
+            </div>
+        </section>
     </div>
 </div>
