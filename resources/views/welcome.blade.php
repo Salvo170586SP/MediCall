@@ -311,10 +311,11 @@
 
 
         <!-- Footer -->
-        <footer class="border-t border-slate-200 bg-slate-50 px-6 py-8 lg:px-8">
+        <footer class="border-t border-slate-200 bg-slate-50 px-6 py-5 lg:px-8">
             <div class="mx-auto max-w-7xl text-center">
                 <p class="text-sm text-slate-600">
-                    &copy; {{ now()->year }} MediCall - Gestione Sanitaria Professionale. Tutti i diritti riservati.
+                    &copy; {{ now()->year }} MediCall - Gestione Sanitaria Professionale. <br>
+                    Questa applicazione è stata realizzata da Salvatore Pitanza. Tutti i diritti sono riservati.
                 </p>
             </div>
         </footer>
