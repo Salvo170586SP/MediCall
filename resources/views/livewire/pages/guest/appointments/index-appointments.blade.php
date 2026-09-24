@@ -19,9 +19,9 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-slate-900">I tuoi appuntamenti</h1>
-                <p class="mt-1 text-sm text-slate-600">Consulta le visite prenotate e i dettagli dei tuoi incontri con i
-                    dottori.</p>
+                <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi appuntamenti') }}</h1>
+                <p class="mt-1 text-sm text-slate-600">{{ __('Consulta le visite prenotate e i dettagli dei tuoi
+                    incontri con i dottori') }}</p>
             </div>
         </div>
     </section>
@@ -30,17 +30,18 @@
         <div
             class="mb-6 flex flex-col gap-2 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-lg font-semibold text-slate-950">Storico appuntamenti</h2>
-                <p class="text-sm text-slate-500">Gli appuntamenti più recenti sono mostrati per primi.</p>
+                <h2 class="text-lg font-semibold text-slate-950">{{ __('Storico appuntamenti') }}</h2>
+                <p class="text-sm text-slate-500">{{ __('Gli appuntamenti più recenti sono mostrati per primi') }}</p>
             </div>
             <span
                 class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
-                {{ $appointments->total() }} {{ $appointments->total() === 1 ? 'appuntamento' : 'appuntamenti' }}
+                {{ $appointments->total() }} {{ $appointments->total() === 1 ? __('appuntamento') : __('appuntamenti')
+                }}
             </span>
         </div>
         <div class="w-full flex gap-5">
             <x-search-input inputClass="bg-gray-50 w-200" id="search_date" model="search_date" type="date"
-                label="Cerca per data" />
+                label="{{ __('Cerca per data') }}" />
         </div>
 
         @if ($appointments->isNotEmpty())
@@ -52,7 +53,8 @@
             $status = $statuses->get($appointment->status);
             $type = $types->get($appointment->type);
             @endphp
-            <x-modal title="Dettagli appuntamento" confirm-label="Chiudi" wire:key="appointment-{{ $appointment->id }}">
+            <x-modal title="{{ __('Dettagli appuntamento') }}" confirm-label="Chiudi"
+                wire:key="appointment-{{ $appointment->id }}">
                 <x-slot:trigger>
                     <article role="button" tabindex="0" @keydown.enter="$el.click()"
                         @keydown.space.prevent="$el.click()"
@@ -70,8 +72,8 @@
                                 </div>
                                 @endif
                                 <div class="min-w-0">
-                                    <h3 class="truncate font-semibold text-slate-950">Dott. {{
-                                        $appointment->doctor?->name ?? 'Non disponibile' }}</h3>
+                                    <h3 class="truncate font-semibold text-slate-950">{{ __('Dott.') }} {{
+                                        $appointment->doctor?->name ?? 'n/d' }}</h3>
                                     <p class="truncate text-sm text-slate-500">{{
                                         $appointment->doctor?->doctorDetail?->specialty ?? 'Specializzazione non
                                         indicata' }}</p>
@@ -86,12 +88,14 @@
 
                         <div class="mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 text-sm">
                             <div>
-                                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Data</p>
+                                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ __('Data') }}
+                                </p>
                                 <p class="mt-1 font-semibold text-slate-800">{{
                                     $appointment->formatDate($appointment->scheduled_at) }}</p>
                             </div>
                             <div>
-                                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Orario</p>
+                                <p class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ __('Orario') }}
+                                </p>
                                 <p class="mt-1 font-semibold text-slate-800">{{
                                     $appointment->formatClock($appointment->scheduled_at) }}</p>
                             </div>
@@ -100,11 +104,11 @@
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span
                                 class="rounded-full px-3 py-1 text-xs font-semibold {{ $status['color'] ?? 'bg-slate-100 text-slate-700' }}">
-                                {{ $status['label'] ?? str()->headline($appointment->status) }}
+                                {{ __( $status['label'] ?? str()->headline($appointment->status))}}
                             </span>
                             <span
                                 class="rounded-full px-3 py-1 text-xs font-semibold {{ $type['color'] ?? 'bg-slate-100 text-slate-700' }}">
-                                {{ $type['label'] ?? $appointment->typeLabel() }}
+                                {{ __($type['label'] ?? $appointment->typeLabel())}}
                             </span>
                         </div>
                     </article>
@@ -113,50 +117,42 @@
                 <x-slot:body>
                     <div class="w-[min(90vw,32rem)] space-y-4 text-left">
                         <div class="rounded-xl bg-slate-50 p-4">
-                            <p class="font-semibold text-slate-900">Dott. {{ $appointment->doctor?->name ?? 'Non
-                                disponibile' }}</p>
+                            <p class="font-semibold text-slate-900">{{ __('Dott.') }} {{ $appointment->doctor?->name ??
+                                'n/d' }}</p>
                             <p class="mt-1 text-sm text-slate-500">{{ $appointment->doctor?->doctorDetail?->specialty ??
-                                'Specializzazione non indicata' }}</p>
+                                'n/d' }}</p>
                         </div>
                         <dl class="grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
                             <div>
-                                <dt class="text-slate-500">Data</dt>
+                                <dt class="text-slate-500">{{ __('Data') }}</dt>
                                 <dd class="mt-1 font-semibold text-slate-900">{{
                                     $appointment->formatDate($appointment->scheduled_at) }}</dd>
                             </div>
                             <div>
-                                <dt class="text-slate-500">Orario</dt>
+                                <dt class="text-slate-500">{{ __('Orario') }}</dt>
                                 <dd class="mt-1 font-semibold text-slate-900">{{
                                     $appointment->formatClock($appointment->scheduled_at) }} ({{ $appointment->duration
                                     }} min)</dd>
                             </div>
                             <div>
-                                <dt class="text-slate-500">Tipo</dt>
-                                <dd class="mt-1 font-semibold text-slate-900">{{ $type['label'] ??
-                                    $appointment->typeLabel() }}</dd>
+                                <dt class="text-slate-500">{{ __('Tipo') }}</dt>
+                                <dd class="mt-1 font-semibold text-slate-900">{{ __( $type['label'] ?? $appointment->typeLabel())}}</dd>
                             </div>
                             <div>
-                                <dt class="text-slate-500">Stato</dt>
-                                <dd class="mt-1 font-semibold text-slate-900">{{ $status['label'] ??
-                                    str()->headline($appointment->status) }}</dd>
+                                <dt class="text-slate-500">{{ __('Stato') }}</dt>
+                                <dd class="mt-1 font-semibold text-slate-900">{{ __( $status['label'] ?? str()->headline($appointment->status))}}</dd>
                             </div>
                         </dl>
                         @if ($appointment->reason)
                         <div>
-                            <p class="text-sm text-slate-500">Motivo</p>
+                            <p class="text-sm text-slate-500">{{ __('Motivo') }}</p>
                             <p class="mt-1 text-sm text-slate-900">{{ $appointment->reason }}</p>
                         </div>
                         @endif
                         @if ($appointment->notes)
                         <div>
-                            <p class="text-sm text-slate-500">Note</p>
+                            <p class="text-sm text-slate-500">{{ __('Note') }}</p>
                             <p class="mt-1 text-sm text-slate-900">{{ $appointment->notes }}</p>
-                        </div>
-                        @endif
-                        @if ($appointment->cancellation_reason)
-                        <div>
-                            <p class="text-sm text-slate-500">Motivo cancellazione</p>
-                            <p class="mt-1 text-sm text-rose-700">{{ $appointment->cancellation_reason }}</p>
                         </div>
                         @endif
                     </div>

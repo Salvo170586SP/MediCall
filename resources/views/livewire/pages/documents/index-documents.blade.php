@@ -9,17 +9,17 @@
     <div class="w-full h-full flex gap-5">
         <div class="w-[420px] min-w-[420px]">
             <x-search-input inputClass="bg-gray-50 mt-4" id="searchUser" model="searchUser" label=""
-                placeholder="Cerca utente..." />
+                placeholder="{{ __('Cerca per nome') }}" />
 
             <div class="rounded-xl overflow-hidden border border-slate-200 mt-3">
                 <table class="w-full h-full">
                     <thead>
                         <tr class="border-b border-zinc-200 bg-zinc-100 text-[11px]">
                             <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                Archivio di
+                                {{ __('Archivio di') }}
                             </th>
                             <th class="px-3 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                                Azioni
+                                {{ __('Azioni') }}
                             </th>
                         </tr>
                     </thead>
@@ -34,7 +34,8 @@
                             </td>
                             <td class="px-3 py-2 text-right">
                                 <div class="inline-flex items-center justify-end gap-2">
-                                    <button wire:navigate href="patients/details/{{ $user->id }}" title="dettagli"
+                                    <button wire:navigate href="patients/details/{{ $user->id }}"
+                                        title="{{ __('Dettagli') }}"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -48,7 +49,7 @@
                         @empty
                         <tr>
                             <td colspan="2" class="px-6 py-8 italic text-center text-slate-400">
-                                <p>Nessun utente disponibile</p>
+                                <p>{{ __('Nessun utente disponibile') }}</p>
                             </td>
                         </tr>
                         @endforelse
@@ -63,20 +64,20 @@
         <div class="flex-1">
             @if($selectedUserId)
             <div class="grid gap-4 lg:grid-cols-3 mb-3">
-                <x-search-input inputClass="bg-gray-50" id="search" model="search"
-                    placeholder="Cerca per tipo o nome del file..." />
+                <x-search-input inputClass="bg-gray-50" id="search" model="search" label="{{ __('Cerca') }}"
+                    placeholder="{{ __('Cerca per tipo o nome del file...') }}" />
                 <div>
-                    <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
-                        Tipo Documento</label>
+                    <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">{{ __('Cerca per
+                        tipo') }}</label>
                     <select id="searchType" wire:model.live="searchType"
                         class="w-full rounded-xl border border-slate-200 bg-gray-50 px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                        <option value="">Tutti</option>
-                        <option value="identity_card">Carta d'Identità</option>
-                        <option value="tax_code">Codice fiscale</option>
-                        <option value="photo">Fotografia</option>
-                        <option value="medical_record">Referto medico</option>
-                        <option value="prescription">Ricetta medica</option>
-                        <option value="other">Altro</option>
+                        <option value="">{{ __('Tutti') }}</option>
+                        <option value="identity_card">{{ __('Carta d\'identità') }}</option>
+                        <option value="tax_code">{{ __('Codice fiscale') }}</option>
+                        <option value="photo">{{ __('Fotografia') }}</option>
+                        <option value="medical_record">{{ __('Referto medico') }}</option>
+                        <option value="prescription">{{ __('Ricetta medica') }}</option>
+                        <option value="other">{{ __('Altro') }}</option>
                     </select>
                 </div>
             </div>
@@ -86,16 +87,16 @@
                     <thead>
                         <tr class="border-b border-zinc-200 bg-zinc-100 text-[11px]">
                             <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                Nome File
+                                {{ __('Nome file') }}
                             </th>
                             <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                Di
+                                {{ __('di') }}
                             </th>
                             <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                Caricato da
+                                {{ __('Caricato da') }}
                             </th>
                             <th class="px-3 py-3 text-end font-semibold text-slate-900 uppercase tracking-wider">
-                                Azioni
+                                {{ __('Azioni') }}
                             </th>
                         </tr>
                     </thead>
@@ -113,7 +114,8 @@
                             </td>
                             <td class="px-3 py-4 text-slate-900">
                                 <div class="w-full flex justify-end space-x-3">
-                                    <a href="{{asset('storage/'.$document->file_path)}}" target="_blank" title="vedi"
+                                    <a href="{{asset('storage/'.$document->file_path)}}" target="_blank"
+                                        title="{{ __('Guarda') }}"
                                         class="w-8 h-8 rounded-xl inline-flex justify-center items-center bg-sky-100 hover:bg-sky-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -124,7 +126,8 @@
                                         </svg>
                                     </a>
 
-                                    <a href="{{asset('storage/'.$document->file_path)}}" download title="scarica"
+                                    <a href="{{asset('storage/'.$document->file_path)}}" download
+                                        title="{{ __('Scarica') }}"
                                         class="w-8 h-8 rounded-xl inline-flex justify-center items-center bg-sky-100 hover:bg-sky-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -133,11 +136,11 @@
                                         </svg>
                                     </a>
 
-                                    <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                    <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
                                         wire:key="deleteDocument-[{{$document->id}}]"
                                         confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                         <x-slot:trigger>
-                                            <button title="elimina"
+                                            <button title="{{ __('Elimina') }}"
                                                 class="w-8 h-8 cursor-pointer rounded-xl inline-flex justify-center items-center bg-red-100 hover:bg-red-200">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -148,13 +151,13 @@
                                         </x-slot:trigger>
 
                                         <x-slot:body>
-                                            Questa operazione è irreversibile.
+                                            {{ __('Questa operazione è irreversibile') }}
                                         </x-slot:body>
 
                                         <x-slot:action>
                                             <button wire:click="deleteDocument({{$document->id}})"
                                                 class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                Elimina
+                                                {{ __('Elimina') }}
                                             </button>
                                         </x-slot:action>
                                     </x-modal>
@@ -168,8 +171,8 @@
                     {{ $selectedDocuments->links() }}
                 </div>
                 @else
-                <div class="px-6 text-center text-slate-500">
-                    <p>Nessun documento disponibile per questo utente.</p>
+                <div class="px-6 py-5 text-center text-slate-500">
+                    <p>{{ __('Nessun documento disponibile') }}</p>
                 </div>
                 @endif
             </div>
@@ -181,8 +184,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                 </svg>
-                <p>Clicca su un utente per vedere i documenti</p>
-
+                <p>{{ __('Clicca su un utente per vedere i documenti') }}</p>
             </div>
             @endif
         </div>

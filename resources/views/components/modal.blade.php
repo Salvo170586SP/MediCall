@@ -2,14 +2,14 @@
 'id', // identificatore unico (es. "delete-doctor-{$id}")
 'title', // titolo della modale
 'confirmLabel' => 'Conferma',
-'cancelLabel' => 'Annulla',
 'confirmClass' => 'border-red-200 bg-red-50 hover:bg-red-100 text-red-800',
 'closeOnClick' => true, // comportamento di default invariato per le altre modali
 'closeOnEvent' => null, // nome evento Livewire che chiude la modale
 'resetMethod' => null,
 ])
 
-<div x-data="{ open: false }" x-cloak @if ($closeOnEvent) x-on:{{ $closeOnEvent }}.window="open = false @if($resetMethod) ; $wire.{{ $resetMethod }}() @endif" @endif>
+<div x-data="{ open: false }" x-cloak @if ($closeOnEvent) x-on:{{ $closeOnEvent
+    }}.window="open = false @if($resetMethod) ; $wire.{{ $resetMethod }}() @endif" @endif>
 
     {{-- Trigger slot: qualsiasi bottone/link che apre la modale --}}
     <div @click="open = true">
@@ -45,7 +45,7 @@
         <div class="flex items-center justify-end gap-2 mt-5">
             <button @click="open = false @if($resetMethod) ; $wire.{{ $resetMethod }}() @endif" type="button"
                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-gray-800 text-sm font-medium rounded-xl transition-colors">
-                {{ $cancelLabel }}
+                {{ __('Annulla') }}
             </button>
 
             {{-- Action slot: il form o qualsiasi azione di conferma --}}

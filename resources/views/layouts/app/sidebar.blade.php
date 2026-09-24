@@ -48,6 +48,10 @@
 
         <flux:spacer />
 
+        <div class="px-4 pb-4">
+            <livewire:components.language-switcher />
+        </div>
+
         <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
     </flux:sidebar>
 

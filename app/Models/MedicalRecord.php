@@ -59,7 +59,6 @@ class MedicalRecord extends Model
             return '-';
         }
 
-        Carbon::setLocale('it');
         return Carbon::parse($data)->translatedFormat('d F Y');
     }
 }

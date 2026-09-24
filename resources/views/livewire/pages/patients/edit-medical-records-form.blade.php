@@ -1,8 +1,8 @@
 <div>
-    <x-modal title="Modifica cartella clinica" confirm-label="Modifica cartella clinica" :close-on-click="false"
-        reset-method="resetForm" close-on-event="medical-record-edited">
+    <x-modal title="{{ __('Modifica Referto o Ricetta') }}" :close-on-click="false" reset-method="resetForm"
+        close-on-event="medical-record-edited">
         <x-slot:trigger>
-            <button type="button" title="Modifica cartella clinica"
+            <button type="button" title="{{ __('Modifica Referto o Ricetta') }}"
                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor">
@@ -16,25 +16,25 @@
             <div class="mt-10 gap-5">
                 <div class="w-[500px] space-y-3">
                     <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">Data di visita</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Data di visita') }}</label>
                         <input type="date" wire:model="visit_date"
                             class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
                         @error('visit_date') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                     </div>
                     <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">Diagnosi *</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Diagnosi') }} *</label>
                         <input type="text" wire:model="diagnosis"
                             class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
                         @error('diagnosis') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                     </div>
                     <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">Prescrizioni</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Prescrizioni') }}</label>
                         <textarea wire:model="prescription"
                             class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         @error('prescription') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                     </div>
                     <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">Consigli</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Consigli') }}</label>
                         <textarea wire:model="instructions"
                             class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         @error('instructions') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
@@ -42,42 +42,59 @@
 
                     {{-- sezione caricamento file --}}
                     <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">File</label>
+                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('File') }}</label>
 
                         {{-- file medical_record --}}
                         <div class="flex-col space-y-3">
                             <div class="flex flex-col">
-                                <div class="w-full flex flex-col">
+                                <div class="w-full flex flex-col items-center mb-2">
                                     <label for="file" class="block text-sm font-semibold text-slate-900 mb-1">
-                                        Sostituisci file
+                                        {{ __('Sostituisci file') }}
                                     </label>
+                                    <span class="font-semibold text-xs">
+                                        *{{ __('Se carichi il file, seleziona prima il tipo e poi il file') }}
+                                    </span>
                                 </div>
 
                                 <div class="flex flex-col">
-                                    <input type="file" id="file" wire:model="file"
-                                        accept="image/png, image/jpeg, image/webp, application/pdf" class="block w-full text-sm text-gray-600 
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-xl file:border-0
-                            file:text-sm file:font-semibold
-                            file:transition-colors
-                            file:bg-indigo-100 file:text-indigo-700
-                            hover:file:bg-indigo-200">
+
+                                    <select name="file_type" id="file_type" wire:model="file_type"
+                                        class="rounded-lg border py-1">
+                                        <option value="">- {{ __('Seleziona il tipo di file') }} -</option>
+                                        @foreach($file_types as $key => $value)
+                                        <option value="{{$value->value}}"
+                                            wire:key="{{$value->value}}-{{$value->value}}">
+                                            {{ __($key) }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('file_type')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                    @enderror
+
+                                    <label for="filemd-{{ $medicalRecord->id }}"
+                                        class="inline-flex w-full cursor-pointer my-3 items-center justify-center rounded-xl bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-800 hover:bg-indigo-100">
+                                        {{ __('Seleziona') }}
+                                        <input type="file" id="filemd-{{ $medicalRecord->id }}" wire:model="file"
+                                            accept="image/png, image/jpeg, image/webp, application/pdf"
+                                            class="hidden" />
+                                    </label>
 
                                     <div wire:loading wire:target="file" class="text-sm text-gray-500">
-                                        Caricamento in corso...
+                                        {{ __('Caricamento in corso...') }}
                                     </div>
 
                                     @if($medicalRecord->medicalRecordDocument && !$remove_existing_file)
                                     <p class="mt-2 text-sm text-slate-600">
-                                        File attuale: {{ $medicalRecord->medicalRecordDocument->original_filename }}
+                                        {{ __('File attuale') }}: {{
+                                        $medicalRecord->medicalRecordDocument->original_filename }}
                                     </p>
                                     <label class="mt-2 inline-flex items-center gap-2 text-sm text-red-700">
                                         <input type="checkbox" wire:model="remove_existing_file"
                                             class="rounded border-slate-300 text-red-600 focus:ring-red-500">
-                                        Rimuovi il file attuale
+                                        {{ __('Rimuovi file attuale') }}
                                     </label>
                                     @elseif($medicalRecord->medicalRecordDocument)
-                                    <p class="mt-2 text-sm text-red-700">Il file attuale verrà rimosso.</p>
+                                    <p class="mt-2 text-sm text-red-700">{{ __('Il file attuale verrà rimosso') }}</p>
                                     @endif
 
                                     @error('file')
@@ -86,16 +103,7 @@
                                 </div>
                             </div>
 
-                            <select name="file_type" id="file_type" wire:model="file_type">
-                                <option value="">Seleziona il tipo di file</option>
-                                @foreach($file_types as $key => $value)
-                                <option value="{{$value->value}}" wire:key="{{$value->value}}-{{$value->value}}">
-                                    {{$key}}</option>
-                                @endforeach
-                            </select>
-                            @error('file_type')
-                            <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+
                         </div>
                     </div>
                 </div>
@@ -107,8 +115,8 @@
         <x-slot:action>
             <button type="button" wire:loading.attr="disabled" wire:click="edit"
                 class="rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:opacity-60">
-                <span wire:loading.remove wire:target="edit">Salva</span>
-                <span wire:loading wire:target="edit">Modifica in corso...</span>
+                <span wire:loading.remove wire:target="edit">{{ __('Modifica') }}</span>
+                <span wire:loading wire:target="edit">{{ __('Salvataggio...') }}</span>
             </button>
         </x-slot:action>
     </x-modal>

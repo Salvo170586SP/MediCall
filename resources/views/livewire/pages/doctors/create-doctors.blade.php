@@ -5,7 +5,7 @@
             class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
         </svg>
-        Indietro
+        {{ __('Indietro') }}
     </button>
 
     <div class="bg-gray-50 overflow-hidden border sm:rounded-xl">
@@ -34,7 +34,7 @@
                     <div class="flex flex-col ">
                         <div class="w-full flex flex-col">
                             <label for="photo" class="block text-sm font-semibold text-slate-900 mb-1">
-                                Foto del dottore
+                                {{ __('Carica foto') }}
                             </label>
 
                             @if ($photo)
@@ -55,16 +55,15 @@
                         </div>
 
                         <div class="flex flex-col mt-3">
-                            <input type="file" id="photo" wire:model="photo" accept="image/png, image/jpeg, image/webp"
-                                class="block w-full text-sm text-gray-600 
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-xl file:border-0
-                            file:text-sm file:font-semibold
-                            file:bg-indigo-50 file:text-indigo-700
-                            hover:file:bg-indigo-100">
+                            <label for="photo"
+                                class="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-800 hover:bg-indigo-100">
+                                <input type="file" id="photo" wire:model="photo"
+                                    accept="image/png, image/jpeg, image/webp" class="hidden">
+                                {{ __('Seleziona foto') }}
+                            </label>
 
                             <div wire:loading wire:target="photo" class="text-sm text-gray-500">
-                                Caricamento in corso...
+                                {{ __('Caricamento in corso... ') }}
                             </div>
 
                             @error('photo')
@@ -77,7 +76,7 @@
                     <div class="flex flex-col gap-3">
                         <div>
                             <label for="name" class="block text-sm font-semibold text-slate-900 mb-2">
-                                Nome e Cognome <span class="text-rose-600">*</span>
+                                {{ __('Nome e cognome') }} <span class="text-rose-600">*</span>
                             </label>
                             <input type="text" name="name" id="name" wire:model.blur="name"
                                 class="w-100 px-4 py-2 border border-gray-300 bg-white rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('name') border-rose-600 @enderror"
@@ -90,7 +89,7 @@
                         <!-- Email -->
                         <div>
                             <label for="email" class="block text-sm font-semibold text-slate-900 mb-2">
-                                Email
+                                {{ __('Email') }} *
                             </label>
                             <input type="email" name="email" id="email" wire:model.blur="email"
                                 class="w-100 px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('email') border-rose-600 @enderror">
@@ -108,7 +107,7 @@
                     <!-- Phone -->
                     <div>
                         <label for="phone" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Telefono
+                            {{ __('Phone') }}
                         </label>
                         <input type="tel" name="phone" id="phone" wire:model.blur="phone"
                             class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('phone') border-rose-600 @enderror">
@@ -120,7 +119,7 @@
                     <!-- Licenza -->
                     <div>
                         <label for="license_number" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Licenza *
+                            {{ __('Licenza') }} *
                         </label>
                         <input type="text" name="license_number" id="license_number" wire:model.blur="license_number"
                             class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('license_number') border-rose-600 @enderror">
@@ -134,7 +133,7 @@
                 <!-- Description -->
                 <div>
                     <label for="bio" class="block text-sm font-semibold text-slate-900 mb-2">
-                        Biografia
+                        {{ __('Biografia') }}
                     </label>
                     <textarea name="bio" id="bio" rows="4" wire:model.blur="bio"
                         class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('bio') border-rose-600 @enderror"></textarea>
@@ -147,7 +146,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="specialty" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Specializzazione *
+                            {{ __('Specializzazione') }} *
                         </label>
                         <input type="text" name="specialty" id="specialty" wire:model.blur="specialty"
                             class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('specialty') border-rose-600 @enderror">
@@ -158,7 +157,7 @@
 
                     <div>
                         <label for="sub_specialty" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Sub Specializzazione
+                            {{ __('Sub specializzazione') }}
                         </label>
                         <input type="text" name="sub_specialty" id="sub_specialty" wire:model.blur="sub_specialty"
                             class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('sub_specialty') border-rose-600 @enderror">
@@ -170,7 +169,7 @@
 
                 <div>
                     <label for="city" class="block text-sm font-semibold text-slate-900 mb-2">
-                        Città
+                        {{ __('Città') }}
                     </label>
                     <input type="text" name="city" id="city" wire:model.blur="city"
                         class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('city') border-rose-600 @enderror">
@@ -185,18 +184,18 @@
                     <!-- Oraro di Apertura e Chiusura -->
                     <div>
                         <label for="available_hours" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Orari di apertura e chiusura *
+                            {{ __('Orari di apertura e chiusura') }} *
                         </label>
 
                         @php
                         $days = [
-                        'mon' => 'Lunedì',
-                        'tue' => 'Martedì',
-                        'wed' => 'Mercoledì',
-                        'thu' => 'Giovedì',
-                        'fri' => 'Venerdì',
-                        'sat' => 'Sabato',
-                        'sun' => 'Domenica',
+                        'mon' => __('Lunedì'),
+                        'tue' => __('Martedì'),
+                        'wed' => __('Mercoledì'),
+                        'thu' => __('Giovedì'),
+                        'fri' => __('Venerdì'),
+                        'sat' => __('Sabato'),
+                        'sun' => __('Domenica'),
                         ];
                         @endphp
 
@@ -234,15 +233,15 @@
                     <!-- Slot di Prenizaione -->
                     <div>
                         <label for="slot_duration" class="block text-sm font-semibold text-slate-900 mb-2">
-                            Slot visita *
+                            {{ __('Slot visita') }} *
                         </label>
                         <select name="slot_duration" wire:model="slot_duration"
                             class="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-500 focus:border-transparent @error('slot_duration') border-rose-600 @enderror">
-                            <option value="15">15 minuti</option>
-                            <option value="20">20 minuti</option>
-                            <option value="30" selected>30 minuti</option>
-                            <option value="45">45 minuti</option>
-                            <option value="60">1 ora</option>
+                            <option value="15">15 {{ __('minuti') }}</option>
+                            <option value="20">20 {{ __('minuti') }}</option>
+                            <option value="30" selected>30 {{ __('minuti') }}</option>
+                            <option value="45">45 {{ __('minuti') }}</option>
+                            <option value="60">1 {{ __('ora') }}</option>
                         </select>
                         @error('slot_duration')
                         <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
@@ -256,7 +255,7 @@
                         class="rounded border-gray-300">
 
                     <label for="is_active" class="text-sm font-semibold text-slate-900">
-                        Disponibile
+                        {{ __('Disponibile') }}
                     </label>
                 </div>
 
@@ -264,12 +263,12 @@
                 <div class="flex gap-3 pt-6 border-t border-gray-200">
                     <button wire:navigate href="/doctors"
                         class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">
-                        Annulla
+                        {{ __('Annulla') }}
                     </button>
                     <button type="submit" wire:loading.attr="disabled"
                         wire:loading.class="opacity-50 cursor-not-allowed"
                         class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition">
-                        <span wire:loading.remove>Crea</span>
+                        <span wire:loading.remove>{{ __('Crea') }}</span>
                         <span wire:loading>
                             <svg class="inline h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24">

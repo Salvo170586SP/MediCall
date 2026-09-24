@@ -7,28 +7,28 @@
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
             </svg>
-            Indietro
+            {{ __('Indietro') }}
         </button>
 
         {{-- Tab navigation --}}
-        <div x-data="{ activeTab: 'doctor' }" class="mt-10">
+        <div x-data="{ activeTab: 'appointments' }" class="mt-10">
             <div class="flex justify-between">
                 <nav class="flex gap-2">
                     <button @click="activeTab = 'doctor'"
                         :class="activeTab === 'doctor' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Dati Dottore
+                        {{ __('Dati Dottore') }}
                     </button>
                     <button @click="activeTab = 'appointments'"
                         :class="activeTab === 'appointments' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Appuntamenti <span
+                        {{ __('Appuntamenti') }} <span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$appointments->total()}}</span>
                     </button>
                 </nav>
                 <div class="px-4 py-2 border border border-b-0 rounded-t-xl bg-gray-100 border-gray-200">
                     <p class="font-medium">
-                        Dottore:
+                        {{ __('Dottore') }}:
                         <span class="font-bold text-blue-700">{{ $doctor->name }}</span>
                     </p>
                 </div>
@@ -69,12 +69,12 @@
                                     @if($doctor->doctorDetail && $doctor->doctorDetail->is_active)
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
-                                        Disponibile
+                                        {{ __('Disponibile') }}
                                     </span>
                                     @else
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-600">
-                                        Non disponibile
+                                        {{ __('Non disponibile') }}
                                     </span>
                                     @endif
                                 </div>
@@ -83,11 +83,13 @@
                                     {{ $doctor->doctorDetail?->specialty }} · <span class="text-gray-400">{{
                                         $doctor->doctorDetail?->sub_specialty }}</span>
                                 </p>
-                                <p class="text-xs text-gray-400">Matricola: {{ $doctor->doctorDetail?->license_number }}
+                                <p class="text-xs text-gray-400">{{ __('Matricola') }}: {{
+                                    $doctor->doctorDetail?->license_number }}
                                 </p>
-                                <p class="text-sm text-gray-400 mt-3">Email: {{ $doctor->email }}
+                                <p class="text-sm text-gray-400 mt-3">{{ __('Email') }}: {{ $doctor->email }}
                                 </p>
-                                <p class="text-sm text-gray-400">Telefono: {{ $doctor->doctorDetail?->phone }}
+                                <p class="text-sm text-gray-400">{{ __('Telefono') }}: {{ $doctor->doctorDetail?->phone
+                                    }}
                                 </p>
                             </div>
 
@@ -101,7 +103,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
                                     </svg>
-                                    Modifica
+                                    {{ __('Modifica') }}
                                 </button>
                             </div>
                             @endrole
@@ -115,7 +117,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
                                     </svg>
-                                    Modifica
+                                    {{ __('Modifica') }}
                                 </button>
                             </div>
                             @endrole
@@ -125,7 +127,7 @@
                     {{-- Statistiche --}}
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 my-2">
                         <div class="bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">Durata slot</p>
+                            <p class="text-xs text-gray-400 mb-1">{{ __('Durata slot') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $doctor->doctorDetail?->slot_duration }}
                                 <span class="text-sm text-gray-400 font-normal">min</span>
@@ -133,15 +135,15 @@
                         </div>
 
                         <div class="bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">Giorni disponibili</p>
+                            <p class="text-xs text-gray-400 mb-1">{{ __('Giorni disponibili') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $availableDaysCount }}
-                                <span class="text-sm text-gray-400 font-normal">giorni/sett.</span>
+                                <span class="text-sm text-gray-400 font-normal">{{ __('giorni/sett') }}</span>
                             </p>
                         </div>
 
                         <div class="bg-white rounded-xl border border-gray-200 p-4 col-span-2 sm:col-span-1">
-                            <p class="text-xs text-gray-400 mb-1">Pazienti seguiti</p>
+                            <p class="text-xs text-gray-400 mb-1">{{ __('Pazienti seguiti') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $doctor->patientsCount }}
                             </p>
@@ -153,20 +155,22 @@
 
                         {{-- Biografia --}}
                         <div class="bg-white h-full rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Biografia</h2>
+                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">{{
+                                __('Biografia') }}</h2>
 
                             @if($doctor->doctorDetail && $doctor->doctorDetail->bio)
                             <p class="text-sm text-gray-600 h-[100px] leading-relaxed overflow-y-auto">
                                 {{$doctor->doctorDetail->bio}}
                             </p>
                             @else
-                            <p class="text-sm text-gray-400 italic">Nessuna biografia inserita.</p>
+                            <p class="text-sm text-gray-400 italic">{{ __('Nessuna biografia inserita') }}</p>
                             @endif
                         </div>
 
                         {{-- Disponibilità --}}
                         <div class="bg-white h-full rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Disponibilità
+                            <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">{{
+                                __('Disponibilità') }}
                             </h2>
 
                             <div class="space-y-2">
@@ -188,7 +192,7 @@
                                         @if ($isAvailable)
                                         {{ $from }} → {{ $to }}
                                         @else
-                                        Non disponibile
+                                        {{ __('Non disponibile') }}
                                         @endif
                                     </span>
                                 </div>
@@ -204,7 +208,7 @@
                 <div x-show="activeTab === 'appointments'">
                     <div class="flex items-center justify-between mb-10">
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
-                            Appuntamenti Pazienti
+                            {{ __('Appuntamenti Pazienti') }}
                         </h2>
                         @role('Doctor')
                         <livewire:pages.doctors.add-appointment-form :doctor="$doctor"
@@ -214,32 +218,32 @@
 
 
                     <div class="grid gap-4 lg:grid-cols-4 mb-6">
-                        <x-search-input inputClass="bg-white" id="searchGuest" model="searchGuest"
-                            placeholder="Cerca per paziente" />
+                        <x-search-input :label="__('Cerca')" inputClass="bg-white" id="searchGuest" model="searchGuest"
+                            placeholder="{{ __('Cerca per nome') }}" />
                         <x-search-input inputClass="bg-white" id="searchScheduledAt" model="searchScheduledAt"
-                            type="date" label="Cerca per data" />
+                            :label="__('Cerca per data')" type="date" />
                         <div>
-                            <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
-                                Modalità</label>
+                            <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">{{ __('Cerca per
+                                modalità') }}</label>
                             <select id="type" wire:model.live="searchType"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                <option value="">Tutti</option>
+                                <option value="">{{ __('Tutti') }}</option>
                                 @foreach($types as $key => $value)
                                 <option wire:key="{{$key}}" value="{{$value['type']}}">
-                                    {{$value['label']}}
+                                    {{ __($value['label']) }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
                         <div>
-                            <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca per
-                                Stato</label>
+                            <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">{{ __('Cerca
+                                per stato') }}</label>
                             <select id="status" wire:model.live="searchStatus"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                <option value="">Tutti</option>
+                                <option value="">{{ __('Tutti') }}</option>
                                 @foreach($statuses as $key => $value)
                                 <option wire:key="{{$key}}" value="{{$value['status']}}">
-                                    {{$value['label']}}
+                                    {{ __($value['label']) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -255,14 +259,14 @@
                         <table class="bg-white w-full text-left text-sm">
                             <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
                                 <tr>
-                                    <th class="px-6 py-3">Appuntamento con</th>
-                                    <th class="px-3 py-3">Data</th>
-                                    <th class="px-3 py-3">Orario</th>
-                                    <th class="px-6 py-3 text-center">Modalità</th>
-                                    <th class="px-6 py-3 text-center">Stato</th>
-                                    <th class="px-6 py-3 text-center">Motivazione visita</th>
-                                    <th class="px-6 py-3 text-center">Note del medico</th>
-                                    <th class="px-6 py-3 text-end">Azioni</th>
+                                    <th class="px-6 py-3">{{ __('Appuntamento con') }}</th>
+                                    <th class="px-3 py-3">{{ __('Data') }}</th>
+                                    <th class="px-3 py-3">{{ __('Orario') }}</th>
+                                    <th class="px-6 py-3 text-center">{{ __('Modalità') }}</th>
+                                    <th class="px-6 py-3 text-center">{{ __('Stato') }}</th>
+                                    <th class="px-6 py-3 text-center">{{ __('Motivazione visita') }}</th>
+                                    <th class="px-6 py-3 text-center">{{ __('Note del medico') }}</th>
+                                    <th class="px-6 py-3 text-end">{{ __('Azioni') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -284,12 +288,12 @@
                                         <select id="type-{{ $appointment->id }}"
                                             class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $typesColor }}"
                                             wire:change="editTypeAppointment({{ $appointment->id }}, $event.target.value)">
-                                            <option value="">- Seleziona -</option>
+                                            <option value="">- {{ __('Seleziona') }} -</option>
 
                                             @foreach($types as $value)
                                             <option wire:key="type-{{$value['type']}}" value="{{$value['type']}}"
                                                 @selected($appointment->type == $value['type'])>
-                                                {{$value['label'] }}
+                                                {{ __($value['label']) }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -299,7 +303,7 @@
                                         @if($appointment->type == $value['type'])
                                         <div wire:key="type-{{$value['type']}}"
                                             class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border {{ $typesColor }}">
-                                            {{$value['label'] }}
+                                            {{ __($value['label']) }}
                                         </div>
                                         @endif
                                         @endforeach
@@ -314,12 +318,12 @@
                                         <select id="status-{{ $appointment->id }}"
                                             class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $statusColor }}"
                                             wire:change="editStatusAppointment({{ $appointment->id }}, $event.target.value)">
-                                            <option value="">- Seleziona -</option>
+                                            <option value="">- {{ __('Seleziona') }} -</option>
 
                                             @foreach($statuses as $value)
                                             <option wire:key="status-{{$value['status']}}" value="{{$value['status']}}"
                                                 @selected($appointment->status == $value['status'])>
-                                                {{$value['label'] }}
+                                                {{ __($value['label']) }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -330,7 +334,7 @@
                                         @if($appointment->status == $value['status'])
                                         <div wire:key="status-{{$value['status']}}"
                                             class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border {{ $statusColor }}">
-                                            {{$value['label'] }}
+                                            {{ __($value['label']) }}
                                         </div>
                                         @endif
                                         @endforeach
@@ -338,7 +342,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->reason)
-                                        <x-modal title="Motivazione Visita" confirm-label="reason"
+                                        <x-modal :title="__('Motivazione visita')" confirm-label="reason"
                                             wire:key="reasonAppointment-[{{$appointment->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
@@ -366,7 +370,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->notes)
-                                        <x-modal title="Note del medico" confirm-label="note"
+                                        <x-modal :title="__('Note del medico')" confirm-label="note"
                                             wire:key="notesAppointment-[{{$appointment->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
@@ -395,7 +399,7 @@
                                     <td class="py-4">
                                         <div class="flex space-x-2">
                                             <button wire:navigate href="/patients/details/{{$appointment->patient->id}}"
-                                                title="vedi"
+                                                title="{{__('Dettagli')}}"
                                                 class="inline-flex items-center px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-sm font-medium rounded-xl transition-colors">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -404,13 +408,12 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                                 </svg>
-
                                             </button>
-                                            <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                            <x-modal :title="__('Elimina definitivamente?')" confirm-label="elimina"
                                                 wire:key="deleteAppointment-[{{$appointment->id}}]"
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
-                                                    <button title="elimina"
+                                                    <button title="{{__('Elimina')}}"
                                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -422,13 +425,13 @@
                                                 </x-slot:trigger>
 
                                                 <x-slot:body>
-                                                    Questa operazione è irreversibile.
+                                                    {{ __('Questa operazione è irreversibile') }}
                                                 </x-slot:body>
 
                                                 <x-slot:action>
                                                     <button wire:click="deleteAppointment({{$appointment->id}})"
                                                         class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                        Elimina
+                                                        {{ __('Elimina') }}
                                                     </button>
                                                 </x-slot:action>
                                             </x-modal>

@@ -11,12 +11,13 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-            Aggiungi
+            {{ __('Aggiungi') }}
         </button>
     </div>
 
     <div class="grid gap-4 lg:grid-cols-3 mb-6">
-        <x-search-input inputClass="bg-gray-50" id="search" model="search" placeholder="Cerca per nome o email..." />
+        <x-search-input :label="__('Cerca')" inputClass="bg-gray-50" id="search" model="search"
+            placeholder="{{ __('Cerca per nome o email...') }}" />
     </div>
 
     <div class="m-6">
@@ -30,21 +31,21 @@
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                         ID</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Nome e Cognome</th>
+                        {{ __('Nome e cognome') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Email</th>
+                        {{ __('Email') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Telefono</th>
+                        {{ __('Telefono') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        licenza</th>
+                        {{ __('Licenza') }}</th>
                     <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        Specializzazione</th>
+                        {{ __('Specializzazione') }}</th>
                     <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        Disponibilità</th>
+                        {{ __('Disponibilità') }}</th>
                     <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        Pazienti</th>
+                        {{ __('Pazienti') }}</th>
                     <th class="px-3 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                        Azioni</th>
+                        {{ __('Azioni') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,8 +68,8 @@
                         <span
                             class="w-full inline-block text-center rounded-full max-w-[150px] px-5 py-1 font-semibold {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
                             {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active
-                            ? 'Disponibile'
-                            : 'Non disponibile' }}
+                            ? __('Disponibile')
+                            : __('Non disponibile') }}
                         </span>
                     </td>
                     <td class="px-3 py-4">
@@ -79,7 +80,7 @@
                     </td>
                     <td class="px-3 py-4 text-right">
                         <div class="inline-flex items-center justify-end gap-2">
-                            <button wire:navigate href="doctors/details/{{$user_doctor->id}}" title="dettagli"
+                            <button wire:navigate href="doctors/details/{{$user_doctor->id}}" title="{{ __('Dettagli') }}"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -88,7 +89,7 @@
                                 </svg>
                             </button>
 
-                            <button wire:navigate href="doctors/edit/{{$user_doctor->id}}" title="modifica"
+                            <button wire:navigate href="doctors/edit/{{$user_doctor->id}}" title="{{ __('Modifica') }}"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -98,12 +99,12 @@
                             </button>
 
                             @role('Admin')
-                            <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
+                            <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
 
                                 {{-- Bottone che apre la modale --}}
                                 <x-slot:trigger>
-                                    <button title="elimina"
+                                    <button title="{{ __('Elimina') }}"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -116,14 +117,14 @@
                                 {{-- Testo aggiuntivo nel corpo (opzionale) --}}
                                 <x-slot:body>
                                     <div class="w-[400px]">
-                                        Questa operazione è irreversibile.
+                                        {{ __('Questa operazione è irreversibile') }}
                                     </div>
                                 </x-slot:body>
 
                                 <x-slot:action>
                                     <button wire:click="deleteDoctor({{$user_doctor->id}})"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                        Elimina
+                                        {{ __('Elimina') }}
                                     </button>
                                 </x-slot:action>
 

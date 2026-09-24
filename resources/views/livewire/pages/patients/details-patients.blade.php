@@ -7,7 +7,7 @@
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
             </svg>
-            Indietro
+            {{ __('Indietro') }}
         </button>
 
         <div class="mt-5" x-data="{ activeTab: 'patient' }">
@@ -17,42 +17,42 @@
                     <button @click="activeTab = 'patient'"
                         :class="activeTab === 'patient' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Dati Paziente
+                        {{ __('Dati paziente') }}
                     </button>
                     <button @click="activeTab = 'params'"
                         :class="activeTab === 'params' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Storico Parametri <span
+                        {{ __('Storico parametri') }}<span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$healthParameters->total()}}</span>
                     </button>
                     <button @click="activeTab = 'thresholds'"
                         :class="activeTab === 'thresholds' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border  border-b-0 rounded-t-xl transition-colors">
-                        Soglie <span
+                        {{ __('Soglie') }}<span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$healthThresholds->total()}}</span>
                     </button>
                     <button @click="activeTab = 'appointments'"
                         :class="activeTab === 'appointments' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Appuntamenti <span
+                        {{ __('Appuntamenti') }}<span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$appointments->total()}}</span>
                     </button>
                     <button @click="activeTab = 'records'"
                         :class="activeTab === 'records' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Cartella clinica <span
+                        {{ __('Cartella clinica') }}<span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$medicalRecordsAsPatient->total()}}</span>
                     </button>
                     <button @click="activeTab = 'files'"
                         :class="activeTab === 'files' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
                         class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
-                        Documenti caricati <span
+                        {{ __('Documenti caricati') }}<span
                             class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$documents->total()}}</span>
                     </button>
                 </nav>
                 <div class="px-4 py-2 border border border-b-0 rounded-t-xl bg-gray-100 border-gray-200">
                     <p class="font-medium">
-                        Paziente:
+                        {{ __('Paziente') }}:
                         <span class="font-bold text-blue-700">{{ $patient->name }}</span>
                     </p>
                 </div>
@@ -76,16 +76,17 @@
                                 </h1>
                             </div>
 
-                            <p class="text-sm text-gray-400">Città e data di nascita: {{
+                            <p class="text-sm text-gray-400">{{ __('Città e data di nascita') }}: {{
                                 $patient->guestDetail?->birth_city ?? '-' }}, {{
                                 $patient->guestDetail?->formatDate($patient->guestDetail?->birth_date) }}
                             </p>
 
-                            <p class="text-sm text-gray-400">Cod Fiscale: {{ $patient->guestDetail?->tax_id_code ??
+                            <p class="text-sm text-gray-400">{{ __('Codice fiscale') }}: {{
+                                $patient->guestDetail?->tax_id_code ??
                                 '-'
                                 }}
                             </p>
-                            <p class="text-sm text-gray-400">Telefono: {{ $patient->guestDetail?->phone }}
+                            <p class="text-sm text-gray-400">{{ __('Telefono') }}: {{ $patient->guestDetail?->phone }}
                             </p>
                         </div>
 
@@ -98,27 +99,27 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
                                 </svg>
-                                Modifica
+                                {{ __('Modifica') }}
                             </button>
                         </div>
                     </div>
 
                     <div class="flex gap-2 mb-2">
                         <div class="w-1/8 text-center bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">Gruppo Sanguigno</p>
+                            <p class="text-xs text-gray-400 mb-1">{{ __('Gruppo sanguigno') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $patient->guestDetail?->blood_type }}
                             </p>
                         </div>
 
                         <div class="w-full bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">Allergie</p>
+                            <p class="text-xs text-gray-400 mb-1">{{ __('Le mie allergie') }}</p>
                             <p class="font-medium text-gray-900">
                                 {{ $patient->guestDetail?->allergies }}
                             </p>
                         </div>
                         <div class="w-1/6 text-center bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">Dottori che ti seguono</p>
+                            <p class="text-xs text-gray-400 mb-1">{{ __('Dottori che ti seguono') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $patient->doctorsCount}}
                             </p>
@@ -127,40 +128,42 @@
                     </div>
 
                     <div class="rounded-2xl bg-white border border-gray-200 p-6">
-                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Storia Clinica</h2>
+                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">{{ __('Storia
+                            clinica') }}</h2>
 
                         @if($patient->guestDetail)
                         <p class="text-sm text-gray-600 leading-relaxed h-[150px] overflow-y-auto">
                             {{$patient->guestDetail?->medical_history}}
                         </p>
                         @else
-                        <p class="text-sm text-gray-400 italic">Nessuna biografia inserita.</p>
+                        <p class="text-sm text-gray-400 italic">{{ __('Nessuna biografia inserita') }}</p>
                         @endif
                     </div>
                 </div>
 
                 {{-- Parametri Tab --}}
-                <div x-show="activeTab ===  'params'">
-                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">Storico
-                        parametri
+                <div x-show="activeTab === 'params'">
+                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">{{ __('Storico
+                        parametri') }}
                     </h2>
 
                     <div class="grid gap-4 lg:grid-cols-3 mb-6">
-                        <x-search-input inputClass="bg-white" id="type" model="type" label="Tipo"
-                            placeholder="Cerca per tipo" />
+                        <x-search-input inputClass="bg-white" id="type" model="type" label="{{ __('Cerca') }}"
+                            placeholder="{{ __('Cerca per tipo') }}" />
                         <div>
-                            <label for="source" class="block text-xs font-semibold text-slate-900 mb-2">Sorgente</label>
+                            <label for="source" class="block text-xs font-semibold text-slate-900 mb-2">{{
+                                __('Sorgente') }}</label>
                             <select id="source" wire:model.live="source"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                <option value="">Tutte le sorgenti</option>
+                                <option value="">{{ __('Tutti') }}</option>
                                 <option value="manual">
-                                    Dispositivo Medico Manuale
+                                    {{ __('Dispositivo Medico Manuale') }}
                                 </option>
                                 <option value="device">
-                                    Dispositivo Medico Elettronico
+                                    {{ __('Dispositivo Medico Elettronico') }}
                                 </option>
                                 <option value="wearable">
-                                    Wearable
+                                    {{ __('Wearable') }}
                                 </option>
                             </select>
                         </div>
@@ -177,24 +180,24 @@
                                 <tr class="border-b border-slate-200 bg-white text-[11px]">
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Tipo</th>
+                                        {{ __('Tipo') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Valore</th>
+                                        {{ __('Valore') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Unità</th>
+                                        {{ __('Unità') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Misurato il</th>
+                                        {{ __('Misurato il') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Sorgente</th>
+                                        {{ __('Sorgente') }}</th>
                                     <th class="px-6 py-3 font-semibold text-slate-900 uppercase tracking-wider">
-                                        Note</th>
+                                        {{ __('Note') }}</th>
                                     <th
                                         class="px-6 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                                        Azioni</th>
+                                        {{ __('Azioni') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,11 +217,11 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($parameter->notes)
-                                        <x-modal title="Note" confirm-label="Note"
+                                        <x-modal title="{{ __('Note') }}" confirm-label="Note"
                                             wire:key="noteParameter-[{{$parameter->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
-                                                <button title="note"
+                                                <button title="{{ __('Note') }}"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -241,7 +244,7 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
+                                        <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
                                             wire:key="deleteParameter-[{{$parameter->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
@@ -258,14 +261,14 @@
 
                                             <x-slot:body>
                                                 <div class="w-[400px]">
-                                                    Questa operazione è irreversibile.
+                                                    {{ __('Questa operazione è irreversibile') }}
                                                 </div>
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteParameter({{$parameter->id}})"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                    Elimina
+                                                    {{ __('Elimina') }}
                                                 </button>
                                             </x-slot:action>
                                         </x-modal>
@@ -274,7 +277,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                        <p>Nessun parametro disponibile.</p>
+                                        <p>{{ __('Nessun parametro disponibile') }}</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -286,22 +289,22 @@
                 {{-- Soglie Tab --}}
                 <div x-show="activeTab === 'thresholds'">
                     <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                        Soglie
+                        {{ __('Soglie') }}
                     </h2>
 
                     <div class="grid gap-4 lg:grid-cols-3 mb-6">
                         <x-search-input inputClass="bg-white" id="created_at" type="date" model="created_at"
-                            label="Cerca per data" />
+                            label="{{ __('Cerca per data') }}" />
                         <div>
-                            <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
-                                per
-                                severità</label>
+                            <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">
+                                {{ __('Cerca per severità') }}
+                            </label>
                             <select id="severity" wire:model.live="severity"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                <option value="">Tutti</option>
+                                <option value="">{{ __('Tutti') }}</option>
                                 @foreach($severities as $key => $value)
                                 <option wire:key="{{$key}}" value="{{$value['severity']}}">
-                                    {{$value['label']}}
+                                    {{ __($value['label']) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -316,13 +319,13 @@
                         <table class="w-full bg-white text-left text-sm">
                             <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
                                 <tr>
-                                    <th class="px-6 py-3">Parametro</th>
-                                    <th class="px-6 py-3">Min</th>
-                                    <th class="px-6 py-3">Max</th>
-                                    <th class="px-6 py-3">Severità</th>
-                                    <th class="px-6 py-3">Creata il</th>
-                                    <th class="px-6 py-3">Creato da</th>
-                                    <th class="px-6 py-3 text-right">Azioni</th>
+                                    <th class="px-6 py-3">{{ __('Parametro') }}</th>
+                                    <th class="px-6 py-3">{{ __('Min') }}</th>
+                                    <th class="px-6 py-3">{{ __('Max') }}</th>
+                                    <th class="px-6 py-3">{{ __('Severità') }}</th>
+                                    <th class="px-6 py-3">{{ __('Creato il') }}</th>
+                                    <th class="px-6 py-3">{{ __('Creato da') }}</th>
+                                    <th class="px-6 py-3 text-right">{{ __('Azioni') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -339,7 +342,7 @@
                                         @if($threshold->severity == $value['severity'] )
                                         <span
                                             class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$threshold->severity == $value['severity'] ? $value['color'] : '' }}">
-                                            {{ $value['label'] }}
+                                            {{ __($value['label']) }}
                                         </span>
                                         @endif
                                         @endforeach
@@ -349,11 +352,11 @@
                                     <td class="px-6 py-4 text-slate-900">{{ $threshold->createdBy?->name ??
                                         '-' }}</td>
                                     <td class="px-6 py-4 text-right">
-                                        <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                        <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
                                             wire:key="deleteThreshold-[{{$threshold->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
-                                                <button title="elimina"
+                                                <button title="{{ __('Elimina') }}"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -366,14 +369,14 @@
 
                                             <x-slot:body>
                                                 <div class="w-[400px]">
-                                                    Questa operazione è irreversibile.
+                                                    {{ __('Questa operazione è irreversibile') }}
                                                 </div>
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteThreshold({{$threshold->id}})"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                    Elimina
+                                                    {{ __('Elimina') }}
                                                 </button>
                                             </x-slot:action>
                                         </x-modal>
@@ -382,7 +385,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                        <p>Non ci sono soglie impostate per questo paziente.</p>
+                                        <p>{{ __('Non ci sono soglie impostate per questo paziente') }}</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -395,7 +398,7 @@
                 <div x-show="activeTab ===  'appointments'">
                     <div class="flex justify-between items-center mb-10">
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
-                            Appuntamenti
+                            {{ __('Appuntamenti') }}
                         </h2>
 
                         @role('Doctor')
@@ -406,33 +409,32 @@
 
                     <div class="grid gap-4 lg:grid-cols-4 mb-6">
                         <x-search-input inputClass="bg-white" id="searchDoctor" model="searchDoctor"
-                            placeholder="Cerca per Dottore" />
+                            :label="__('Cerca')" placeholder="{{ __('Cerca per dottore') }}" />
                         <x-search-input inputClass="bg-white" type="date" id="searchCreatedAt" model="searchCreatedAt"
-                            label="Cerca per data" />
+                            label="{{ __('Cerca per data') }}" />
                         <div>
-                            <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
-                                per
-                                Modalità</label>
+                            <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">{{ __('Cerca per
+                                modalità') }}</label>
                             <select id="type" wire:model.live="searchType"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                <option value="">Tutti</option>
+                                <option value="">{{ __('Tutti') }}</option>
                                 @foreach($types as $key => $value)
                                 <option wire:key="{{$key}}" value="{{$value['type']}}">
-                                    {{$value['label']}}
+                                    {{ __($value['label']) }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
                         <div>
-                            <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">Cerca
-                                per
-                                Stato</label>
+                            <label for="severity" class="block text-xs font-semibold text-slate-900 mb-2">
+                                {{ __('Cerca per stato') }}
+                            </label>
                             <select id="status" wire:model.live="searchStatus"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                                <option value="">Tutti</option>
+                                <option value="">{{ __('Tutti') }}</option>
                                 @foreach($statuses as $key => $value)
                                 <option wire:key="{{$key}}" value="{{$value['status']}}">
-                                    {{$value['label']}}
+                                    {{ __($value['label']) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -448,14 +450,14 @@
                         <table class="w-full text-left text-sm">
                             <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
                                 <tr>
-                                    <th class="px-6 py-2">Appuntamento con</th>
-                                    <th class="px-2 py-2">Data</th>
-                                    <th class="px-6 py-2">orario</th>
-                                    <th class="px-6 py-2 text-center">Modalità</th>
-                                    <th class="px-6 py-2 text-center">Stato</th>
-                                    <th class="px-6 py-2 text-center">Motivazione visita</th>
-                                    <th class="px-6 py-2 text-center">Note del medico</th>
-                                    <th class="px-6 py-2 text-end">Azioni</th>
+                                    <th class="px-6 py-2">{{ __('Appuntamento con') }}</th>
+                                    <th class="px-2 py-2">{{ __('Data') }}</th>
+                                    <th class="px-6 py-2">{{ __('Orario') }}</th>
+                                    <th class="px-6 py-2 text-center">{{ __('Modalità') }}</th>
+                                    <th class="px-6 py-2 text-center">{{ __('Stato') }}</th>
+                                    <th class="px-6 py-2 text-center">{{ __('Motivo visita') }}</th>
+                                    <th class="px-6 py-2 text-center">{{ __('Note del medico') }}</th>
+                                    <th class="px-6 py-2 text-end">{{ __('Azioni') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -473,7 +475,7 @@
                                             @if($appointment->type == $value['type'] )
                                             <span
                                                 class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->type == $value['type'] ? $value['color'] : '' }}">
-                                                {{ $value['label'] }}
+                                                {{ __($value['label']) }}
                                             </span>
                                             @endif
                                         </div>
@@ -485,7 +487,7 @@
                                             @if($appointment->status == $value['status'] )
                                             <span
                                                 class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->status == $value['status'] ? $value['color'] : '' }}">
-                                                {{ $value['label'] }}
+                                                {{ __($value['label']) }}
                                             </span>
                                             @endif
                                         </div>
@@ -521,7 +523,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->notes)
-                                        <x-modal title="notes" confirm-label="notes"
+                                        <x-modal title="{{ __('Note') }}" confirm-label="notes"
                                             wire:key="notes-[{{$appointment->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
@@ -548,7 +550,7 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-end text-slate-600">
-                                        <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                        <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
                                             wire:key="deleteAppointment-[{{$appointment->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
@@ -565,14 +567,14 @@
 
                                             <x-slot:body>
                                                 <div class="w-[400px]">
-                                                    Questa operazione è irreversibile.
+                                                    {{ __('Questa operazione è irreversibile') }}
                                                 </div>
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteAppointment({{$appointment->id}})"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                    Elimina
+                                                    {{ __('Elimina') }}
                                                 </button>
                                             </x-slot:action>
                                         </x-modal>
@@ -581,7 +583,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                        <p>Non ci sono appuntamenti.</p>
+                                        <p>{{ __('Non ci sono appuntamenti') }}</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -594,7 +596,7 @@
                 <div x-show="activeTab ===  'records'">
                     <div class="flex justify-between items-center mb-10">
                         <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                            Cartella clinica
+                            {{ __('Cartella clinica') }}
                         </h2>
 
                         @role(['Doctor'])
@@ -605,7 +607,7 @@
 
                     <div class="grid gap-4 lg:grid-cols-3 mb-6">
                         <x-search-input inputClass="bg-white" id="searchVisit" type="date" model="searchVisit"
-                            label="Cerca per data visita" />
+                            label="{{ __('Cerca per data') }}" />
                     </div>
 
                     <!-- Paginazione -->
@@ -619,31 +621,31 @@
                                 <tr class="border-b border-slate-200 bg-white text-[11px]">
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Medico</th>
+                                        {{ __('Dottore') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Data di Visita</th>
+                                        {{ __('Data di visita') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Diagnosi</th>
+                                        {{ __('Diagnosi') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Prescrizioni</th>
+                                        {{ __('Prescrizioni') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Consigli</th>
-
+                                        {{ __('Consigli') }}</th>
                                     <th
                                         class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
-                                        Allegato</th>
+                                        {{ __('Allegato') }}</th>
                                     <th
                                         class="px-6 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                                        Azioni</th>
+                                        {{ __('Azioni') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($medicalRecordsAsPatient as $record)
-                                <tr class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                                <tr wire:key="records-{{$record->id}}"
+                                    class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                                         $record->doctor->name }}</td>
                                     <td class="px-6 py-4 text-slate-600">{{
@@ -652,11 +654,11 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @if($record->prescription)
-                                        <x-modal title="Prescrizioni" confirm-label="prescrizioni"
+                                        <x-modal title="{{ __('Prescrizioni') }}" confirm-label="prescrizioni"
                                             wire:key="prescription-[{{$record->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
-                                                <button title="note"
+                                                <button title="{{ __('Note') }}"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -680,7 +682,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-slate-900">
                                         @if($record->instructions)
-                                        <x-modal title="Consigli" confirm-label="consigli"
+                                        <x-modal title="{{ __('Consigli') }}" confirm-label="consigli"
                                             wire:key="instructions-[{{$record->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
@@ -710,7 +712,7 @@
                                         @if($record->medicalRecordDocument)
                                         <a download
                                             href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
-                                            title="Scarica {{ $record->medicalRecordDocument->file_path }}"
+                                            title="{{ __('Scarica') }} {{ $record->medicalRecordDocument->file_path }} "
                                             class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -725,12 +727,13 @@
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex justify-end space-x-3">
                                             <livewire:pages.patients.edit-medical-records-form :patient="$patient"
-                                                :medical-record="$record" :key="'edit-medical-records-'.$record->id" />
-                                            <x-modal title="Elimina definitivamente?" confirm-label="elimina"
-                                                wire:key="deleteRecord-[{{$record->id}}]"
+                                                :medical-record="$record" wire:key="edit-records-{{$record->id}}"
+                                                :key="'edit-medical-records-'.$record->id" />
+                                            <x-modal title="{{ __('Elimina definitivamente?') }}"
+                                                confirm-label="elimina" wire:key="deleteRecord-[{{$record->id}}]"
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
-                                                    <button title="note"
+                                                    <button title="{{ __('Elimina') }}"
                                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -742,13 +745,13 @@
                                                 </x-slot:trigger>
 
                                                 <x-slot:body>
-                                                    Questa operazione è irreversibile.
+                                                    {{ __('Questa operazione è irreversibile') }}
                                                 </x-slot:body>
 
                                                 <x-slot:action>
                                                     <button wire:click="deleteHealthMedical({{$record->id}})"
                                                         class="inline-flex items-center gap-1.5 px-4 py-2 border border-red-300 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                        Elimina
+                                                        {{ __('Elimina') }}
                                                     </button>
                                                 </x-slot:action>
                                             </x-modal>
@@ -758,7 +761,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                        <p>Nessun parametro disponibile.</p>
+                                        <p>{{ __('Nessun parametro disponibile') }}</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -770,14 +773,14 @@
                 {{-- Files Tab --}}
                 <div x-show="activeTab ===  'files'">
                     <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
-                        Documenti caricati del paziente
+                        {{ __('Documenti caricati') }}
                     </h2>
 
                     <div class="grid gap-4 lg:grid-cols-3 mb-6">
                         <x-search-input inputClass="bg-white" id="searchNameDoc" type="text" model="searchNameDoc"
-                            label="Cerca per nome" />
+                            label="{{ __('Cerca') }}" placeholder="{{ __('Cerca per nome') }}" />
                         <x-search-input inputClass="bg-white" id="searchTypeDoc" type="text" model="searchTypeDoc"
-                            label="Cerca per tipo" />
+                            placeholder="{{ __('Cerca...') }}" label="{{ __('Cerca per tipo') }}" />
                     </div>
 
                     <!-- Paginazione -->
@@ -791,25 +794,25 @@
                                 <tr class="border-b border-slate-200 bg-white text-[11px]">
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Nome File</th>
+                                        {{ __('Nome file') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Tipo file</th>
+                                        {{ __('Tipo file') }}</th>
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                                        Caricato da</th>
+                                        {{ __('Caricato da') }}</th>
                                     <th
                                         class="px-6 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                                        note</th>
+                                        {{ __('Note') }}</th>
                                     <th
                                         class="px-6 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                                        Verificato</th>
+                                        {{ __('Verificato') }}</th>
                                     <th
                                         class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
-                                        Scarica file</th>
+                                        {{ __('Scarica') }}</th>
                                     <th
                                         class="px-6 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                                        Azioni</th>
+                                        {{ __('Azioni') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -819,7 +822,6 @@
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                         {{ $document->original_filename }}</td>
                                     <td class="px-6 py-4 text-slate-600">
-                                        {{-- @dump() --}}
                                         {{ $document->title }}
                                     </td>
                                     <td class="px-6 py-4 text-slate-900">
@@ -828,11 +830,11 @@
                                     <td class="px-6 py-4">
                                         <div class="text-center">
                                             @if($document->notes)
-                                            <x-modal title="note" confirm-label="notes"
+                                            <x-modal title="{{ __('Note') }}" confirm-label="notes"
                                                 wire:key="notes-[{{$document->id}}]"
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
-                                                    <button title="notes"
+                                                    <button title="{{ __('Note') }}"
                                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -874,7 +876,8 @@
                                     </td>
                                     <td class="px-6 py-4 text-slate-900 text-center">
                                         @if($document->file_path)
-                                        <a title="scarica" download href="{{ asset('storage/'.$document->file_path) }}"
+                                        <a title="{{ __('Scarica') }}" download
+                                            href="{{ asset('storage/'.$document->file_path) }}"
                                             class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -887,11 +890,11 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <x-modal title="Elimina definitivamente?" confirm-label="elimina"
+                                        <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
                                             wire:key="deleteDoc-[{{$document->id}}]"
                                             confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                             <x-slot:trigger>
-                                                <button title="note"
+                                                <button title="{{ __('Elimina') }}"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -903,13 +906,13 @@
                                             </x-slot:trigger>
 
                                             <x-slot:body>
-                                                Questa operazione è irreversibile.
+                                                {{ __('Questa operazione è irreversibile') }}
                                             </x-slot:body>
 
                                             <x-slot:action>
                                                 <button wire:click="deleteDoc({{$document->id}})"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                                    Elimina
+                                                    {{ __('Elimina') }}
                                                 </button>
                                             </x-slot:action>
                                         </x-modal>
@@ -918,7 +921,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="8" class="px-6 py-8 text-center text-slate-500">
-                                        <p>Nessun documento disponibile.</p>
+                                        <p>{{ __('Nessun documento disponibile') }}</p>
                                     </td>
                                 </tr>
                                 @endforelse

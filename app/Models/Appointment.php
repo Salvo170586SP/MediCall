@@ -119,7 +119,6 @@ class Appointment extends Model
 
     public function formatDate($data)
     {
-        Carbon::setLocale('it');
         return ucfirst(Carbon::parse($data)->translatedFormat('l d F Y'));
     }
 
@@ -128,8 +127,7 @@ class Appointment extends Model
         if (blank($data)) {
             return '-';
         }
-        
-        Carbon::setLocale('it');
+
         return Carbon::parse($data)->translatedFormat('H:i');
     }
 }

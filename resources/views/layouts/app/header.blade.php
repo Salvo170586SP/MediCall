@@ -15,17 +15,21 @@
             <x-icon.medicall-ico />
             <div>
                 <h2 class="text-sm font-bold text-slate-900">MediCall</h2>
-                <p class="text-xs text-slate-500">Gestione sanitaria</p>
+                <p class="text-xs text-slate-500">{{ __('Gestione sanitaria') }}</p>
             </div>
         </div>
 
         <flux:spacer />
 
         @role(['Guest','Doctor'])
-        <div class="flex items-center gap-10">
+        <div class="flex items-center gap-8">
             <x-accordion-notifications title="Notifiche" />
         </div>
         @endrole
+
+        <div class="me-15">
+            <livewire:components.language-switcher />
+        </div>
 
         <flux:dropdown position="bottom" align="start">
             @role('Guest')
@@ -41,7 +45,7 @@
         </flux:dropdown>
 
         @role(['Admin','Doctor'])
-        <div class="flex items-center gap-5">
+        <div class="flex items-center">
             <x-desktop-user-menu />
         </div>
         @endrole
@@ -61,7 +65,7 @@
                 </svg>
                 <div>
                     <h2 class="text-sm font-bold text-slate-900">MediCall</h2>
-                    <p class="text-xs text-slate-500">Gestione sanitaria</p>
+                    <p class="text-xs text-slate-500">{{ __('Gestione sanitaria') }}</p>
                 </div>
             </div>
 

@@ -2,7 +2,7 @@
 <nav role="navigation" aria-label="Pagination Navigation" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <div class="text-sm text-slate-600">
         <p class="text-slate-600">
-            Mostrando <span class="font-semibold text-slate-900">{{ $paginator->firstItem() }}</span> - <span class="font-semibold text-slate-900">{{ $paginator->lastItem() }}</span> di <span class="font-semibold text-slate-900">{{ $paginator->total() }}</span>
+              {{ __('Mostrando') }} <span class="font-semibold text-slate-900">{{ $paginator->firstItem() }}</span> - <span class="font-semibold text-slate-900">{{ $paginator->lastItem() }}</span>  {{ __('di') }} <span class="font-semibold text-slate-900">{{ $paginator->total() }}</span>
         </p>
     </div>
 

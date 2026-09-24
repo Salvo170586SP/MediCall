@@ -19,8 +19,8 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-slate-900">I tuoi parametri</h1>
-                <p class="mt-1 text-sm text-slate-600">Lo storico delle misurazioni registrate nel tuo profilo.</p>
+                <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi parametri') }}</h1>
+                <p class="mt-1 text-sm text-slate-600">{{ __('Lo storico delle misurazioni registrate nel tuo profilo') }}</p>
             </div>
         </div>
     </section>
@@ -28,42 +28,43 @@
         <div
             class="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-lg font-semibold text-slate-950">Storico misurazioni</h2>
-                <p class="text-sm text-slate-500">Le misurazioni più recenti sono mostrate per prime.</p>
+                <h2 class="text-lg font-semibold text-slate-950">{{ __('Storico misurazioni') }}</h2>
+                <p class="text-sm text-slate-500">{{ __('Le misurazioni più recenti sono mostrate per prime') }}</p>
             </div>
 
             <div class="flex flex-col gap-5">
                 <button wire:navigate href="/guest/parameters/create"
-                    class="inline-flex items-center gap-2 px-3 py-2 cursor-pointer rounded-xl bg-black hover:bg-gray-700 font-medium text-white">
+                    class="inline-flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded-xl bg-black hover:bg-gray-700 font-medium text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    Aggiungi
+                    {{ __('Aggiungi') }}
                 </button>
                 <span
                     class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
-                    {{ $parameters->total() }} {{ $parameters->total() === 1 ? 'misurazione' : 'misurazioni' }}
+                    {{ $parameters->total() }} {{ $parameters->total() === 1 ? __('misurazione') : __('misurazioni') }}
                 </span>
             </div>
         </div>
 
         <div class="grid gap-4 lg:grid-cols-3 m-6">
-            <x-search-input inputClass="bg-white" id="type" model="type" label="Tipo" placeholder="Cerca per tipo" />
+            <x-search-input inputClass="bg-white" id="type" model="type" label="{{ __('Tipo') }}"
+                placeholder="{{ __('Cerca per tipo') }}" />
             <div>
-                <label for="source" class="block text-xs font-semibold text-slate-900 mb-2">Sorgente</label>
+                <label for="source" class="block text-xs font-semibold text-slate-900 mb-2">{{ __('Sorgente') }}</label>
                 <select id="source" wire:model.live="source"
                     class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                    <option value="">Tutte le sorgenti</option>
+                    <option value="">{{ __('Tutti') }}</option>
                     <option value="manual">
-                        Dispositivo Medico Manuale
+                        {{ __('Dispositivo Medico Manuale') }}
                     </option>
                     <option value="device">
-                        Dispositivo Medico Elettronico
+                        {{ __('Dispositivo Medico Elettronico') }}
                     </option>
                     <option value="wearable">
-                        Wearable
+                        {{ __('Wearable') }}
                     </option>
                 </select>
             </div>
@@ -77,12 +78,12 @@
             <table class="w-full min-w-[760px] text-left text-sm">
                 <thead class="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
                     <tr>
-                        <th class="px-5 py-3 font-semibold">Parametro</th>
-                        <th class="px-5 py-3 font-semibold">Valore</th>
-                        <th class="px-5 py-3 font-semibold">Data e ora</th>
-                        <th class="px-5 py-3 font-semibold">Origine</th>
-                        <th class="px-5 py-3 font-semibold">Note</th>
-                        <th class="px-5 py-3 text-end font-semibold">Azioni</th>
+                        <th class="px-5 py-3 font-semibold">{{ __('Parametro') }}</th>
+                        <th class="px-5 py-3 font-semibold">{{ __('Valore') }}</th>
+                        <th class="px-5 py-3 font-semibold">{{ __('Data e ora') }}</th>
+                        <th class="px-5 py-3 font-semibold">{{ __('Origine') }}</th>
+                        <th class="px-5 py-3 font-semibold">{{ __('Note') }}</th>
+                        <th class="px-5 py-3 text-end font-semibold">{{ __('Azioni') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -100,10 +101,11 @@
                         <td class="px-5 py-4 capitalize">{{ $parameter->source }}</td>
                         <td class="max-w-xs px-5 py-4 text-slate-500">
                             @if($parameter->notes)
-                            <x-modal title="Note" confirm-label="Note" wire:key="noteParameter-[{{$parameter->id}}]"
+                            <x-modal title="{{ __('Note') }}" confirm-label="Note"
+                                wire:key="noteParameter-[{{$parameter->id}}]"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                 <x-slot:trigger>
-                                    <button title="note"
+                                    <button title="{{ __('Note') }}"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -126,7 +128,8 @@
                         </td>
                         <td class="max-w-xs px-5 py-4 text-slate-500">
                             <div class="flex justify-end gap-3">
-                                <button wire:navigate href="/guest/parameters/{{$parameter->id}}/edit" title="modifica"
+                                <button wire:navigate href="/guest/parameters/{{$parameter->id}}/edit"
+                                    title="{{ __('Modifica') }}"
                                     class="inline-flex items-center gap-1.5 p-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -135,10 +138,10 @@
                                     </svg>
                                 </button>
 
-                                <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
+                                <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
                                     confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                     <x-slot:trigger>
-                                        <button title="elimina"
+                                        <button title="{{ __('Elimina') }}"
                                             class="inline-flex items-center gap-1.5 p-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -150,14 +153,14 @@
 
                                     <x-slot:body>
                                         <div class="w-[400px]">
-                                            Questa operazione è irreversibile.
+                                            {{ __('Questa operazione è irreversibile') }}
                                         </div>
                                     </x-slot:body>
 
                                     <x-slot:action>
                                         <button wire:click="deleteParameter({{$parameter->id}})"
                                             class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                            Elimina
+                                            {{ __('Elimina') }}
                                         </button>
                                     </x-slot:action>
 
@@ -171,7 +174,7 @@
         </div>
         @else
         <div class="px-5 py-12 text-center text-sm text-slate-500">
-            Non ci sono ancora parametri da mostrare.
+            {{ __('Non ci sono ancora parametri da mostrare') }}
         </div>
         @endif
     </section>

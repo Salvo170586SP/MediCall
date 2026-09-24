@@ -4,7 +4,7 @@
         <x-slot:action>
             <button wire:click="closeWelcomeModal({{auth()->user()->id}})"
                 class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-xl bg-slate-100 hover:bg-slate-100 font-semibold text-slate-800">
-                Chiudi
+                {{ __('Chiudi') }}
             </button>
         </x-slot:action>
     </x-welcome-modal>
@@ -23,12 +23,8 @@
             </div>
             <div class="flex-1">
                 <h2 class="text-xl font-bold text-slate-900">Benvenuto, {{ auth()->user()->name }}</h2>
-                <p class="mt-1 text-slate-600 text-xs lg:text-base">La tua area personale: consulta i tuoi
-                    appuntamenti,
-                    cartelle
-                    cliniche e comunicazioni direttamente dalla home di MediCall.</p>
-                <p class="mt-1 text-slate-600 text-xs font-medium">*Se non 'hai ancora fatto, ti invitiamo di completare
-                    l'aggiunta dei tuoi dati tramite la modifica del profilo.</p>
+                <p class="mt-1 text-slate-600 text-xs lg:text-base">{{ __('La tua area personale: consulta i tuoi appuntamenti, cartelle cliniche e comunicazioni direttamente dalla home di MediCall') }}</p>
+                <p class="mt-1 text-slate-600 text-xs font-medium">*{{ __('Se non l\'hai ancora fatto, ti invitiamo di completare l\'aggiunta dei tuoi dati tramite la modifica del profilo') }} </p>
             </div>
             <button wire:navigate href="/guest/edit/{{auth()->user()->id}}"
                 class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-sky-300 bg-sky-50 hover:bg-sky-100 font-bold text-sky-800">
@@ -37,21 +33,21 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                 </svg>
-                Modifica il mio profilo</button>
+                {{ __('Modifica il mio profilo') }}</button>
         </div>
 
         <div class="flex items-start gap-4 border-t border-gray-200 pt-5 mt-5">
 
             <div class="text-sm">
-                <p class="mt-1 text-slate-600">Utente: <span class="font-bold">#{{
+                <p class="mt-1 text-slate-600">{{ __('Utente') }}: <span class="font-bold">#{{
                         auth()->user()->guestDetail?->code_item }}</span> </p>
-                <p class="mt-1 text-slate-600">Città e data di nascita: <span class="font-bold">{{
+                <p class="mt-1 text-slate-600">{{ __('Città e data di nascita') }}: <span class="font-bold">{{
                         auth()->user()->guestDetail?->birth_city.',
                         '.auth()->user()->guestDetail?->formatDate(auth()->user()->guestDetail->birth_date)
                         }}</span></p>
-                <p class="mt-1 text-slate-600">Cod Fiscale: <span class="font-bold">{{
+                <p class="mt-1 text-slate-600">{{ __('Codice fiscale') }}: <span class="font-bold">{{
                         auth()->user()->guestDetail?->tax_id_code }}</span></p>
-                <p class="mt-1 text-slate-600">Telefono: <span class="font-bold">{{
+                <p class="mt-1 text-slate-600">{{ __('Telefono') }}: <span class="font-bold">{{
                         auth()->user()->guestDetail?->phone
                         }}</span></p>
             </div>
@@ -73,13 +69,13 @@
                             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                     </svg>
                 </div>
-                <h2 class="ms-3 text-xl font-bold text-slate-700">Le tue allergie</h2>
+                <h2 class="ms-3 text-xl font-bold text-slate-700">{{ __('Le tue allergie') }}</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2 flex">
-                <x-modal title="Allergie" confirm-label="Allergies"
+                <x-modal title="{{ __('Le mie allergie') }}" confirm-label="Allergies"
                     wire:key="allergies-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
-                        <button title="Allergies"
+                        <button title="{{ __('Le mie allergie') }}"
                             class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-5">
@@ -88,12 +84,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             </svg>
-                            Le mie allergie
+                            {{ __('Le mie allergie') }}
                         </button>
                     </x-slot:trigger>
 
                     <x-slot:body>
-                        {{ $allergies ? $allergies : 'Nessuna allergia'}}
+                        {{ $allergies ?: __('Nessuna allergia') }}
                     </x-slot:body>
 
                     <x-slot:action>
@@ -117,13 +113,13 @@
                             d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                     </svg>
                 </div>
-                <h2 class="ms-3 text-xl font-bold text-slate-700">La tua storia clinica</h2>
+                <h2 class="ms-3 text-xl font-bold text-slate-700">{{ __('La tua storia clinica') }}</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2 flex">
-                <x-modal title="La mia storia clinica" confirm-label="medical_history"
+                <x-modal title="{{ __('La tua storia clinica') }}" confirm-label="medical_history"
                     wire:key="medical-history-modal-{{ $authenticatedUser->id }}">
                     <x-slot:trigger>
-                        <button title="La mia storia clinica"
+                        <button title="{{ __('La tua storia clinica') }}"
                             class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-5">
@@ -132,12 +128,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             </svg>
-                            La mia storia clinica
+                            {{ __('La mia storia clinica') }}
                         </button>
                     </x-slot:trigger>
 
                     <x-slot:body>
-                        {{ $medical_history ? $medical_history : 'Nessuna storia clinica'}}
+                        {{ $medical_history ?: __('Nessuna storia clinica') }}
                     </x-slot:body>
 
                     <x-slot:action>
@@ -166,9 +162,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="ms-3 text-xl font-bold text-slate-700">I tuoi appuntamenti</h2>
+                    <h2 class="ms-3 text-xl font-bold text-slate-700">{{ __('I tuoi appuntamenti') }}</h2>
                     <p class="ms-3 text-sm font-semibold text-sky-800">
-                        {{ $appointments->count() }} appuntamenti presi
+                        {{ $appointments->count() }} {{ __('appuntamenti presi') }}
                     </p>
                 </div>
             </div>
@@ -181,7 +177,7 @@
                             d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
-                    Appuntamenti presi
+                    {{ __('Appuntamenti presi') }}
                 </button>
             </div>
         </section>
@@ -198,9 +194,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="ms-3 text-xl font-bold text-slate-900">I tuoi parametri</h2>
+                    <h2 class="ms-3 text-xl font-bold text-slate-900">{{ __('I tuoi parametri') }}</h2>
                     <p class="ms-3 text-sm font-semibold text-sky-800">
-                        {{ $parameters->count() }} parametri misurati
+                        {{ $parameters->count() }} {{ __('parametri misurati') }}
                     </p>
                 </div>
             </div>
@@ -212,7 +208,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    Aggiungi
+                    {{ __('Aggiungi') }}
                 </button>
                 <button wire:navigate href="/guest/parameters"
                     class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
@@ -221,7 +217,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    Storico</button>
+                    {{ __('Storico') }}</button>
             </div>
         </section>
 
@@ -241,9 +237,9 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="ms-3 text-xl font-bold text-slate-900">I miei referti</h2>
+                    <h2 class="ms-3 text-xl font-bold text-slate-900">{{ __('I miei referti') }}</h2>
                     <p class="ms-3 text-sm font-semibold text-sky-800">
-                        {{ $medical_records->count() }} referti totali
+                        {{ $medical_records->count() }} {{ __('referti totali') }}
                     </p>
                 </div>
             </div>
@@ -255,7 +251,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    Storico</button>
+                    {{ __('Storico') }}</button>
             </div>
         </section>
 
@@ -271,7 +267,7 @@
                             d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                     </svg>
                 </div>
-                <h2 class="ms-3 text-xl font-bold text-slate-900">Lista medici</h2>
+                <h2 class="ms-3 text-xl font-bold text-slate-900">{{ __('Lista medici') }}</h2>
             </div>
             <div class="absolute bottom-8 right-8 space-x-2">
                 <button wire:navigate href="/guest/doctors"
@@ -281,8 +277,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
-                    Trova nuovo
-                    medico</button>
+                    {{ __('Trova nuovo medico') }}</button>
             </div>
         </section>
 

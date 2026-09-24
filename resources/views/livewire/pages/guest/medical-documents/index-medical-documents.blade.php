@@ -19,8 +19,8 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-slate-900">I tuoi referti medici</h1>
-                <p class="mt-1 text-sm text-slate-600">I referti medici associati al tuo profilo.</p>
+                <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi referti medici') }}</h1>
+                <p class="mt-1 text-sm text-slate-600">{{ __('I referti medici associati al tuo profilo') }}</p>
             </div>
         </div>
     </section>
@@ -28,15 +28,15 @@
         <div
             class="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-lg font-semibold text-slate-950">Referti medici</h2>
-                <p class="text-sm text-slate-500">I referti più recenti sono mostrati per primi.</p>
+                <h2 class="text-lg font-semibold text-slate-950">{{ __('Referti medici') }}</h2>
+                <p class="text-sm text-slate-500">{{ __('I referti più recenti sono mostrati per primi') }}</p>
             </div>
 
             <div class="flex flex-col gap-5">
                 <span
                     class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
-                    {{ $medicalRecordsAsPatient->total() }} {{ $medicalRecordsAsPatient->total() === 1 ? 'referto' :
-                    'referti' }}
+                    {{ $medicalRecordsAsPatient->total() }} {{ $medicalRecordsAsPatient->total() === 1 ? __('referto') :
+                    __('referti') }}
                 </span>
             </div>
         </div>
@@ -52,19 +52,17 @@
                 <thead class="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
                     <tr>
                         <th class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                            Medico</th>
+                            {{ __('Dottore') }}</th>
                         <th class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                            Data di Visita</th>
+                            {{ __('Data di visita') }}</th>
                         <th class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                            Diagnosi</th>
+                            {{ __('Diagnosi') }}</th>
                         <th class="px-6 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                            Prescrizioni</th>
+                            {{ __('Prescrizioni') }}</th>
                         <th class="px-6 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                            Consigli</th>
+                            {{ __('Consigli') }}</th>
                         <th class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
-                            Prossimo controllo il</th>
-                        <th class="px-6 py-3  text-center font-semibold text-slate-900 uppercase tracking-wider">
-                            Allegato</th>
+                            {{ __('Allegato') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -78,11 +76,11 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             @if($record->prescription)
-                            <x-modal title="Prescrizioni" confirm-label="prescrizioni"
+                            <x-modal title="{{ __('Prescrizioni') }}" confirm-label="prescrizioni"
                                 wire:key="prescription-[{{$record->id}}]"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                 <x-slot:trigger>
-                                    <button title="note"
+                                    <button title="{{ __('Prescrizioni') }}"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -105,10 +103,11 @@
                         </td>
                         <td class="px-6 py-4 text-center">
                             @if($record->instructions)
-                            <x-modal title="Consigli" confirm-label="consigli" wire:key="instructions-[{{$record->id}}]"
+                            <x-modal title="{{ __('Consigli') }}" confirm-label="consigli"
+                                wire:key="instructions-[{{$record->id}}]"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                 <x-slot:trigger>
-                                    <button title="note"
+                                    <button title="{{ __('Consigli') }}"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -130,12 +129,9 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-slate-900 text-center">
-                            {{ $record->formatDate($record->follow_up_date) }}
-                        </td>
-                        <td class="px-6 py-4 text-slate-900 text-center">
                             @if($record->medicalRecordDocument)
                             <a download href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
-                                title="Scarica {{ $record->medicalRecordDocument->file_path }}"
+                                title="{{ __('Scarica') }} {{ $record->medicalRecordDocument->file_path }}"
                                 class="inline-flex items-center justify-center rounded-xl bg-emerald-100 p-2 text-emerald-800 transition-colors hover:bg-emerald-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -154,7 +150,7 @@
         </div>
         @else
         <div class="px-5 py-12 text-center text-sm text-slate-500">
-            Non ci sono ancora referti medici da mostrare.
+            {{ __('Non ci sono ancora referti medici da mostrare ') }}
         </div>
         @endif
     </section>

@@ -30,11 +30,11 @@
         <div class="flex items-center gap-5 mb-6 items-center">
             <x-search-input inputClass="bg-gray-50" id="search" model="search"
                 placeholder="Cerca per nome o email..." />
-            <x-search-input inputClass="bg-gray-50" label="Cerca per città" id="search_city" model="search_city"
-                placeholder="Cerca per città" />
+            <x-search-input inputClass="bg-gray-50" :label="__('Cerca per città')" id="search_city" model="search_city"
+                :placeholder="__('Cerca per città')" />
 
             <label for="is_active" class="block text-sm font-semibold text-slate-900 flex items-center gap-2">
-                Filtra per disponibilità
+                {{ __('Filtra per disponibilità') }}
                 <input type="checkbox" id="is_active" wire:model.live="is_active" />
             </label>
         </div>
@@ -72,7 +72,7 @@
                                 <div class="mt-3">
                                     <span
                                         class="inline-flex rounded-full bg-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                        {{ $user_doctor->doctorDetail->specialty ?? 'Specializzazione non indicata' }}
+                                        {{ $user_doctor->doctorDetail->specialty ?? __('Specializzazione non indicata') }}
                                     </span>
                                 </div>
                             </div>
@@ -80,8 +80,7 @@
                     </div>
                     <span
                         class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
-                        {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'Disponibile' : 'Non
-                        disponibile' }}
+                        {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? __('Disponibile') : __('Non disponibile') }}
                     </span>
                 </div>
 
@@ -89,7 +88,7 @@
 
                     <dl class="space-y-3 text-sm">
                         <div class="flex items-start gap-3">
-                            <dt class="w-20 shrink-0 font-medium text-slate-500">Città</dt>
+                            <dt class="w-20 shrink-0 font-medium text-slate-500">{{ __('Città') }}</dt>
                             <dd class="min-w-0 break-words font-medium text-slate-800">{{
                                 $user_doctor->doctorDetail->city
                                 }}</dd>
@@ -99,7 +98,7 @@
                             <dd class="min-w-0 break-words font-medium text-slate-800">{{ $user_doctor->email }}</dd>
                         </div>
                         <div class="flex items-start gap-3">
-                            <dt class="w-20 shrink-0 font-medium text-slate-500">Telefono</dt>
+                            <dt class="w-20 shrink-0 font-medium text-slate-500">{{ __('Telefono') }}</dt>
                             <dd class="font-medium text-slate-800">{{ $user_doctor->doctorDetail->phone ?? '-' }}</dd>
                         </div>
                     </dl>
@@ -108,7 +107,7 @@
             @empty
             <div
                 class="col-span-full rounded-2xl border border-dashed border-slate-300 px-6 py-12 text-center text-slate-500">
-                <p>Nessun dottore disponibile.</p>
+                <p>{{ __('Nessun dottore disponibile') }}</p>
             </div>
             @endforelse
         </div>

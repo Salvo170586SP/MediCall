@@ -18,9 +18,9 @@
         <div x-show="isOpen" x-cloak @click.outside="isOpen = false"
             class="absolute right-0 top-12 z-50 h-96 w-80 overflow-y-auto rounded-xl border bg-white p-3 text-sm shadow-lg">
             <div class="flex items-center justify-between border-b py-2 font-medium text-gray-800">
-                <span>Notifiche</span>
+                <span>{{ __('Notifiche') }}</span>
                 @if (count($notifications))
-                <button type="button" wire:click="deleteAllNotifications" title="Elimina tutte le notifiche"
+                <button type="button" wire:click="deleteAllNotifications" title="{{ __('Elimina tutte le notifiche') }}"
                     class="inline-flex items-center rounded-xl bg-red-100 p-1 text-red-800 transition-colors hover:bg-red-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
@@ -39,7 +39,7 @@
                         <p class="text-xs font-medium text-gray-800">{{ $notification['message'] }}</p>
                         <span class="text-[11px] text-gray-500">{{ $notification['created_at'] }}</span>
                     </button>
-                    <button type="button" wire:click="deleteNotification('{{ $notification['id'] }}')" title="Elimina"
+                    <button type="button" wire:click="deleteNotification('{{ $notification['id'] }}')" title="{{ __('Elimina') }}"
                         class="inline-flex shrink-0 items-center rounded-xl bg-red-100 p-1 text-red-800 transition-colors hover:bg-red-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-5">
@@ -49,7 +49,7 @@
                     </button>
                 </div>
                 @empty
-                <p class="py-8 text-center text-sm text-gray-400">Nessuna notifica</p>
+                <p class="py-8 text-center text-sm text-gray-400">{{ __('Nessuna notifica') }}</p>
                 @endforelse
             </div>
         </div>

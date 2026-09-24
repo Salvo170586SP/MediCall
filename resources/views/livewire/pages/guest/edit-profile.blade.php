@@ -14,12 +14,12 @@
             class="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-7 sm:px-8">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <flux:heading size="xl" class="text-slate-900">Il mio profilo</flux:heading>
+                    <flux:heading size="xl" class="text-slate-900">{{ __('Il mio profilo') }}</flux:heading>
                     <flux:subheading class="mt-1 max-w-2xl text-slate-600">
-                        Gestisci i tuoi dati personali e mantieni protetto il tuo account MediCall.
+                        {{ __('Gestisci i tuoi dati personali e mantieni protetto il tuo account MediCall') }}
                     </flux:subheading>
                 </div>
-                <flux:badge color="emerald" icon="check-circle">Account attivo</flux:badge>
+                <flux:badge color="emerald" icon="check-circle">{{ __('Account attivo') }}</flux:badge>
             </div>
         </div>
 
@@ -30,27 +30,31 @@
                     <flux:icon.user class="size-5" />
                 </div>
                 <div>
-                    <flux:heading size="lg">Dati personali</flux:heading>
-                    <flux:subheading>Nome, contatti e informazioni anagrafiche.</flux:subheading>
+                    <flux:heading size="lg">{{ __('Dati personali') }}
+                    </flux:heading>
+                    <flux:subheading>{{ __('Nome, contatti e informazioni anagrafiche') }}</flux:subheading>
                 </div>
             </div>
 
             <form wire:submit="updateProfileInformation" class="space-y-6">
                 <div class="grid gap-5 md:grid-cols-2">
-                    <flux:input wire:model="name" label="Nome e cognome" type="text" required autocomplete="name" />
+                    <flux:input wire:model="name" label="{{ __('Nome e cognome') }}" type="text" required
+                        autocomplete="name" />
                     <flux:input wire:model="email" label="Email" type="email" required autocomplete="email" />
-                    <flux:input wire:model="phone" label="Telefono" type="tel" autocomplete="tel" />
-                    <flux:input wire:model="tax_id_code" label="Codice fiscale" type="text" autocomplete="off" />
-                    <flux:input wire:model="birth_city" label="Città di nascita" type="text"
+                    <flux:input wire:model="phone" label="{{ __('Telefono') }}" type="tel" autocomplete="tel" />
+                    <flux:input wire:model="tax_id_code" label="{{ __('Codice fiscale') }}" type="text"
+                        autocomplete="off" />
+                    <flux:input wire:model="birth_city" label="{{ __('Città di nascita') }}" type="text"
                         autocomplete="address-level2" />
-                    <flux:input wire:model="birth_date" label="Data di nascita" type="date" autocomplete="bday" />
-                    <flux:input wire:model="gender" label="Sesso" type="text" autocomplete="sex" />
+                    <flux:input wire:model="birth_date" label="{{ __('Data di nascita') }}" type="date"
+                        autocomplete="bday" />
+                    <flux:input wire:model="gender" label="{{ __('Sesso') }}" type="text" autocomplete="sex" />
                 </div>
-                <flux:checkbox wire:model="notifications" label="Attiva \ Disattiva Notifiche" />
+                <flux:checkbox wire:model="notifications" label="{{ __('Attiva - Disattiva Notifiche') }}" />
 
                 <div class="flex justify-end border-t border-zinc-200 pt-5 dark:border-zinc-700">
                     <flux:button variant="primary" type="submit" wire:loading.attr="disabled">
-                        Salva dati personali
+                        {{ __('Salva') }}
                     </flux:button>
                 </div>
             </form>
@@ -64,28 +68,28 @@
                 </div>
                 <div>
                     <flux:heading size="lg">Password</flux:heading>
-                    <flux:subheading>Usa una password lunga e unica per proteggere i tuoi dati sanitari.
+                    <flux:subheading>{{ __('Usa una password lunga e unica per proteggere i tuoi dati sanitari') }}
                     </flux:subheading>
                 </div>
             </div>
 
             <form wire:submit="updatePassword" class="space-y-5">
-                <flux:input wire:model="current_password" label="Password attuale" type="password" required
+                <flux:input wire:model="current_password" label="{{ __('Password attuale') }}" type="password" required
                     autocomplete="current-password" viewable />
                 <div class="grid gap-5 md:grid-cols-2">
-                    <flux:input wire:model="password" label="Nuova password" type="password" required
+                    <flux:input wire:model="password" label="{{ __('Nuova password') }}" type="password" required
                         autocomplete="new-password"
                         passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                         viewable />
-                    <flux:input wire:model="password_confirmation" label="Conferma nuova password" type="password"
-                        required autocomplete="new-password"
+                    <flux:input wire:model="password_confirmation" label="{{ __('Conferma nuova password') }}"
+                        type="password" required autocomplete="new-password"
                         passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                         viewable />
                 </div>
 
                 <div class="flex justify-end border-t border-zinc-200 pt-5 dark:border-zinc-700">
                     <flux:button variant="primary" type="submit" wire:loading.attr="disabled">
-                        Aggiorna password
+                        {{ __('Aggiorna password') }}
                     </flux:button>
                 </div>
             </form>
@@ -99,9 +103,9 @@
                         <flux:icon.exclamation-triangle class="size-5" />
                     </div>
                     <div>
-                        <flux:heading size="lg">Elimina account</flux:heading>
-                        <flux:subheading>Attenzione! Eliminando l'account perderai le tue credenziali di accesso e tutti
-                            i dati correlati non saranno più recuperabili
+                        <flux:heading size="lg">{{ __('Elimina account')
+                            }}</flux:heading>
+                        <flux:subheading>{{ __('Attenzione! Eliminando l\'account perderai le tue credenziali di accesso e tutti i dati correlati non saranno più recuperabili') }}
                         </flux:subheading>
                     </div>
                 </div>

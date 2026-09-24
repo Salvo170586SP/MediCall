@@ -11,14 +11,14 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
-            Aggiungi
+            {{ __('Aggiungi') }}
         </button>
     </div>
 
     <div class="grid gap-4 lg:grid-cols-3 mb-6">
         <div>
-            <x-search-input inputClass="bg-gray-50" id="search" model="search"
-                placeholder="Cerca per nome o email..." />
+            <x-search-input inputClass="bg-gray-50" id="search" model="search" :label="__('Cerca')"
+                placeholder="{{ __('Cerca per nome o email...') }}" />
         </div>
     </div>
 
@@ -33,23 +33,23 @@
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                         Id</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Nome e Cognome</th>
+                        {{ __('Nome e cognome') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Email</th>
+                        {{ __('Email') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Telefono</th>
+                        {{ __('Telefono') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Data di nascita</th>
+                        {{ __('Data di nascita') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Città di nascita</th>
+                        {{ __('Città di nascita') }}</th>
                     <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        Cod.fiscale</th>
+                        {{ __('Codice fiscale') }}</th>
                     @role('Admin')
                     <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        Medici</th>
+                        {{ __('Dottori') }}</th>
                     @endrole
                     <th class="px-3 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                        Azioni</th>
+                        {{ __('Azioni') }} </th>
                 </tr>
             </thead>
             <tbody>
@@ -77,7 +77,8 @@
                     @endrole
                     <td class="px-3 py-4 text-right">
                         <div class="inline-flex items-center justify-end gap-2">
-                            <button wire:navigate href="patients/details/{{$user_patient->id}}" title="dettagli"
+                            <button wire:navigate href="patients/details/{{$user_patient->id}}"
+                                title="{{ __('Dettagli') }}"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -85,7 +86,8 @@
                                         d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                                 </svg>
                             </button>
-                            <button wire:navigate href="patients/edit/{{$user_patient->id}}" title="modifica"
+                            <button wire:navigate href="patients/edit/{{$user_patient->id}}"
+                                title="{{ __('Modifica') }}"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
@@ -94,10 +96,10 @@
                                 </svg>
                             </button>
 
-                            <x-modal title="Elimina definitivamente?" confirm-label="Elimina"
+                            <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                 <x-slot:trigger>
-                                    <button title="elimina"
+                                    <button title="{{ __('Elimina') }}"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -109,7 +111,7 @@
 
                                 <x-slot:body>
                                     <div class="w-[400px]">
-                                        Questa operazione è irreversibile.
+                                        {{ __('Questa operazione è irreversibile') }}
                                     </div>
                                 </x-slot:body>
 
@@ -117,7 +119,7 @@
                                 <x-slot:action>
                                     <button wire:click="deletePatient({{$user_patient->id}})"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                        Elimina
+                                        {{ __('Elimina') }}
                                     </button>
                                 </x-slot:action>
                                 @endrole
@@ -126,11 +128,10 @@
                                 <x-slot:action>
                                     <button wire:click="detachPatientOnDoctor({{$user_patient->id}})"
                                         class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                        Elimina
+                                        {{ __('Elimina') }}
                                     </button>
                                 </x-slot:action>
                                 @endrole
-
                             </x-modal>
                         </div>
                     </td>
@@ -138,7 +139,7 @@
                 @empty
                 <tr>
                     <td colspan="9" class="px-6 py-8 text-center text-slate-500">
-                        <p>Nessun paziente disponibile.</p>
+                        <p>{{ __('Nessun paziente disponibile') }}</p>
                     </td>
                 </tr>
                 @endforelse
