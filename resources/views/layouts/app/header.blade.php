@@ -8,9 +8,10 @@
 <body class="min-h-screen bg-white dark:bg-zinc-800">
 
     <flux:header class="border-b border-zinc-200 bg-zinc-50">
-
+        @role(['Doctor', 'Admin'])
         <flux:sidebar.toggle class="lg:hidden mr-2" icon="bars-2" inset="left" />
-
+        @endrole
+        
         <div class="shrink-0 flex items-center justify-center gap-3">
             <x-icon.medicall-ico />
             <div>
@@ -55,6 +56,7 @@
 
 
     <!-- Mobile Menu -->
+    @role(['Doctor', 'Admin'])
     <flux:sidebar collapsible="mobile" sticky
         class="lg:hidden border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
@@ -75,10 +77,12 @@
 
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Platform')">
+                @role(['Doctor', 'Admin'])
                 <flux:sidebar.item icon="layout-grid" :href="route('dashboard')"
                     :current="request()->routeIs('dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
+                @endrole
 
                 @role('Admin')
                 <flux:sidebar.item wire:navigate :href="route('doctors')" icon="users"
@@ -94,6 +98,7 @@
                 </flux:sidebar.item>
                 @endrole
 
+                @role(['Doctor', 'Admin'])
                 <flux:sidebar.item wire:navigate :href="route('patients')" icon="users"
                     :current="request()->routeIs('patients')">
                     {{ __('Pazienti') }}
@@ -103,7 +108,7 @@
                     :current="request()->routeIs('documents')">
                     {{ __('Documenti') }}
                 </flux:sidebar.item>
-
+                @endrole
             </flux:sidebar.group>
         </flux:sidebar.nav>
 
@@ -111,6 +116,7 @@
 
 
     </flux:sidebar>
+    @endrole
 
 
 
