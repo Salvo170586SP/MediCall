@@ -22,8 +22,11 @@ class CreateNewDoctor
      */
     public function create(array $input): User
     {
-        Validator::make($input, [
+        $days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+        $validator = Validator::make($input, [
             ...$this->profileRules(),
+            'email_confirmation' => ['required', 'email', 'same:email'],
             'phone' => ['nullable', 'string', 'max:20'],
             'license_number' => ['required', 'string', 'max:255', 'unique:doctor_details,license_number'],
             'city' => ['nullable', 'string', 'max:255'],
@@ -31,13 +34,58 @@ class CreateNewDoctor
             'sub_specialty' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string', 'max:1000'],
             'password' => $this->passwordRules(),
-        ])->validate();
+            'available_hours' => ['nullable', 'array:'.implode(',', $days)],
+            'available_hours.*' => ['array:0,1', 'size:2'],
+            'available_hours.*.0' => ['nullable', 'date_format:H:i'],
+            'available_hours.*.1' => ['nullable', 'date_format:H:i'],
+        ]);
 
-        $user = DB::transaction(function () use ($input): User {
+        $validator->after(function ($validator) use ($input, $days): void {
+            foreach ($days as $day) {
+                $dayHours = data_get($input, "available_hours.{$day}");
+                $start = is_array($dayHours) ? ($dayHours[0] ?? null) : null;
+                $end = is_array($dayHours) ? ($dayHours[1] ?? null) : null;
+
+                if (filled($start) !== filled($end)) {
+                    $validator->errors()->add(
+                        "available_hours.{$day}",
+                        __('Inserisci sia l’orario di inizio che quello di fine, oppure lascia vuoti entrambi.')
+                    );
+
+                    continue;
+                }
+
+                if (
+                    is_string($start)
+                    && is_string($end)
+                    && preg_match('/^\d{2}:\d{2}$/', $start) === 1
+                    && preg_match('/^\d{2}:\d{2}$/', $end) === 1
+                    && $end <= $start
+                ) {
+                    $validator->errors()->add(
+                        "available_hours.{$day}",
+                        __('L’orario di fine deve essere successivo a quello di inizio.')
+                    );
+                }
+            }
+        });
+
+        $validated = $validator->validate();
+
+        $availableHours = collect($days)
+            ->mapWithKeys(fn (string $day): array => [
+                $day => [
+                    $validated['available_hours'][$day][0] ?? '',
+                    $validated['available_hours'][$day][1] ?? '',
+                ],
+            ])
+            ->all();
+
+        $user = DB::transaction(function () use ($validated, $availableHours): User {
             $user = User::create([
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'password' => $input['password'],
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => $validated['password'],
             ]);
 
             Role::firstOrCreate(['name' => 'Doctor']);
@@ -45,21 +93,13 @@ class CreateNewDoctor
 
             DoctorDetail::create([
                 'doctor_id' => $user->id,
-                'license_number' => $input['license_number'],
-                'city' => $input['city'] ?? null,
-                'phone' => $input['phone'] ?? null,
-                'specialty' => $input['specialty'],
-                'sub_specialty' => $input['sub_specialty'] ?? null,
-                'bio' => $input['bio'] ?? null,
-                'available_hours' => [
-                    'mon' => ['', ''],
-                    'tue' => ['', ''],
-                    'wed' => ['', ''],
-                    'thu' => ['', ''],
-                    'fri' => ['', ''],
-                    'sat' => ['', ''],
-                    'sun' => ['', ''],
-                ],
+                'license_number' => $validated['license_number'],
+                'city' => $validated['city'] ?? null,
+                'phone' => $validated['phone'] ?? null,
+                'specialty' => $validated['specialty'],
+                'sub_specialty' => $validated['sub_specialty'] ?? null,
+                'bio' => $validated['bio'] ?? null,
+                'available_hours' => $availableHours,
             ]);
 
             return $user;

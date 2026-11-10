@@ -73,12 +73,17 @@ test('doctors can register with their professional details', function () {
     $response = $this->post(route('doctor.register.store'), [
         'name' => 'Mario Rossi',
         'email' => 'mario.rossi@example.com',
+        'email_confirmation' => 'mario.rossi@example.com',
         'phone' => '3331234567',
         'license_number' => 'MED-12345',
         'city' => 'Milano',
         'specialty' => 'Cardiologia',
         'sub_specialty' => 'Elettrofisiologia',
         'bio' => 'Medico cardiologo.',
+        'available_hours' => [
+            'mon' => ['09:00', '17:00'],
+            'wed' => ['10:00', '16:00'],
+        ],
         'password' => 'Password123!',
         'password_confirmation' => 'Password123!',
     ]);
@@ -93,4 +98,43 @@ test('doctors can register with their professional details', function () {
         'license_number' => 'MED-12345',
         'specialty' => 'Cardiologia',
     ]);
+
+    expect($doctor->doctorDetail->available_hours)->toMatchArray([
+        'mon' => ['09:00', '17:00'],
+        'wed' => ['10:00', '16:00'],
+        'sun' => ['', ''],
+    ]);
+});
+
+test('doctor registration requires a matching email confirmation', function () {
+    $response = $this->post(route('doctor.register.store'), [
+        'name' => 'Mario Rossi',
+        'email' => 'mario.rossi@example.com',
+        'email_confirmation' => 'different@example.com',
+        'license_number' => 'MED-12345',
+        'specialty' => 'Cardiologia',
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+    ]);
+
+    $response->assertSessionHasErrors('email_confirmation');
+    $this->assertDatabaseMissing('users', ['email' => 'mario.rossi@example.com']);
+});
+
+test('doctor registration rejects invalid availability hours', function () {
+    $response = $this->post(route('doctor.register.store'), [
+        'name' => 'Mario Rossi',
+        'email' => 'mario.rossi@example.com',
+        'email_confirmation' => 'mario.rossi@example.com',
+        'license_number' => 'MED-12345',
+        'specialty' => 'Cardiologia',
+        'available_hours' => [
+            'mon' => ['18:00', '09:00'],
+        ],
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+    ]);
+
+    $response->assertSessionHasErrors('available_hours.mon');
+    $this->assertDatabaseMissing('users', ['email' => 'mario.rossi@example.com']);
 });
