@@ -88,35 +88,35 @@ test('guest crea i parametri selezionati con le unita predefinite', function () 
     Livewire::actingAs($guest)
         ->test(CreateParameters::class)
         ->set('selectedParameters', [
-            'weight' => true,
-            'heart_rate' => true,
+            'peso' => true,
+            'frequenza cardiaca' => true,
         ])
         ->set('values', [
-            'weight' => '70',
-            'heart_rate' => '65.56',
+            'peso' => '70',
+            'frequenza cardiaca' => '65.56',
         ])
         ->set('measuredAt', [
-            'weight' => now()->format('Y-m-d\\TH:i'),
-            'heart_rate' => now()->subMinute()->format('Y-m-d\\TH:i'),
+            'peso' => now()->format('Y-m-d\\TH:i'),
+            'frequenza cardiaca' => now()->subMinute()->format('Y-m-d\\TH:i'),
         ])
         ->set('source', [
-            'weight' => 'wearable',
-            'heart_rate' => 'device',
+            'peso' => 'wearable',
+            'frequenza cardiaca' => 'device',
         ])
         ->set('notes', [
-            'weight' => 'Peso del mattino',
-            'heart_rate' => 'Misurazione del mattino',
+            'peso' => 'Peso del mattino',
+            'frequenza cardiaca' => 'Misurazione del mattino',
         ])
         ->call('save')
         ->assertRedirect(route('guest.parameters'));
 
     expect(HealthParameter::whereBelongsTo($guest, 'patient')->get())
         ->toHaveCount(2)
-        ->and(HealthParameter::where('type', 'weight')->first()->unit)->toBe('kg')
-        ->and(HealthParameter::where('type', 'heart_rate')->first()->unit)->toBe('bpm')
-        ->and(HealthParameter::where('type', 'weight')->first()->source)->toBe('wearable')
-        ->and(HealthParameter::where('type', 'heart_rate')->first()->source)->toBe('device')
-        ->and(HealthParameter::where('type', 'weight')->first()->notes)->toBe('Peso del mattino')
+        ->and(HealthParameter::where('type', 'peso')->first()->unit)->toBe('kg')
+        ->and(HealthParameter::where('type', 'frequenza cardiaca')->first()->unit)->toBe('bpm')
+        ->and(HealthParameter::where('type', 'peso')->first()->source)->toBe('wearable')
+        ->and(HealthParameter::where('type', 'frequenza cardiaca')->first()->source)->toBe('device')
+        ->and(HealthParameter::where('type', 'peso')->first()->notes)->toBe('Peso del mattino')
         ->and(HealthParameter::where('guest_id', '!=', $guest->id)->exists())->toBeFalse();
 });
 
@@ -128,10 +128,10 @@ test('guest deve selezionare un parametro e rispettare il suo intervallo', funct
 
     Livewire::actingAs($guest)
         ->test(CreateParameters::class)
-        ->set('selectedParameters', ['oxygen_saturation' => true])
-        ->set('values', ['oxygen_saturation' => '101'])
+        ->set('selectedParameters', ['saturazione' => true])
+        ->set('values', ['saturazione' => '101'])
         ->call('save')
-        ->assertHasErrors(['values.oxygen_saturation' => ['between']]);
+        ->assertHasErrors(['values.saturazione' => ['between']]);
 
     expect(HealthParameter::count())->toBe(0);
 });

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class HealthParameter extends Model
         ];
     }
 
+    /** @return BelongsTo<User, $this> */
     public function patient(): BelongsTo
     {
         return $this->belongsTo(User::class, 'guest_id');
@@ -27,24 +29,36 @@ class HealthParameter extends Model
     // -- Scope --
 
     // filtra per tipo di parametro, es. ->ofType('heart_rate')
+    /** @param Builder<HealthParameter> $query
+     * @return Builder<HealthParameter>
+     */
     public function scopeOfType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
     }
 
     // filtra per sorgente, es. ->fromSource('wearable')
+    /** @param Builder<HealthParameter> $query
+     * @return Builder<HealthParameter>
+     */
     public function scopeFromSource(Builder $query, string $source): Builder
     {
         return $query->where('source', $source);
     }
 
     // ultimi N giorni, es. ->recentDays(30)
+    /** @param Builder<HealthParameter> $query
+     * @return Builder<HealthParameter>
+     */
     public function scopeRecentDays(Builder $query, int $days = 30): Builder
     {
         return $query->where('measured_at', '>=', now()->subDays($days));
     }
 
     // ordina dalla misurazione più recente
+    /** @param Builder<HealthParameter> $query
+     * @return Builder<HealthParameter>
+     */
     public function scopeLatestFirst(Builder $query): Builder
     {
         return $query->orderByDesc('measured_at');
@@ -58,7 +72,7 @@ class HealthParameter extends Model
         return "{$this->value} {$this->unit}";
     }
 
-    public function formatDate($data)
+    public function formatDate(DateTimeInterface|string|null $data): string
     {
         if (blank($data)) {
             return '-';

@@ -7,8 +7,10 @@ use App\Jobs\GeneratePatientCodeItemJob;
 use App\Models\Document;
 use App\Models\GuestDetail;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class CreatePatients extends Component
@@ -35,9 +37,9 @@ class CreatePatients extends Component
 
     public ?string $allergies = null;
 
-    public $identity_card = null;
+    public ?TemporaryUploadedFile $identity_card = null;
 
-    public $fiscal_code = null;
+    public ?TemporaryUploadedFile $fiscal_code = null;
 
     /**
      * Validazione  di identity_card appena selezionato.
@@ -161,7 +163,7 @@ class CreatePatients extends Component
         }
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.patients.create-patients');
     }

@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class CreateParameters extends Component
 {
-    /** @var array<string, string> */
+    /** @var array<string, string|bool> */
     public array $selectedParameters = [];
 
     /** @var array<string, string> */

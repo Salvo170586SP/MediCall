@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Query\Builder;
 
 #[Fillable(['guest_id', 'doctor_by', 'parameter_type', 'min_value', 'max_value', 'severity'])]
 class HealthThreshold extends Model
@@ -20,12 +20,14 @@ class HealthThreshold extends Model
 
     // -- Relazioni --
 
+    /** @return BelongsTo<User, $this> */
     public function patient(): BelongsTo
     {
         return $this->belongsTo(User::class, 'guest_id');
     }
 
     // il medico o admin che ha impostato la soglia
+    /** @return BelongsTo<User, $this> */
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'doctor_by');
@@ -34,18 +36,27 @@ class HealthThreshold extends Model
     // -- Scope --
 
     // filtra per tipo di parametro, es. ->forType('heart_rate')
+    /** @param Builder<HealthThreshold> $query
+     * @return Builder<HealthThreshold>
+     */
     public function scopeForType(Builder $query, string $type): Builder
     {
         return $query->where('parameter_type', $type);
     }
 
     // solo le soglie critiche
+    /** @param Builder<HealthThreshold> $query
+     * @return Builder<HealthThreshold>
+     */
     public function scopeCritical(Builder $query): Builder
     {
         return $query->where('severity', 'critical');
     }
 
     // solo quelle che notificano il medico
+    /** @param Builder<HealthThreshold> $query
+     * @return Builder<HealthThreshold>
+     */
     public function scopeNotifyingDoctor(Builder $query): Builder
     {
         return $query->where('notify_doctor', true);

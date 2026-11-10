@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Patients;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class CodeBadge extends Component
@@ -25,7 +26,7 @@ class CodeBadge extends Component
         return blank($this->patient->guestDetail?->code_item);
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.patients.code-badge');
     }

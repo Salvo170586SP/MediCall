@@ -5,7 +5,9 @@ namespace App\Livewire\Pages\Guest;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use Carbon\Carbon;
 use Flux\Flux;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Title;
@@ -49,7 +51,9 @@ class EditProfile extends Component
         $this->email = $patient->email;
         $this->phone = $detail->phone ?? '';
         $this->birth_city = $detail->birth_city ?? '';
-        $this->birth_date = $detail?->birth_date?->format('Y-m-d') ?? '';
+        $this->birth_date = $detail?->birth_date
+            ? Carbon::parse($detail->birth_date)->format('Y-m-d')
+            : '';
         $this->tax_id_code = $detail->tax_id_code ?? '';
         $this->gender = $detail->gender ?? '';
         $this->notifications = $detail->notifications ?? false;
@@ -93,7 +97,7 @@ class EditProfile extends Component
         if ($guestDetail !== null || collect($detailData)->contains(filled(...))) {
             $user->guestDetail()->updateOrCreate([], [
                 ...$detailData,
-                'blood_type' => $guestDetail?->blood_type ?? '',
+                'blood_type' => $guestDetail->blood_type ?? '',
             ]);
         }
 
@@ -121,7 +125,7 @@ class EditProfile extends Component
         Flux::toast(variant: 'success', text: __('Password aggiornata.'));
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.guest.edit-profile');
     }

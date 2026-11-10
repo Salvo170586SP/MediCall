@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Guest\Allergies;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class EditAllergies extends Component
@@ -13,7 +14,7 @@ class EditAllergies extends Component
 
     public function mount(User $user): void
     {
-        $this->allergies = $user->guestDetail?->allergies ?? '';
+        $this->allergies = $user->guestDetail->allergies ?? '';
     }
 
     public function editAllergies(int $user_id): void
@@ -49,7 +50,7 @@ class EditAllergies extends Component
         ];
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.guest.allergies.edit-allergies');
     }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use Livewire\Component;
 
 class AccordionNotifications extends Component
 {
+    /** @var array<int, array{id: string, message: mixed, read: bool, created_at: string|null}> */
     public array $notifications = [];
 
     public int $unreadCount = 0;
@@ -48,6 +50,7 @@ class AccordionNotifications extends Component
         }
     }
 
+    /** @return MorphMany<DatabaseNotification, User> */
     protected function notificationQuery(): MorphMany
     {
         return $this->currentUser()->notifications();
@@ -78,7 +81,7 @@ class AccordionNotifications extends Component
             ->all();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.components.accordion-notifications');
     }

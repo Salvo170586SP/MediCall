@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable(['guest_id', 'code_item', 'img_url', 'birth_city', 'birth_date', 'tax_id_code', 'gender', 'phone', 'medical_history', 'blood_type', 'allergies', 'is_active', 'notifications'])]
 class GuestDetail extends Model
@@ -24,13 +26,14 @@ class GuestDetail extends Model
     }
 
     // RELATIONS
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'guest_id');
     }
 
     // FUNCTIONS
-    public function formatDate($data)
+    public function formatDate(DateTimeInterface|string|null $data): string
     {
         if (blank($data)) {
             return '-';

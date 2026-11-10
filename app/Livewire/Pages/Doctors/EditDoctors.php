@@ -5,10 +5,12 @@ namespace App\Livewire\Pages\Doctors;
 use App\Enums\DocumentType;
 use App\Models\Document;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class EditDoctors extends Component
@@ -33,6 +35,7 @@ class EditDoctors extends Component
 
     public bool $is_active = true;
 
+    /** @var array<string, array{0: string, 1: string}> */
     public array $available_hours = [
         'mon' => ['', ''],
         'tue' => ['', ''],
@@ -43,7 +46,7 @@ class EditDoctors extends Component
         'sun' => ['', ''],
     ];
 
-    public $photo = null;
+    public ?TemporaryUploadedFile $photo = null;
 
     /**
      * Validazione "live" della foto appena selezionata.
@@ -55,26 +58,37 @@ class EditDoctors extends Component
         ]);
     }
 
-    public function mount(User $doctor)
+    public function mount(User $doctor): void
     {
         $this->doctor = $doctor;
         $this->name = $doctor->name;
-        $this->phone = $doctor->doctorDetail?->phone ?? '';
-        $this->bio = $doctor->doctorDetail?->bio ?? '';
-        $this->specialty = $doctor->doctorDetail?->specialty ?? '';
-        $this->sub_specialty = $doctor->doctorDetail?->sub_specialty ?? '';
-        $this->city = $doctor->doctorDetail?->city ?? '';
-        $this->slot_duration = $doctor->doctorDetail?->slot_duration ?? 30;
-        $this->is_active = $doctor->doctorDetail?->is_active ?? true;
+        $this->phone = $doctor->doctorDetail->phone ?? '';
+        $this->bio = $doctor->doctorDetail->bio ?? '';
+        $this->specialty = $doctor->doctorDetail->specialty ?? '';
+        $this->sub_specialty = $doctor->doctorDetail->sub_specialty ?? '';
+        $this->city = $doctor->doctorDetail->city ?? '';
+        $this->slot_duration = $doctor->doctorDetail->slot_duration ?? 30;
+        $this->is_active = $doctor->doctorDetail->is_active ?? true;
 
-        $hours = $doctor->doctorDetail?->available_hours ?? [];
+        $hours = $this->doctorAvailableHours($doctor);
+
         foreach ($hours as $day => $slots) {
-            $this->available_hours[$day] = array_slice($slots, 0, 2);
+            $slots = array_slice($slots, 0, 2);
 
-            if (count($this->available_hours[$day]) < 2) {
+            if (count($slots) < 2) {
                 $this->available_hours[$day] = ['', ''];
+            } else {
+                $this->available_hours[$day] = [$slots[0], $slots[1]];
             }
         }
+    }
+
+    /** @return array<string, array<int, string>> */
+    private function doctorAvailableHours(User $doctor): array
+    {
+        $hours = $doctor->doctorDetail->available_hours ?? [];
+
+        return is_array($hours) ? $hours : [];
     }
 
     /**
@@ -189,7 +203,7 @@ class EditDoctors extends Component
         }
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.doctors.edit-doctors');
     }

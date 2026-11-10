@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Guest\Parameters;
 use App\Concerns\WithCustomPagination;
 use App\Models\HealthParameter;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,14 +18,12 @@ class IndexParameters extends Component
 
     public string $type = '';
 
-    public function deleteParameter(int $parameter_id)
+    public function deleteParameter(int $parameter_id): void
     {
         try {
             $parameter = HealthParameter::findOrFail($parameter_id);
 
-            if ($parameter) {
-                $parameter->delete();
-            }
+            $parameter->delete();
 
             session()->flash('success', 'Elemento eliminato con successo!');
         } catch (\Exception $e) {
@@ -32,7 +31,7 @@ class IndexParameters extends Component
         }
     }
 
-    public function render()
+    public function render(): View
     {
         /** @var User $authenticatedUser */
         $authenticatedUser = Auth::user();

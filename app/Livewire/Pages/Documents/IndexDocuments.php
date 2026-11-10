@@ -8,6 +8,8 @@ use App\Models\Appointment;
 use App\Models\Document;
 use App\Models\MedicalRecord;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -49,13 +51,11 @@ class IndexDocuments extends Component
     {
         $document = Document::findOrFail($document_id);
 
-        if ($document) {
-            if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
-                Storage::disk('public')->delete($document->file_path);
-            }
-
-            $document->delete();
+        if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+            Storage::disk('public')->delete($document->file_path);
         }
+
+        $document->delete();
     }
 
     public function deleteDoc(int $document_id): void
@@ -85,7 +85,7 @@ class IndexDocuments extends Component
         $document->forceDelete();
     }
 
-    public function render()
+    public function render(): View
     {
         $usersQuery = User::query()
             ->select(['id', 'name']);
@@ -134,7 +134,7 @@ class IndexDocuments extends Component
                     $query->where(function ($userDocumentsQuery) {
                         $userDocumentsQuery->where('documentable_id', $this->selectedUserId)
                             ->where('documentable_type', User::class);
-                    })->orWhere(function ($medicalRecordDocumentsQuery) {
+                    })->orWhere(function (Builder $medicalRecordDocumentsQuery) {
                         $medicalRecordDocumentsQuery->where('documentable_type', MedicalRecord::class)
                             ->whereIn('type', [
                                 DocumentType::MedicalRecord,
@@ -150,7 +150,7 @@ class IndexDocuments extends Component
                         $authorizedDocumentsQuery->where(function ($userDocumentsQuery) use ($patientIds) {
                             $userDocumentsQuery->where('documentable_type', User::class)
                                 ->whereIn('documentable_id', $patientIds);
-                        })->orWhereHasMorph('documentable', [MedicalRecord::class], function ($medicalRecordsQuery) use ($patientIds) {
+                        })->orWhereHasMorph('documentable', [MedicalRecord::class], function (Builder $medicalRecordsQuery) use ($patientIds) {
                             $medicalRecordsQuery->whereIn('guest_id', $patientIds);
                         });
                     });

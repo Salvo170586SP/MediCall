@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Guest\MedicalDocuments;
 
 use App\Concerns\WithCustomPagination;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,7 +18,7 @@ class IndexMedicalDocuments extends Component
         session()->forget('guest.has_new_report');
     }
 
-    public function render()
+    public function render(): View
     {
         /** @var User $authenticatedUser */
         $authenticatedUser = Auth::user();

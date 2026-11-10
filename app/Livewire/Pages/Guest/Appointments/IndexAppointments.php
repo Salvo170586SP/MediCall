@@ -14,6 +14,7 @@ class IndexAppointments extends Component
     use WithCustomPagination, WithPagination;
 
     public string $search_doctor = '';
+
     public string $search_date = '';
 
     public function mount(): void
@@ -40,14 +41,18 @@ class IndexAppointments extends Component
             ->with(['doctor.doctorDetail', 'doctor.photo'])
             ->when($this->search_date, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('scheduled_at', 'like', '%' . $this->search_date . '%');
+                    $q->where('scheduled_at', 'like', '%'.$this->search_date.'%');
                 });
             })
             ->latest('scheduled_at')
             ->paginate(9);
 
-        $statuses = collect(config('medicall.appointments.statuses', []))->keyBy('status');
-        $types = collect(config('medicall.appointments.types', []))->keyBy('type');
+        /** @var list<array{status: string, label: string, color: string}> $statusOptions */
+        $statusOptions = config('medicall.appointments.statuses', []);
+        /** @var list<array{type: string, label: string, color: string}> $typeOptions */
+        $typeOptions = config('medicall.appointments.types', []);
+        $statuses = collect($statusOptions)->keyBy('status');
+        $types = collect($typeOptions)->keyBy('type');
 
         return view('livewire.pages.guest.appointments.index-appointments', compact(
             'appointments',

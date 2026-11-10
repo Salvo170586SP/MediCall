@@ -3,46 +3,55 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Query\Builder;
 
+/**
+ * @property Carbon $scheduled_at
+ * @property int $duration
+ */
 #[Fillable(['guest_id', 'doctor_id', 'scheduled_at', 'duration', 'type', 'status', 'reason', 'notes', 'cancellation_reason', 'cancelled_by', 'reminder_sent_at'])]
 class Appointment extends Model
 {
     protected function casts(): array
     {
         return [
-            'scheduled_at'     => 'datetime',
+            'scheduled_at' => 'datetime',
             'reminder_sent_at' => 'datetime',
-            'duration'         => 'integer',
+            'duration' => 'integer',
         ];
     }
 
     // -- Relazioni --
 
+    /** @return BelongsTo<User, $this> */
     public function patient(): BelongsTo
     {
         return $this->belongsTo(User::class, 'guest_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
     // chi ha cancellato l'appuntamento (paziente o medico)
+    /** @return BelongsTo<User, $this> */
     public function cancelledBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'cancelled_by');
     }
 
-
-
     // -- Scope --
 
     // appuntamenti futuri non cancellati
+    /** @param Builder<Appointment> $query
+     * @return Builder<Appointment>
+     */
     public function scopeUpcoming(Builder $query): Builder
     {
         return $query->where('scheduled_at', '>', now())
@@ -50,23 +59,33 @@ class Appointment extends Model
     }
 
     // appuntamenti passati
+    /** @param Builder<Appointment> $query
+     * @return Builder<Appointment>
+     */
     public function scopePast(Builder $query): Builder
     {
         return $query->where('scheduled_at', '<', now());
     }
 
     // per status
+    /** @param Builder<Appointment> $query
+     * @return Builder<Appointment>
+     */
     public function scopeWithStatus(Builder $query, string $status): Builder
     {
         return $query->where('status', $status);
     }
 
     // per tipo
+    /** @param Builder<Appointment> $query
+     * @return Builder<Appointment>
+     */
     public function scopeOfType(Builder $query, string $type): Builder
     {
         return $query->where('type', $type);
     }
 
+    /** @return array<string, mixed> */
     public static function typeOptions(): array
     {
         return config('appointments.types', []) ?? [];
@@ -93,6 +112,9 @@ class Appointment extends Model
     }
 
     // promemoria da inviare — confermati, nelle prossime 24h, senza promemoria già inviato
+    /** @param Builder<Appointment> $query
+     * @return Builder<Appointment>
+     */
     public function scopeNeedingReminder(Builder $query): Builder
     {
         return $query->where('status', 'confirmed')
@@ -112,17 +134,17 @@ class Appointment extends Model
     }
 
     // orario di fine appuntamento
-    public function endsAt(): \Carbon\Carbon
+    public function endsAt(): Carbon
     {
         return $this->scheduled_at->addMinutes($this->duration);
     }
 
-    public function formatDate($data)
+    public function formatDate(DateTimeInterface|string|null $data): string
     {
         return ucfirst(Carbon::parse($data)->translatedFormat('l d F Y'));
     }
 
-    public function formatClock($data)
+    public function formatClock(DateTimeInterface|string|null $data): string
     {
         if (blank($data)) {
             return '-';

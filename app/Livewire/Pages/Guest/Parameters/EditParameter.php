@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Guest\Parameters;
 
 use App\Models\HealthParameter;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -13,10 +14,15 @@ class EditParameter extends Component
     public HealthParameter $parameter;
 
     public string $type = '';
+
     public string $value = '';
+
     public string $unit = '';
+
     public string $measuredAt = '';
+
     public string $source = '';
+
     public string $notes = '';
 
     /**
@@ -43,7 +49,7 @@ class EditParameter extends Component
         $this->type = $this->parameter->type;
         $this->value = (string) $this->parameter->value;
         $this->unit = $this->parameter->unit;
-        $this->measuredAt = $this->parameter->measured_at->format('Y-m-d\\TH:i');
+        $this->measuredAt = Carbon::parse($this->parameter->measured_at)->format('Y-m-d\\TH:i');
         $this->source = $this->parameter->source;
         $this->notes = $this->parameter->notes ?? '';
     }

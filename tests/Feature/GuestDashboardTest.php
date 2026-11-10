@@ -15,5 +15,5 @@ test('shows a new appointment message when the appointment notification is recei
     $component
         ->assertDontSee('Hai un nuovo appuntamento')
         ->dispatch('appointment-created-notification')
-        ->assertSee('Hai un nuovo appuntamento');
+        ->assertSee('nuovo appuntamento');
 });

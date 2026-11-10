@@ -7,9 +7,11 @@ use App\Jobs\GenerateDoctorCodeItemJob;
 use App\Models\DoctorDetail;
 use App\Models\Document;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class CreateDoctors extends Component
@@ -17,15 +19,26 @@ class CreateDoctors extends Component
     use WithFileUploads;
 
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $license_number = '';
+
     public string $bio = '';
+
     public string $specialty = '';
+
     public string $sub_specialty = '';
+
     public string $city = '';
+
     public int $slot_duration = 30;
+
     public bool $is_active = true;
+
+    /** @var array<string, array{0: string, 1: string}> */
     public array $available_hours = [
         'mon' => ['', ''],
         'tue' => ['', ''],
@@ -35,7 +48,8 @@ class CreateDoctors extends Component
         'sat' => ['', ''],
         'sun' => ['', ''],
     ];
-    public  $photo = null;
+
+    public ?TemporaryUploadedFile $photo = null;
 
     /**
      * Validazione "live" della foto appena selezionata.
@@ -76,14 +90,16 @@ class CreateDoctors extends Component
 
         // Valida che gli orari siano nel formato corretto e logici
         foreach ($validated['available_hours'] as $day => $hours) {
-            if (!empty($hours[0]) || !empty($hours[1])) {
+            if (! empty($hours[0]) || ! empty($hours[1])) {
                 if (empty($hours[0]) || empty($hours[1])) {
-                    $this->addError("available_hours.{$day}", "Orario di apertura e chiusura obbligatori se inseriti.");
+                    $this->addError("available_hours.{$day}", 'Orario di apertura e chiusura obbligatori se inseriti.');
+
                     return;
                 }
 
                 if ($hours[0] >= $hours[1]) {
                     $this->addError("available_hours.{$day}", "L'orario di apertura deve essere prima di quello di chiusura.");
+
                     return;
                 }
             }
@@ -148,11 +164,11 @@ class CreateDoctors extends Component
             session()->flash('success', 'Elemento creato con successo!');
             $this->redirect(route('doctors.details', $doctorId), navigate: true);
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la creazione: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la creazione: '.$e->getMessage());
         }
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.doctors.create-doctors');
     }

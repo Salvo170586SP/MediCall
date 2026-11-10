@@ -5,6 +5,7 @@ namespace App\Livewire\Pages\Doctors;
 use App\Concerns\WithCustomPagination;
 use App\Models\User;
 use App\Notifications\UserNotification;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -16,8 +17,10 @@ class DetailsDoctors extends Component
 
     public User $doctor;
 
+    /** @var array<string, string> */
     public array $weekDays;
 
+    /** @var array<string, array<int, string>> */
     public array $availableHours = [];
 
     public int $availableDaysCount = 0;
@@ -40,9 +43,9 @@ class DetailsDoctors extends Component
         abort_unless($authenticatedUser->hasRole('Admin') || $doctor->is($authenticatedUser), 403);
 
         $this->doctor = $doctor->load('doctorDetail');
-        $this->availableHours = $doctor->doctorDetail?->available_hours ?? [];
+        $this->availableHours = $this->doctorAvailableHours($doctor);
         $this->availableDaysCount = collect($this->availableHours)
-            ->filter(fn($hours) => isset($hours[0], $hours[1]) && filled($hours[0]) && filled($hours[1]))
+            ->filter(fn ($hours) => isset($hours[0], $hours[1]) && filled($hours[0]) && filled($hours[1]))
             ->count();
 
         $this->weekDays = [
@@ -76,6 +79,14 @@ class DetailsDoctors extends Component
         $this->resetPage();
     }
 
+    /** @return array<string, array<int, string>> */
+    private function doctorAvailableHours(User $doctor): array
+    {
+        $hours = $doctor->doctorDetail->available_hours ?? [];
+
+        return is_array($hours) ? $hours : [];
+    }
+
     public function editTypeAppointment(int $appointmentId, string $type): void
     {
         $appointment = $this->doctor->appointmentsDoctor()->findOrFail($appointmentId);
@@ -87,7 +98,7 @@ class DetailsDoctors extends Component
         $appointment->update(['type' => $type]);
         $appointment->patient->notify(new UserNotification(
             'appointment_updated',
-            'Il tipo del tuo appuntamento è stato modificato dal dottor ' . $this->doctor->name . '.',
+            'Il tipo del tuo appuntamento è stato modificato dal dottor '.$this->doctor->name.'.',
             appointmentId: $appointment->id,
         ));
     }
@@ -103,7 +114,7 @@ class DetailsDoctors extends Component
         $appointment->update(['status' => $status]);
         $appointment->patient->notify(new UserNotification(
             'appointment_updated',
-            'Lo stato del tuo appuntamento è stato modificato dal dottor ' . $this->doctor->name . '.',
+            'Lo stato del tuo appuntamento è stato modificato dal dottor '.$this->doctor->name.'.',
             appointmentId: $appointment->id,
         ));
     }
@@ -113,33 +124,33 @@ class DetailsDoctors extends Component
         $appointment = $this->doctor->appointmentsDoctor()->findOrFail($appointment_id);
         $appointment->patient->notify(new UserNotification(
             'appointment_updated',
-            'Il tuo appuntamento è stato cancellato dal dottor ' . $this->doctor->name . '.',
+            'Il tuo appuntamento è stato cancellato dal dottor '.$this->doctor->name.'.',
             appointmentId: $appointment->id,
         ));
         $appointment->delete();
     }
 
     #[On('appointment-created')]
-    public function render()
+    public function render(): View
     {
         // Carica appuntamenti
         $appointmentsQuery = $this->doctor->appointmentsDoctor()->with('doctor', 'patient');
 
         if ($this->searchStatus) {
-            $appointmentsQuery->where('status', 'like', '%' . $this->searchStatus . '%');
+            $appointmentsQuery->where('status', 'like', '%'.$this->searchStatus.'%');
         }
 
         if ($this->searchType) {
-            $appointmentsQuery->where('type', 'like', '%' . $this->searchType . '%');
+            $appointmentsQuery->where('type', 'like', '%'.$this->searchType.'%');
         }
 
         if ($this->searchScheduledAt) {
-            $appointmentsQuery->where('scheduled_at', 'like', '%' . $this->searchScheduledAt . '%');
+            $appointmentsQuery->where('scheduled_at', 'like', '%'.$this->searchScheduledAt.'%');
         }
 
         if ($this->searchGuest) {
             $appointmentsQuery->whereHas('patient', function ($query) {
-                $query->where('name', 'like', '%' . $this->searchGuest . '%');
+                $query->where('name', 'like', '%'.$this->searchGuest.'%');
             });
         }
 

@@ -6,8 +6,10 @@ use App\Enums\DocumentType;
 use App\Models\Document;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class EditPatients extends Component
@@ -15,18 +17,28 @@ class EditPatients extends Component
     use WithFileUploads;
 
     public User $patient;
+
     public string $name = '';
+
     public string $img_url = '';
+
     public string $phone = '';
+
     public string $birth_city = '';
+
     public string $birth_date;
+
     public string $tax_id_code = '';
+
     public string $medical_history = '';
+
     public string $blood_type = '';
+
     public string $allergies = '';
 
-    public  $identity_card = null;
-    public  $fiscal_code = null;
+    public ?TemporaryUploadedFile $identity_card = null;
+
+    public ?TemporaryUploadedFile $fiscal_code = null;
 
     /**
      * Validazione  di identity_card appena selezionato.
@@ -48,7 +60,7 @@ class EditPatients extends Component
         ]);
     }
 
-    public function mount(User $patient)
+    public function mount(User $patient): void
     {
         $this->patient = $patient;
         $this->name = $patient->name;
@@ -75,7 +87,7 @@ class EditPatients extends Component
             'phone' => ['nullable', 'string', 'max:20', 'regex:/^[0-9]+$/'],
             'medical_history' => ['nullable', 'max:255'],
             'blood_type' => ['required', 'string'],
-           /*  'identity_card' => ['nullable','image','mimes:jpg,jpeg,png,webp,pdf','max:2048'],
+            /*  'identity_card' => ['nullable','image','mimes:jpg,jpeg,png,webp,pdf','max:2048'],
             'fiscal_code' => ['nullable','image','mimes:jpg,jpeg,png,webp,pdf','max:2048'], */
         ], [
             'name.required' => 'Il nome è obbligatorio.',
@@ -136,7 +148,7 @@ class EditPatients extends Component
                     ],
                     [
                         'uploaded_by' => auth()->id() ?? $this->patient->id,
-                        'title' =>  "Carda d'identità di $patient->name", 
+                        'title' => "Carda d'identità di $patient->name",
                         'file_path' => $identityCardPath,
                         'original_filename' => $this->identity_card->getClientOriginalName(),
                         'mime_type' => $this->identity_card->getMimeType(),
@@ -164,7 +176,7 @@ class EditPatients extends Component
                     ],
                     [
                         'uploaded_by' => auth()->id() ?? $this->patient->id,
-                        'title' => "Codice Fiscale di $patient->name", 
+                        'title' => "Codice Fiscale di $patient->name",
                         'file_path' => $fiscalCodePath,
                         'original_filename' => $this->fiscal_code->getClientOriginalName(),
                         'mime_type' => $this->fiscal_code->getMimeType(),
@@ -177,12 +189,11 @@ class EditPatients extends Component
             session()->flash('success', 'Elemento modificato con successo!');
             $this->redirect(route('patients'), navigate: true);
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la modifica: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la modifica: '.$e->getMessage());
         }
     }
 
-
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.patients.edit-patients');
     }

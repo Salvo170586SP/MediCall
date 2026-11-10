@@ -5,9 +5,8 @@ namespace App\Livewire\Pages\Doctors;
 use App\Enums\DocumentType;
 use App\Models\Document;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,46 +21,43 @@ class IndexDoctors extends Component
         $this->resetPage();
     }
 
-    public function deleteDoctor(int $doctor_id)
+    public function deleteDoctor(int $doctor_id): void
     {
         try {
             $doctor = User::findOrFail($doctor_id);
 
-            if ($doctor) {
-                $photo = Document::where('documentable_id', $doctor->id)
-                    ->where('documentable_type', User::class)
-                    ->where('type', DocumentType::Photo) 
-                    ->first();
+            $photo = Document::where('documentable_id', $doctor->id)
+                ->where('documentable_type', User::class)
+                ->where('type', DocumentType::Photo)
+                ->first();
 
-                if ($photo) {
-                    if ($photo->file_path && Storage::disk('public')->exists($photo->file_path)) {
-                        Storage::disk('public')->delete($photo->file_path);
-                    }
-
-                    $photo->delete();
+            if ($photo) {
+                if ($photo->file_path && Storage::disk('public')->exists($photo->file_path)) {
+                    Storage::disk('public')->delete($photo->file_path);
                 }
 
-                $doctor->delete();
+                $photo->delete();
             }
+
+            $doctor->delete();
 
             session()->flash('success', 'Elemento eliminato con successo!');
         } catch (\Exception $e) {
-            session()->flash('error', 'Errore durante la eliminazione: ' . $e->getMessage());
+            session()->flash('error', 'Errore durante la eliminazione: '.$e->getMessage());
         }
     }
 
-    public function render()
+    public function render(): View
     {
         $users_doctor = User::role('Doctor')
             ->with('doctorDetail')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('email', 'like', '%'.$this->search.'%');
                 });
             })
             ->paginate(10);
-
 
         return view('livewire.pages.doctors.index-doctors', compact('users_doctor'));
     }

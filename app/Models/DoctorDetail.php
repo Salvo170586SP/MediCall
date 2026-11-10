@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Database\Factories\DoctorDetailFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-/* #[Fillable(['doctor_id', 'code_item', 'img_url', 'license_number', 'city', 'phone', 'specialty', 'sub_specialty', 'bio', 'available_hours', 'slot_duration', 'is_active', 'notifications'])]
- */
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DoctorDetail extends Model
 {
+    /** @use HasFactory<DoctorDetailFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -45,7 +44,8 @@ class DoctorDetail extends Model
     }
 
     // RELATIONS
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }

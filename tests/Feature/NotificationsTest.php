@@ -39,7 +39,18 @@ it('notifies the guest when the doctor changes an appointment', function () {
 
 it('respects notification preferences for guests and doctors', function (string $detailRelation) {
     $user = User::factory()->create();
-    $user->{$detailRelation}()->create(['notifications' => false]);
+    $detailAttributes = $detailRelation === 'doctorDetail'
+        ? [
+            'license_number' => 'TEST-001',
+            'specialty' => 'Cardiologia',
+            'available_hours' => [],
+            'notifications' => false,
+        ]
+        : [
+            'blood_type' => 'A+',
+            'notifications' => false,
+        ];
+    $user->{$detailRelation}()->create($detailAttributes);
     $notification = new UserNotification('test', 'Test notification');
 
     expect($notification->via($user))->toBe([]);

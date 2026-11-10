@@ -6,6 +6,7 @@ use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
 use Flux\Flux;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -33,7 +34,7 @@ class EditProfileAdmin extends Component
 
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->notifications = $user->doctorDetail?->notifications ?? false;
+        $this->notifications = $user->doctorDetail->notifications ?? false;
     }
 
     public function updateProfileInformation(): void
@@ -98,7 +99,7 @@ class EditProfileAdmin extends Component
         Flux::toast(variant: 'success', text: __('Password aggiornata.'));
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.edit-profile-admin');
     }

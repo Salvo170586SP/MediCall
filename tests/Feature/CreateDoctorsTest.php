@@ -1,12 +1,12 @@
 <?php
 
-use App\Jobs\GenerateDoctorCodeItemJob;
-use App\Livewire\Pages\Admin\Doctors\CreateDoctors;
+use App\Livewire\Pages\Doctors\CreateDoctors;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 it('creates a doctor and dispatches a job with a valid doctor id', function () {
     Role::create(['name' => 'Doctor']);

@@ -9,6 +9,7 @@ use App\Models\HealthParameter;
 use App\Models\HealthThreshold;
 use App\Models\MedicalRecord;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -44,7 +45,7 @@ class DetailsPatients extends Component
 
     public string $searchNameDoc = '';
 
-    public function mount(User $patient)
+    public function mount(User $patient): void
     {
         $this->patient = $patient->load('guestDetail');
     }
@@ -127,34 +128,25 @@ class DetailsPatients extends Component
         $this->resetPage();
     }
 
-    public function deleteParameter(int $parameter_id)
+    public function deleteParameter(int $parameter_id): void
     {
         $parameter = HealthParameter::findOrFail($parameter_id);
-
-        if ($parameter) {
-            $parameter->delete();
-        }
+        $parameter->delete();
     }
 
-    public function deleteThreshold(int $threshold_id)
+    public function deleteThreshold(int $threshold_id): void
     {
         $threshold = HealthThreshold::findOrFail($threshold_id);
-
-        if ($threshold) {
-            $threshold->delete();
-        }
+        $threshold->delete();
     }
 
-    public function deleteAppointment(int $appointment_id)
+    public function deleteAppointment(int $appointment_id): void
     {
         $appointment = Appointment::findOrFail($appointment_id);
-
-        if ($appointment) {
-            $appointment->delete();
-        }
+        $appointment->delete();
     }
 
-    public function deleteHealthMedical(int $medical_record_id)
+    public function deleteHealthMedical(int $medical_record_id): void
     {
         $medical_record = MedicalRecord::findOrFail($medical_record_id);
 
@@ -165,7 +157,7 @@ class DetailsPatients extends Component
         $medical_record->forceDelete();
     }
 
-    public function deleteDoc(int $document_id)
+    public function deleteDoc(int $document_id): void
     {
         $document = Document::findOrFail($document_id);
 
@@ -176,7 +168,7 @@ class DetailsPatients extends Component
         $document->forceDelete();
     }
 
-    public function render()
+    public function render(): View
     {
         // Thresholds
         $healthThresholdsQuery = $this->patient->healthThresholds()->with(['patient', 'createdBy']);

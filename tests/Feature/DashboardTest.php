@@ -12,14 +12,18 @@ use Spatie\Permission\Models\Role;
 
 uses(RefreshDatabase::class); // <-- verifica che ci sia
 
+beforeEach(function () {
+    Role::findOrCreate('Admin', 'web');
+    Role::findOrCreate('Doctor', 'web');
+    Role::findOrCreate('Guest', 'web');
+});
+
 test('guests are redirected to the login page', function () {
     $response = $this->get(route('dashboard'));
     $response->assertRedirect(route('login'));
 });
 
 test('authenticated Admin can visit the dashboard', function () {
-    Role::create(['name' => 'Admin']); // o il ruolo che la dashboard richiede
-
     $user = User::factory()->create();
     $user->assignRole('Admin');
 
@@ -30,8 +34,6 @@ test('authenticated Admin can visit the dashboard', function () {
 });
 
 test('authenticated Doctor can visit the dashboard', function () {
-    Role::create(['name' => 'Doctor']);
-
     $user = User::factory()->create();
     $user->assignRole('Doctor');
 
@@ -42,9 +44,6 @@ test('authenticated Doctor can visit the dashboard', function () {
 });
 
 test('doctor can only access their own doctor profile', function () {
-    Role::create(['name' => 'Admin']);
-    Role::create(['name' => 'Doctor']);
-
     $doctor = User::factory()->create(['name' => 'Profilo Dottore']);
     $doctor->assignRole('Doctor');
     DoctorDetail::create([
@@ -67,10 +66,6 @@ test('doctor can only access their own doctor profile', function () {
 });
 
 test('dashboard shows summary counts and only the ten most recent appointments', function () {
-    Role::create(['name' => 'Admin']);
-    Role::create(['name' => 'Doctor']);
-    Role::create(['name' => 'Guest']);
-
     $admin = User::factory()->create();
     $admin->assignRole('Admin');
     $doctor = User::factory()->create(['name' => 'Dottore Dashboard']);
@@ -112,16 +107,13 @@ test('dashboard shows summary counts and only the ten most recent appointments',
     $response->assertOk()
         ->assertSee('Paziente Dashboard')
         ->assertSee('Dottore Dashboard')
-        ->assertSee('1 documenti · 1 cartelle cliniche')
+        ->assertSeeText('1 Documenti')
+        ->assertSeeText('1 Cartelle cliniche')
         ->assertSee('10 di 11')
         ->assertDontSee(now()->subDays(11)->format('d/m/Y H:i'));
 });
 
 test('doctor sees only the data of their patients on the dashboard', function () {
-    Role::create(['name' => 'Admin']);
-    Role::create(['name' => 'Doctor']);
-    Role::create(['name' => 'Guest']);
-
     $admin = User::factory()->create(['name' => 'Admin Dashboard']);
     $admin->assignRole('Admin');
     $doctor = User::factory()->create(['name' => 'Dottore Visibile']);
@@ -189,7 +181,8 @@ test('doctor sees only the data of their patients on the dashboard', function ()
         ->assertOk()
         ->assertSee('Paziente Visibile')
         ->assertSee('Dottore Visibile')
-        ->assertSee('1 documenti · 1 cartelle cliniche')
+        ->assertSeeText('1 Documenti')
+        ->assertSeeText('1 Cartelle cliniche')
         ->assertSee('1 di 1')
         ->assertDontSee('Paziente Nascosto')
         ->assertDontSee('Dottore Nascosto');
@@ -199,16 +192,14 @@ test('doctor sees only the data of their patients on the dashboard', function ()
         ->assertOk()
         ->assertSee('Paziente Visibile')
         ->assertSee('Paziente Nascosto')
-        ->assertSee('2 documenti · 2 cartelle cliniche')
+        ->assertSeeText('2 Documenti')
+        ->assertSeeText('2 Cartelle cliniche')
         ->assertSee('2 di 2');
 });
 
-test('non-doctors see the complete archive on the dashboard', function () {
-    Role::create(['name' => 'Admin']);
-    Role::create(['name' => 'Guest']);
-
+test('admins see the complete archive on the dashboard', function () {
     $user = User::factory()->create();
-    $user->assignRole('Guest');
+    $user->assignRole('Admin');
     $firstPatient = User::factory()->create();
     $firstPatient->assignRole('Guest');
     $secondPatient = User::factory()->create();
@@ -230,14 +221,11 @@ test('non-doctors see the complete archive on the dashboard', function () {
     $this->actingAs($user)
         ->get(route('dashboard'))
         ->assertOk()
-        ->assertSee('2 documenti · 0 cartelle cliniche');
+        ->assertSeeText('2 Documenti')
+        ->assertSeeText('0 Cartelle cliniche');
 });
 
 test('doctor sees only their patients in the patient list', function () {
-    Role::create(['name' => 'Admin']);
-    Role::create(['name' => 'Doctor']);
-    Role::create(['name' => 'Guest']);
-
     $admin = User::factory()->create(['name' => 'Admin Lista Pazienti']);
     $admin->assignRole('Admin');
     $doctor = User::factory()->create();
@@ -276,9 +264,6 @@ test('doctor sees only their patients in the patient list', function () {
 });
 
 test('doctor can detach only their patient without deleting the patient', function () {
-    Role::create(['name' => 'Doctor']);
-    Role::create(['name' => 'Guest']);
-
     $doctor = User::factory()->create();
     $doctor->assignRole('Doctor');
     $otherDoctor = User::factory()->create();

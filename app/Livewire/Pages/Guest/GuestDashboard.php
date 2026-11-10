@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Guest;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\Component;
 class GuestDashboard extends Component
 {
     public bool $hasNewAppointment = false;
+
     public bool $hasNewReport = false;
 
     public function mount(): void
@@ -43,7 +45,7 @@ class GuestDashboard extends Component
 
     #[On('allergies-updated')]
     #[On('medical-history-updated')]
-    public function render()
+    public function render(): View
     {
         /** @var User $authenticatedUser */
         $authenticatedUser = Auth::user();
@@ -57,6 +59,6 @@ class GuestDashboard extends Component
         $medical_records = $authenticatedUser->medicalRecordsAsPatient;
         $appointments = $authenticatedUser->appointmentsPatient;
 
-        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history', 'medical_records','appointments'));
+        return view('livewire.pages.guest.guest-dashboard', compact('authenticatedUser', 'parameters', 'allergies', 'medical_history', 'medical_records', 'appointments'));
     }
 }

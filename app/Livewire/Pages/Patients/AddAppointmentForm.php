@@ -6,9 +6,13 @@ use App\Models\Appointment;
 use App\Models\User;
 use App\Notifications\UserNotification;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
+/**
+ * @property-read list<array{value: string, label: string}> $availableSlots
+ */
 class AddAppointmentForm extends Component
 {
     public User $patient;
@@ -41,6 +45,7 @@ class AddAppointmentForm extends Component
         $this->calendarMonth = now()->format('Y-m');
     }
 
+    /** @return array<string, array<int, mixed>> */
     protected function rules(): array
     {
         return [
@@ -54,6 +59,7 @@ class AddAppointmentForm extends Component
         ];
     }
 
+    /** @return array<string, string> */
     protected function messages(): array
     {
         return [
@@ -148,6 +154,7 @@ class AddAppointmentForm extends Component
         $this->scheduled_time = '';
     }
 
+    /** @return Collection<int, User> */
     public function getFilteredDoctorsProperty(): Collection
     {
         if (blank($this->doctorSearch) || $this->doctor_id) {
@@ -173,10 +180,11 @@ class AddAppointmentForm extends Component
             : null;
     }
 
+    /** @return array<int, string> */
     protected function availableWeekDays(?User $doctor = null): array
     {
         $doctor ??= $this->selectedDoctor();
-        $hours = $doctor?->doctorDetail?->available_hours ?? [];
+        $hours = $this->doctorAvailableHours($doctor);
 
         return collect($hours)
             ->filter(fn ($hours) => isset($hours[0], $hours[1]) && filled($hours[0]) && filled($hours[1]))
@@ -184,13 +192,17 @@ class AddAppointmentForm extends Component
             ->all();
     }
 
+    /**
+     * @param  Collection<int, Appointment>  $bookedForDay
+     * @return list<array{value: string, label: string}>
+     */
     protected function slotsForDate(Carbon $date, Collection $bookedForDay): array
     {
         $doctor = $this->selectedDoctor();
         $dayKey = strtolower($date->format('D'));
-        $hours = $doctor?->doctorDetail?->available_hours[$dayKey] ?? null;
+        $hours = $this->doctorAvailableHours($doctor)[$dayKey] ?? null;
 
-        if (! $hours || blank($hours[0] ?? null) || blank($hours[1] ?? null)) {
+        if (! $hours || ! isset($hours[0], $hours[1]) || blank($hours[0]) || blank($hours[1])) {
             return [];
         }
 
@@ -224,6 +236,7 @@ class AddAppointmentForm extends Component
         return $slots;
     }
 
+    /** @return Collection<int, Appointment> */
     protected function bookedForDate(User $doctor, Carbon $date): Collection
     {
         return $doctor->appointmentsDoctor()
@@ -232,15 +245,35 @@ class AddAppointmentForm extends Component
             ->get(['scheduled_at', 'duration']);
     }
 
+    /** @return Collection<int|string, Collection<int, Appointment>> */
     protected function bookedByDateInRange(User $doctor, Carbon $start, Carbon $end): Collection
     {
-        return $doctor->appointmentsDoctor()
+        return collect($doctor->appointmentsDoctor()
             ->whereBetween('scheduled_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
             ->where('status', '!=', 'cancelled')
             ->get(['scheduled_at', 'duration'])
-            ->groupBy(fn ($appointment) => Carbon::parse($appointment->scheduled_at)->toDateString());
+        )->groupBy(fn ($appointment) => Carbon::parse($appointment->scheduled_at)->toDateString());
     }
 
+    /** @return array<string, array<int, string>> */
+    private function doctorAvailableHours(?User $doctor): array
+    {
+        $hours = $doctor?->doctorDetail->available_hours ?? [];
+
+        return is_array($hours) ? $hours : [];
+    }
+
+    /**
+     * @return list<array{
+     *     date: string,
+     *     day: int,
+     *     inMonth: bool,
+     *     isPast: bool,
+     *     isAvailable: bool,
+     *     isSelected: bool,
+     *     isToday: bool
+     * }>
+     */
     public function getCalendarDaysProperty(): array
     {
         $monthStart = Carbon::parse($this->calendarMonth.'-01');
@@ -281,15 +314,18 @@ class AddAppointmentForm extends Component
         return $days;
     }
 
+    /** @return list<array{value: string, label: string}> */
     public function getAvailableSlotsProperty(): array
     {
-        if (blank($this->scheduled_date) || ! $this->selectedDoctor()) {
+        $doctor = $this->selectedDoctor();
+
+        if (blank($this->scheduled_date) || ! $doctor) {
             return [];
         }
 
         $date = Carbon::parse($this->scheduled_date);
 
-        return $this->slotsForDate($date, $this->bookedForDate($this->selectedDoctor(), $date));
+        return $this->slotsForDate($date, $this->bookedForDate($doctor, $date));
     }
 
     public function save(): void
@@ -331,7 +367,7 @@ class AddAppointmentForm extends Component
         $this->resetForm();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.patients.add-appointment-form', [
             'types' => config('medicall.appointments.types', []),

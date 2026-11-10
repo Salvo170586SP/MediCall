@@ -46,9 +46,12 @@ it('shows only the patients followed by the authenticated doctor', function () {
     $followedPatient = User::factory()->create(['name' => 'Paziente Seguito']);
     $unfollowedPatient = User::factory()->create(['name' => 'Paziente Non Seguito']);
 
-    Appointment::factory()->create([
+    Appointment::create([
         'doctor_id' => $doctor->id,
         'guest_id' => $followedPatient->id,
+        'scheduled_at' => now()->addDay(),
+        'duration' => 30,
+        'status' => 'confirmed',
     ]);
 
     Document::factory()->create([

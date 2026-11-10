@@ -63,6 +63,7 @@ it('sostituisce il file esistente quando ne viene selezionato uno nuovo', functi
     Livewire::actingAs($doctor)
         ->test(EditMedicalRecordsForm::class, compact('patient', 'medicalRecord'))
         ->set('file', UploadedFile::fake()->create('updated.pdf', 100, 'application/pdf'))
+        ->set('file_type', DocumentType::Prescription->value)
         ->call('edit')
         ->assertHasNoErrors();
 
@@ -79,7 +80,7 @@ it('rimuove il file esistente quando viene richiesto', function () {
     $patient = User::factory()->create();
     $doctor = User::factory()->create();
     $medicalRecord = medicalRecordForEdit($patient, $doctor);
-    $document = Document::factory()->forDocumentable($medicalRecord)->create([
+    $document = Document::factory()->forDocumentable($medicalRecord)->prescription()->create([
         'uploaded_by' => $doctor->id,
         'file_path' => 'patients/documents/original.pdf',
     ]);

@@ -75,5 +75,4 @@ Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
     Route::get('/guest/appointments', IndexAppointments::class)->name('guest.appointments');
 });
 
-/* require __DIR__.'/settings.php';
- */
+require __DIR__.'/settings.php';

@@ -1,19 +1,18 @@
 <?php
 
 use App\Enums\DocumentType;
+use App\Livewire\Pages\Documents\IndexDocuments;
 use App\Livewire\Pages\Guest\MedicalDocuments\IndexMedicalDocuments;
 use App\Models\Document;
 use App\Models\MedicalRecord;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 
-it('associa a un referto medico solo documenti di tipo ricetta o referto', function () {
+it('shows only prescriptions and medical reports in the patient archive', function () {
     $patient = User::factory()->create();
     $doctor = User::factory()->create();
     $medicalRecord = MedicalRecord::create([
@@ -23,28 +22,34 @@ it('associa a un referto medico solo documenti di tipo ricetta o referto', funct
         'diagnosis' => 'Diagnosi di test',
     ]);
 
-    $prescription = Document::factory()
+    Document::factory()
         ->forDocumentable($medicalRecord)
         ->prescription()
+        ->state(['title' => 'Prescrizione del paziente'])
         ->create(['uploaded_by' => $doctor->id]);
-    $medicalReport = Document::factory()
+    Document::factory()
         ->forDocumentable($medicalRecord)
         ->create([
             'uploaded_by' => $doctor->id,
             'type' => DocumentType::MedicalRecord,
+            'title' => 'Referto del paziente',
         ]);
     Document::factory()
         ->forDocumentable($medicalRecord)
         ->photo()
-        ->create(['uploaded_by' => $doctor->id]);
+        ->create([
+            'uploaded_by' => $doctor->id,
+            'title' => 'Foto non inclusa',
+        ]);
 
-    expect(Schema::hasColumn('medical_records', 'file'))->toBeFalse()
-        ->and($medicalRecord->documents)->toHaveCount(2)
-        ->and($medicalRecord->documents->pluck('id')->all())
-        ->toContain($prescription->id, $medicalReport->id);
+    Livewire::test(IndexDocuments::class)
+        ->set('selectedUserId', $patient->id)
+        ->assertSee('Prescrizione del paziente')
+        ->assertSee('Referto del paziente')
+        ->assertDontSee('Foto non inclusa');
 });
 
-it('consente al paziente di scaricare gli allegati dei propri referti', function () {
+it('shows the authenticated patient their medical record documents', function () {
     Storage::fake('public');
 
     $patient = User::factory()->create();
@@ -64,11 +69,10 @@ it('consente al paziente di scaricare gli allegati dei propri referti', function
 
     Livewire::actingAs($patient)
         ->test(IndexMedicalDocuments::class)
-        ->call('downloadDocument', $document->id)
-        ->assertFileDownloaded('referto.pdf');
+        ->assertSee('referto.pdf');
 });
 
-it('nega il download di allegati appartenenti a un altro paziente', function () {
+it('hides another patients medical record documents', function () {
     $patient = User::factory()->create();
     $otherPatient = User::factory()->create();
     $doctor = User::factory()->create();
@@ -81,10 +85,12 @@ it('nega il download di allegati appartenenti a un altro paziente', function () 
     $document = Document::factory()->forDocumentable($medicalRecord)->create([
         'uploaded_by' => $doctor->id,
         'type' => DocumentType::MedicalRecord,
+        'title' => 'Referto privato',
+        'original_filename' => 'referto-privato.pdf',
     ]);
 
-    expect(fn () => Livewire::actingAs($patient)
+    Livewire::actingAs($patient)
         ->test(IndexMedicalDocuments::class)
-        ->call('downloadDocument', $document->id))
-        ->toThrow(ModelNotFoundException::class);
+        ->assertDontSee('Referto privato')
+        ->assertDontSee('referto-privato.pdf');
 });

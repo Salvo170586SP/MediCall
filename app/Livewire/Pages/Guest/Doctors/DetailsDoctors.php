@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\User;
 use App\Notifications\UserNotification;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -24,6 +25,7 @@ class DetailsDoctors extends Component
 
     public string $reason = '';
 
+    /** @var array<string, string> */
     public array $weekDays = [
         'mon' => 'Lunedì',
         'tue' => 'Martedì',
@@ -45,6 +47,7 @@ class DetailsDoctors extends Component
         $this->type = config('medicall.appointments.types.0.type', 'video');
     }
 
+    /** @return array<string, array<int, mixed>> */
     protected function rules(): array
     {
         return [
@@ -55,6 +58,7 @@ class DetailsDoctors extends Component
         ];
     }
 
+    /** @return array<string, string> */
     protected function messages(): array
     {
         return [
@@ -141,19 +145,23 @@ class DetailsDoctors extends Component
         session()->flash('success', 'Visita prenotata. Il dottore riceverà la tua richiesta.');
     }
 
+    /** @return array<int, string> */
     protected function availableWeekDays(): array
     {
-        return collect($this->doctor->doctorDetail?->available_hours ?? [])
+        $hours = $this->doctorAvailableHours();
+
+        return collect($hours)
             ->filter(fn ($hours) => isset($hours[0], $hours[1]) && filled($hours[0]) && filled($hours[1]))
             ->keys()
             ->all();
     }
 
+    /** @return list<array{value: string, label: string}> */
     protected function slotsForDate(Carbon $date): array
     {
-        $hours = $this->doctor->doctorDetail?->available_hours[strtolower($date->format('D'))] ?? null;
+        $hours = $this->doctorAvailableHours()[strtolower($date->format('D'))] ?? null;
 
-        if (! $hours || blank($hours[0] ?? null) || blank($hours[1] ?? null)) {
+        if (! $hours || ! isset($hours[0], $hours[1]) || blank($hours[0]) || blank($hours[1])) {
             return [];
         }
 
@@ -188,6 +196,16 @@ class DetailsDoctors extends Component
         return $slots;
     }
 
+    /**
+     * @return list<array{
+     *     date: string,
+     *     day: int,
+     *     inMonth: bool,
+     *     isAvailable: bool,
+     *     isSelected: bool,
+     *     isToday: bool
+     * }>
+     */
     public function getCalendarDaysProperty(): array
     {
         $monthStart = Carbon::parse($this->calendarMonth.'-01');
@@ -217,12 +235,21 @@ class DetailsDoctors extends Component
         return $days;
     }
 
+    /** @return list<array{value: string, label: string}> */
     public function getAvailableSlotsProperty(): array
     {
         return blank($this->scheduled_date) ? [] : $this->slotsForDate(Carbon::parse($this->scheduled_date));
     }
 
-    public function render()
+    /** @return array<string, array<int, string>> */
+    private function doctorAvailableHours(): array
+    {
+        $hours = $this->doctor->doctorDetail->available_hours ?? [];
+
+        return is_array($hours) ? $hours : [];
+    }
+
+    public function render(): View
     {
         return view('livewire.pages.guest.doctors.details-doctors', [
             'types' => config('medicall.appointments.types', []),

@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Guest\MedicalHistory;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class EditMedicalHistory extends Component
@@ -49,7 +50,7 @@ class EditMedicalHistory extends Component
         ];
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.guest.medical-history.edit-medical-history');
     }

@@ -5,10 +5,13 @@ namespace App\Livewire\Pages\Patients;
 use App\Enums\DocumentType;
 use App\Models\MedicalRecord;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class EditMedicalRecordsForm extends Component
@@ -18,19 +21,30 @@ class EditMedicalRecordsForm extends Component
     public User $patient;
 
     public MedicalRecord $medicalRecord;
+
     public ?int $doctor_id = null;
+
     public ?int $appintment_id = null;
+
     public ?string $visit_date = null;
+
     public string $diagnosis = '';
+
     public string $prescription = '';
+
     public string $instructions = '';
-    public $file = null;
+
+    public ?TemporaryUploadedFile $file = null;
+
+    /** @var array<string, DocumentType> */
     public array $file_types = [
         'Ricetta' => DocumentType::Prescription,
         'Referto' => DocumentType::MedicalRecord,
         'Altro' => DocumentType::Other,
     ];
+
     public ?string $file_type = null;
+
     public bool $remove_existing_file = false;
 
     public function mount(User $patient, MedicalRecord $medicalRecord): void
@@ -58,6 +72,7 @@ class EditMedicalRecordsForm extends Component
         ]);
     }
 
+    /** @return array<string, array<int, mixed>|string> */
     protected function rules(): array
     {
         return [
@@ -70,6 +85,7 @@ class EditMedicalRecordsForm extends Component
         ];
     }
 
+    /** @return array<string, string> */
     protected function messages(): array
     {
         return [
@@ -107,7 +123,7 @@ class EditMedicalRecordsForm extends Component
 
             DB::transaction(function () use ($newFilePath): void {
                 $this->medicalRecord->update([
-                   'visit_date' => $this->visit_date ?: null,
+                    'visit_date' => $this->visit_date ?: null,
                     'diagnosis' => $this->diagnosis,
                     'prescription' => $this->prescription,
                     'instructions' => $this->instructions,
@@ -162,7 +178,9 @@ class EditMedicalRecordsForm extends Component
 
     private function loadRecordData(): void
     {
-        $this->visit_date = $this->medicalRecord->visit_date?->toDateString();
+        $this->visit_date = $this->medicalRecord->visit_date
+            ? Carbon::parse($this->medicalRecord->visit_date)->toDateString()
+            : null;
         $this->diagnosis = $this->medicalRecord->diagnosis;
         $this->prescription = $this->medicalRecord->prescription ?? '';
         $this->instructions = $this->medicalRecord->instructions ?? '';
@@ -170,7 +188,7 @@ class EditMedicalRecordsForm extends Component
         $this->remove_existing_file = false;
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.patients.edit-medical-records-form');
     }

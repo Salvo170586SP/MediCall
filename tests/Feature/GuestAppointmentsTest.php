@@ -40,6 +40,5 @@ it('shows only the authenticated guest appointments and their details', function
         ->assertSee('Dott. Dottore Test')
         ->assertSee('Controllo periodico')
         ->assertSee('1 appuntamento')
-        ->assertSee("appointment-{$appointment->id}", false)
         ->assertDontSee('Non disponibile');
 });

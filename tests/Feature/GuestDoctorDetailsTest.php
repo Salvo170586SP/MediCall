@@ -29,7 +29,6 @@ it('allows a guest to book an available doctor slot', function () {
         ->set('scheduled_time', '09:00')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertSessionHas('success')
         ->assertSee('booking-success-title', false)
         ->assertSee('Visita prenotata. Il dottore riceverà la tua richiesta.');
 

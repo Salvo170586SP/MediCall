@@ -6,8 +6,10 @@ use App\Enums\DocumentType;
 use App\Models\MedicalRecord;
 use App\Models\User;
 use App\Notifications\UserNotification;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class AddMedicalRecordsForm extends Component
@@ -15,18 +17,28 @@ class AddMedicalRecordsForm extends Component
     use WithFileUploads;
 
     public User $patient;
+
     public ?int $doctor_id = null;
+
     public ?int $appintment_id = null;
+
     public ?string $visit_date = null;
+
     public string $diagnosis = '';
+
     public string $prescription = '';
+
     public string $instructions = '';
-    public $file = null;
+
+    public ?TemporaryUploadedFile $file = null;
+
+    /** @var array<string, DocumentType> */
     public array $file_types = [
         'Ricetta' => DocumentType::Prescription,
         'Referto' => DocumentType::MedicalRecord,
         'Altro' => DocumentType::Other,
     ];
+
     public ?string $file_type = null;
 
     public function mount(User $patient): void
@@ -49,6 +61,7 @@ class AddMedicalRecordsForm extends Component
         ]);
     }
 
+    /** @return array<string, array<int, mixed>|string> */
     protected function rules(): array
     {
         return [
@@ -62,6 +75,7 @@ class AddMedicalRecordsForm extends Component
         ];
     }
 
+    /** @return array<string, string> */
     protected function messages(): array
     {
         return [
@@ -108,7 +122,7 @@ class AddMedicalRecordsForm extends Component
             $document = $medicalRecord->medicalRecordDocument()->create([
                 'uploaded_by' => Auth::id(),
                 'type' => $this->file_type,
-                'title' => $this->file_type . ' di ' . $this->patient->name,
+                'title' => $this->file_type.' di '.$this->patient->name,
                 'file_path' => $filePath,
                 'original_filename' => $this->file->getClientOriginalName(),
                 'mime_type' => $this->file->getMimeType(),
@@ -119,14 +133,14 @@ class AddMedicalRecordsForm extends Component
 
         $this->patient->notify(new UserNotification(
             'document_added',
-            'Il dottor ' . Auth::user()->name . ' ha aggiunto un nuovo referto al tuo fascicolo.',
+            'Il dottor '.Auth::user()->name.' ha aggiunto un nuovo referto al tuo fascicolo.',
         ));
 
         $this->dispatch('medical-record-created');
         $this->resetForm();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.patients.add-medical-records-form');
     }

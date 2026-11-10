@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Patients;
 
 use App\Models\Appointment;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,14 +20,12 @@ class IndexPatients extends Component
         $this->resetPage();
     }
 
-    public function deletePatient(int $patient_id)
+    public function deletePatient(int $patient_id): void
     {
         try {
             $patient = User::findOrFail($patient_id);
 
-            if ($patient) {
-                $patient->delete();
-            }
+            $patient->delete();
 
             session()->flash('success', 'Elemento eliminato con successo!');
         } catch (\Exception $e) {
@@ -34,7 +33,7 @@ class IndexPatients extends Component
         }
     }
 
-    public function detachPatientOnDoctor(int $patient_id)
+    public function detachPatientOnDoctor(int $patient_id): void
     {
         /** @var User $authenticatedUser */
         $authenticatedUser = Auth::user();
@@ -50,7 +49,7 @@ class IndexPatients extends Component
         }
     }
 
-    public function render()
+    public function render(): View
     {
         $patientsQuery = User::role('Guest')
             ->with('guestDetail')
