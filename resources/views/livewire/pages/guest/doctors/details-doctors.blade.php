@@ -67,8 +67,9 @@
                     <p class="mt-1 text-sm text-slate-700 ">{{ $doctor->doctorDetail?->specialty ?? 'Specializzazione
                         non
                         indicata' }} · {{ $doctor->doctorDetail?->sub_specialty ?? 'Profilo medico' }}</p>
-                    <p class="mt-2 text-sm text-slate-700">Email:<span class="font-semibold"> {{ $doctor->email }}</span>  Tel: <span class="font-semibold">  {{ $doctor->doctorDetail?->phone ??
-                        'Telefono non indicato' }} </span> </p>
+                    <p class="mt-2 text-sm text-slate-700">Email:<span class="font-semibold"> {{ $doctor->email
+                            }}</span> Tel: <span class="font-semibold"> {{ $doctor->doctorDetail?->phone ??
+                            'Telefono non indicato' }} </span> </p>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-2 text-center sm:min-w-52">
@@ -107,11 +108,13 @@
     @if($doctor->doctorDetail->is_active)
     <section class="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 to-teal-50 p-5">
         <div class="flex flex-col gap-1 border-b border-slate-100 pb-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
+            <div class="w-full">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-600">Prenota una visita</p>
-                <h2 class="mt-1 text-xl font-semibold text-slate-900">Scegli data e orario</h2>
+                <div class="w-full flex flex-col justify-center items-center -ms-40">
+                    <h2 class="w-full mt-1   text-xl text-center font-semibold text-slate-900">Scegli data e orario</h2>
+                    <p class="text-sm text-slate-500">*Gli slot occupati non sono selezionabili.</p>
+                </div>
             </div>
-            <p class="text-sm text-slate-500">Gli slot occupati non sono selezionabili.</p>
         </div>
         <div class="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
             <div>
@@ -150,39 +153,48 @@
                 @error('scheduled_date')<p class="mt-2 text-xs text-red-600">{{ $message }}</p>@enderror
             </div>
             <div class="space-y-4">
-                <div><label class="mb-2 block text-sm font-medium text-slate-700">Orari disponibili</label>
-                    @if(blank($scheduled_date))<p class="rounded-lg bg-slate-50 px-3 py-3 text-sm text-slate-500">
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-slate-700">Orari disponibili</label>
+                    @if(blank($scheduled_date))
+                    <p class="rounded-lg bg-slate-50 px-3 py-3 text-sm text-slate-500">
                         Seleziona
                         prima una data dal calendario.</p>@elseif (empty($this->availableSlots))<p
-                        class="rounded-lg bg-amber-50 px-3 py-3 text-sm text-amber-700">Nessuno slot disponibile.</p>
-                    @else<div class="grid grid-cols-2 gap-2">
+                        class="rounded-lg bg-amber-50 px-3 py-3 text-sm text-amber-700">Nessuno slot disponibile.
+                    </p>
+                    @else
+                    <div class="grid grid-cols-2 gap-2">
                         @foreach ($this->availableSlots as $slot)<button type="button"
                             wire:key="guest-slot-{{ $slot['value'] }}"
                             wire:click="$set('scheduled_time', '{{ $slot['value'] }}')"
                             class="rounded-lg border px-3 py-2 text-sm transition {{ $scheduled_time === $slot['value'] ? 'border-sky-600 bg-sky-600 font-semibold text-white' : 'border-slate-200 text-slate-700 hover:border-sky-300 bg-white  hover:bg-sky-50' }}">{{
                             $slot['label'] }}</button>
-                        @endforeach</div>
+                        @endforeach
+                    </div>
+                    <div>
+                        <label for="appointment-type"
+                            class="mb-2 block text-sm font-medium text-slate-700">Modalità</label><select
+                            id="appointment-type" wire:model="type"
+                            class="w-full bg-white rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-sky-500 focus:ring-sky-500">
+                            @foreach ($types as $typeOption)
+                            <option value="{{ $typeOption['type'] }}">{{ $typeOption['label'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label for="appointment-reason" class="mb-2 block text-sm font-medium text-slate-700">Motivo
+                            (opzionale)</label>
+                        <textarea id="appointment-reason" wire:model="reason" rows="3"
+                            class="w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm focus:border-sky-500 focus:ring-sky-500"></textarea>
+                    </div>
+                    <button type="button" wire:click="save" wire:loading.attr="disabled" @disabled(! $scheduled_date ||
+                        ! $scheduled_time || ! $doctor->doctorDetail?->is_active) class="inline-flex w-full items-center
+                        justify-center gap-2 rounded-lg bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition
+                        hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-50"><span wire:loading.remove
+                            wire:target="save">Prenota visita</span><span wire:loading
+                            wire:target="save">Prenotazione...</span></button>
                     @endif
                     @error('scheduled_time')<p class="mt-2 text-xs text-red-600">{{ $message }}</p>@enderror
                 </div>
-                <div><label for="appointment-type"
-                        class="mb-2 block text-sm font-medium text-slate-700">Modalità</label><select
-                        id="appointment-type" wire:model="type"
-                        class="w-full bg-white rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-sky-500 focus:ring-sky-500">
-                        @foreach ($types as $typeOption)
-                        <option value="{{ $typeOption['type'] }}">{{ $typeOption['label'] }}</option>
-                        @endforeach
-                    </select></div>
-                <div><label for="appointment-reason" class="mb-2 block text-sm font-medium text-slate-700">Motivo
-                        (opzionale)</label><textarea id="appointment-reason" wire:model="reason" rows="3"
-                        class="w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm focus:border-sky-500 focus:ring-sky-500"></textarea>
-                </div>
-                <button type="button" wire:click="save" wire:loading.attr="disabled" @disabled(! $scheduled_date || !
-                    $scheduled_time || ! $doctor->doctorDetail?->is_active) class="inline-flex w-full items-center
-                    justify-center gap-2 rounded-lg bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition
-                    hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-50"><span wire:loading.remove
-                        wire:target="save">Prenota visita</span><span wire:loading
-                        wire:target="save">Prenotazione...</span></button>
             </div>
         </div>
     </section>

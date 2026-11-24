@@ -22,17 +22,11 @@
 
         <flux:spacer />
 
-        @role(['Guest','Doctor'])
-        <div class="flex items-center gap-8">
-            <x-accordion-notifications title="Notifiche" />
-        </div>
-        @endrole
-
         <div class="me-15">
             <livewire:components.language-switcher />
         </div>
 
-        <flux:dropdown position="bottom" align="start">
+        <flux:dropdown position="bottom" align="start" x-transition>
             @role('Guest')
             <form method="POST" action="{{ route('logout') }}" class="w-full">
                 @csrf
