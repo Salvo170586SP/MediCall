@@ -30,7 +30,9 @@
     "Data e ora": "Data e ora",
     "Paziente": "Paziente",
     "Dottore": "Dottore",
+    "Invia": "Invia",
     "Stato": "Stato",
+    "Documento": "Documento",
     "Paziente rimosso": "Paziente rimosso",
     "Dottore rimosso": "Dottore rimosso",
     "Non ci sono ancora appuntamenti da mostrare.": "Non ci sono ancora appuntamenti da mostrare.",
@@ -74,7 +76,7 @@
     "Oppure, tornare a": "Oppure, tornare a",
     "Crea account": "Crea account",
     "Inserisci i tuoi dati qui sotto per creare il tuo account.": "Inserisci i tuoi dati qui sotto per creare il tuo account.",
-    "Name": "Nome",
+    "Nome": "Nome",
     "Codice fiscale": "Codice fiscale",
     "Città di nascita": "Città di nascita",
     "Data di nascita": "Data di nascita",
@@ -148,5 +150,7 @@
     "Continue": "Continua",
     "License": "Licenza",
     "Specialty": "Specializzazione",
-    "Availability": "Disponibilità"
+    "Availability": "Disponibilità",
+    "Seleziona": "Seleziona",
+    "Es. Analisi del sangue": "Es. Analisi del sangue"
 }

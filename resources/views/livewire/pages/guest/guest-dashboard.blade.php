@@ -23,8 +23,10 @@
             </div>
             <div class="flex-1">
                 <h2 class="text-xl font-bold text-slate-900">Benvenuto, {{ auth()->user()->name }}</h2>
-                <p class="mt-1 text-slate-600 text-xs lg:text-base">{{ __('La tua area personale: consulta i tuoi appuntamenti, cartelle cliniche e comunicazioni direttamente dalla home di MediCall') }}</p>
-                <p class="mt-1 text-slate-600 text-xs font-medium">*{{ __('Se non l\'hai ancora fatto, ti invitiamo di completare l\'aggiunta dei tuoi dati tramite la modifica del profilo') }} </p>
+                <p class="mt-1 text-slate-600 text-xs lg:text-base">{{ __('La tua area personale: consulta i tuoi
+                    appuntamenti, cartelle cliniche e comunicazioni direttamente dalla home di MediCall') }}</p>
+                <p class="mt-1 text-slate-600 text-xs font-medium">*{{ __('Se non l\'hai ancora fatto, ti invitiamo di
+                    completare l\'aggiunta dei tuoi dati tramite la modifica del profilo') }} </p>
             </div>
             <button wire:navigate href="/guest/edit/{{auth()->user()->id}}"
                 class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-sky-300 bg-sky-50 hover:bg-sky-100 font-bold text-sky-800">
@@ -239,7 +241,7 @@
                 <div>
                     <h2 class="ms-3 text-xl font-bold text-slate-900">{{ __('I miei referti') }}</h2>
                     <p class="ms-3 text-sm font-semibold text-sky-800">
-                        {{ $medical_records->count() }} {{ __('referti totali') }}
+                        {{ $medical_records->count() }} {{ __('referti ricevuti') }}
                     </p>
                 </div>
             </div>
@@ -249,9 +251,18 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                     </svg>
-                    {{ __('Storico') }}</button>
+                    {{ __('Ricevuti') }}</button>
+
+                <button wire:navigate href="/guest/upload-documents"
+                    class="inline-flex gap-2 px-3 py-2 text-sm cursor-pointer rounded-full border border-slate-300 bg-slate-50 hover:bg-slate-100 font-bold text-slate-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>
+                    {{ __('Inviati') }}</button>
             </div>
         </section>
 

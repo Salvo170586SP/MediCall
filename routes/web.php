@@ -17,6 +17,7 @@ use App\Livewire\Pages\Guest\MedicalDocuments\IndexMedicalDocuments;
 use App\Livewire\Pages\Guest\Parameters\CreateParameters;
 use App\Livewire\Pages\Guest\Parameters\EditParameter;
 use App\Livewire\Pages\Guest\Parameters\IndexParameters;
+use App\Livewire\Pages\Guest\UploadDocuments\IndexUploadDocuments;
 use App\Livewire\Pages\Patients\CreatePatients;
 use App\Livewire\Pages\Patients\DetailsPatients;
 use App\Livewire\Pages\Patients\EditPatients;
@@ -66,6 +67,7 @@ Route::middleware(['auth', 'verified', 'role:Guest'])->group(function () {
 
     // cartelle cliniche
     Route::get('/guest/medical-documents', IndexMedicalDocuments::class)->name('guest.medical-documents');
+    Route::get('/guest/upload-documents', IndexUploadDocuments::class)->name('guest.upload-documents');
 
     // dottori
     Route::get('/guest/doctors', DoctorsIndexDoctors::class)->name('guest.doctors');

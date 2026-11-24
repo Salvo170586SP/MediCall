@@ -19,8 +19,8 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi referti medici') }}</h1>
-                <p class="mt-1 text-sm text-slate-600">{{ __('I referti medici associati al tuo profilo') }}</p>
+                <h1 class="text-xl font-bold text-slate-900">{{ __('Ricevuti') }}</h1>
+                <p class="mt-1 text-sm text-slate-600">{{ __('Documentazioni mediche ricevute associati al tuo profilo') }}</p>
             </div>
         </div>
     </section>
@@ -28,15 +28,14 @@
         <div
             class="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h2 class="text-lg font-semibold text-slate-950">{{ __('Referti medici') }}</h2>
-                <p class="text-sm text-slate-500">{{ __('I referti più recenti sono mostrati per primi') }}</p>
+                <h2 class="text-lg font-semibold text-slate-950">{{ __('Documentazioni ricevute') }}</h2>
+                <p class="text-sm text-slate-500">{{ __('I più recenti sono mostrati per primi') }}</p>
             </div>
 
             <div class="flex flex-col gap-5">
                 <span
                     class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
-                    {{ $medicalRecordsAsPatient->total() }} {{ $medicalRecordsAsPatient->total() === 1 ? __('referto') :
-                    __('referti') }}
+                    {{ $medicalRecordsAsPatient->total() }} {{ __('doc') }}
                 </span>
             </div>
         </div>

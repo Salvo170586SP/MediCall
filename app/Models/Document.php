@@ -19,6 +19,7 @@ class Document extends Model
         'documentable_id',
         'documentable_type',
         'uploaded_by',
+        'recipient_id',
         'type',
         'title',
         'file_path',
@@ -44,5 +45,11 @@ class Document extends Model
     public function uploadedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by');
+    }
+
+    /** @return BelongsTo<User, $this> */
+    public function recipient(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'recipient_id');
     }
 }

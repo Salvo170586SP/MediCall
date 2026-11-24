@@ -30,7 +30,9 @@
     "Data e ora": "Date and time",
     "Paziente": "Patient",
     "Dottore": "Doctor",
+    "Documento": "Document",
     "Stato": "Status",
+    "Invia": "Send",
     "Paziente rimosso": "Patient removed",
     "Dottore rimosso": "Doctor removed",
     "Non ci sono ancora appuntamenti da mostrare.": "There are no appointments to show yet.",
@@ -317,6 +319,7 @@
     "appuntamenti": "appointments",
     "appuntamento": "appointment",
     "Dott.": "Doc.",
+    "Nome": "Name",
     "Dettagli sulla misurazione": "Measurement details",
     "Manuale": "Manual",
     "Origine": "Origin",
@@ -350,6 +353,6 @@
     "Una volta eliminato il tuo account, tutte le sue risorse e i suoi dati verranno eliminati definitivamente. Inserisci la tua password per confermare l'eliminazione definitiva del tuo account.": "Once you delete your account, all its assets and data will be permanently deleted. Enter your password to confirm the permanent deletion of your account.",
     "Se non l'hai ancora fatto, ti invitiamo di completare l'aggiunta dei tuoi dati tramite la modifica del profilo": "If you haven't already done so, we invite you to complete your details by editing your profile",
     "La tua area personale: consulta i tuoi appuntamenti, cartelle cliniche e comunicazioni direttamente dalla home di MediCall": "Your personal area: consult your appointments, medical records and communications directly from the MediCall home",
-    "Non ci sono soglie impostate per questo paziente": "There are no thresholds set for this patient"
-    
+    "Non ci sono soglie impostate per questo paziente": "There are no thresholds set for this patient",
+    "Es. Analisi del sangue": "Example: Blood test"
 }

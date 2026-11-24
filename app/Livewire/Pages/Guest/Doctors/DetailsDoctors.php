@@ -16,13 +16,9 @@ class DetailsDoctors extends Component
     public User $doctor;
 
     public string $calendarMonth = '';
-
     public string $scheduled_date = '';
-
     public string $scheduled_time = '';
-
     public string $type = 'video';
-
     public string $reason = '';
 
     /** @var array<string, string> */
