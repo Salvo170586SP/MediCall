@@ -16,11 +16,11 @@
         </section>
 
         <form wire:submit="save" class="space-y-6">
-            <section class="rounded-xl border border-slate-200 bg-white p-6">
+            <section class="rounded-xl border border-slate-200 bg-white p-6 ">
                 <h2 class="text-lg font-semibold text-slate-950">{{ __('Parametri da registrare') }}</h2>
                 <p class="mt-1 text-sm text-slate-500">{{ __('L\'unità di misura viene associata automaticamente') }}</p>
 
-                <div class="mt-5 grid gap-4 md:grid-cols-2">
+                <div class="mt-5 space-y-5">
                     @foreach ($availableParameters as $type => $parameter)
                     <div wire:key="parameter-{{ $type }}" class="rounded-xl border border-slate-200 p-4">
                         <label class="flex cursor-pointer items-center gap-3">
@@ -31,38 +31,41 @@
 
                         @if (isset($selectedParameters[$type]) && ($selectedParameters[$type] === true ||
                         $selectedParameters[$type] === '1'))
-                        <div class="mt-4 flex items-end gap-3">
-                            <div class="min-w-0 flex-1">
-                                <label for="value-{{ $type }}"
-                                    class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Valore') }}</label>
-                                <input id="value-{{ $type }}" type="text" inputmode="decimal"
-                                    wire:model="values.{{ $type }}"
-                                    placeholder="Es. {{ $type === 'weight' ? '70' : ($type === 'oxygen_saturation' ? '97.55' : ($type === 'heart_rate' ? '65.56' : ($type === 'body_temperature' ? '36.28' : '132.65'))) }}"
-                                    class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="mt-4 flex items-end gap-3">
+                                <div class="min-w-0 flex-1">
+                                    <label for="value-{{ $type }}"
+                                        class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Valore') }}</label>
+                                    <input id="value-{{ $type }}" type="text" inputmode="decimal"
+                                        wire:model="values.{{ $type }}"
+                                        placeholder="Es. {{ $type === 'weight' ? '70' : ($type === 'oxygen_saturation' ? '97.55' : ($type === 'heart_rate' ? '65.56' : ($type === 'body_temperature' ? '36.28' : '132.65'))) }}"
+                                        class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                                </div>
+                                <span class="pb-2 text-sm font-semibold text-slate-500">{{ $parameter['unit'] }}</span>
                             </div>
-                            <span class="pb-2 text-sm font-semibold text-slate-500">{{ $parameter['unit'] }}</span>
+                            @error("values.$type") <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                            <div class="mt-4">
+                                <label for="measured-at-{{ $type }}"
+                                    class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Data e ora') }}</label>
+                                <input id="measured-at-{{ $type }}" type="datetime-local"
+                                    wire:model="measuredAt.{{ $type }}"
+                                    class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                                @error("measuredAt.$type") <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                            </div>
+                            <div class="mt-4">
+                                <label for="source-{{ $type }}"
+                                    class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Origine') }}</label>
+                                <select id="source-{{ $type }}" wire:model="source.{{ $type }}"
+                                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                                    <option value="manual">{{ __('Manuale') }}</option>
+                                    <option value="wearable">{{ __('Wearable') }}</option>
+                                    <option value="iot">{{ __('IoT') }}</option>
+                                    <option value="device">{{ __('Device') }}</option>
+                                </select>
+                                @error("source.$type") <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
+                            </div>
                         </div>
-                        @error("values.$type") <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-                        <div class="mt-4">
-                            <label for="measured-at-{{ $type }}"
-                                class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Data e ora') }}</label>
-                            <input id="measured-at-{{ $type }}" type="datetime-local"
-                                wire:model="measuredAt.{{ $type }}"
-                                class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
-                            @error("measuredAt.$type") <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        <div class="mt-4">
-                            <label for="source-{{ $type }}"
-                                class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Origine') }}</label>
-                            <select id="source-{{ $type }}" wire:model="source.{{ $type }}"
-                                class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
-                                <option value="manual">{{ __('Manuale') }}</option>
-                                <option value="wearable">{{ __('Wearable') }}</option>
-                                <option value="iot">{{ __('IoT') }}</option>
-                                <option value="device">{{ __('Device') }}</option>
-                            </select>
-                            @error("source.$type") <p class="mt-2 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
+
                         <div class="mt-4">
                             <label for="notes-{{ $type }}" class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Note') }}
                                 <span class="font-normal text-slate-500"> ({{ __('facoltativo') }})</span></label>
