@@ -5,13 +5,13 @@
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-800">
+<body class="min-h-screen bg-[#F5F8F7] dark:bg-zinc-800">
 
-    <flux:header class="border-b border-zinc-200 bg-zinc-50">
+    <flux:header class="border-b border-gray-00 bg-white py-3">
         @role(['Doctor', 'Admin'])
         <flux:sidebar.toggle class="lg:hidden mr-2" icon="bars-2" inset="left" />
         @endrole
-        
+
         <div class="shrink-0 flex items-center justify-center gap-3">
             <x-icon.medicall-ico />
             <div>
@@ -22,8 +22,14 @@
 
         <flux:spacer />
 
-        <div class="me-15">
-            <livewire:components.language-switcher />
+        <div class=" flex gap-5">
+            <div class="hidden sm:block">
+                <livewire:components.language-switcher />
+            </div>
+
+            @role(['Guest','Doctor'])
+            <x-accordion-notifications title="Notifiche" />
+            @endrole
         </div>
 
         <flux:dropdown position="bottom" align="start" x-transition>
@@ -31,7 +37,7 @@
             <form method="POST" action="{{ route('logout') }}" class="w-full">
                 @csrf
                 <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
-                    class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                    class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
                     data-test="logout-button">
                     {{ __('Log out') }}
                 </flux:menu.item>
@@ -44,6 +50,7 @@
             <x-desktop-user-menu />
         </div>
         @endrole
+
     </flux:header>
 
 

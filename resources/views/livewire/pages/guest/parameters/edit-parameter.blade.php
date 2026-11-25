@@ -2,7 +2,7 @@
 	<div class="mx-auto max-w-7xl">
 
 		<button wire:navigate href="{{ route('guest.parameters') }}"
-			class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
+			class="inline-flex mb-5 rounded-full border border-gray-200 bg-white p-4 hover:shadow-sm transition cursor-pointer">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
 				stroke="currentColor" class="size-5">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -10,7 +10,7 @@
 		</button>
 
 		<section
-			class="mb-6 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-sky-50 px-6 py-8 lg:px-8">
+			class="mb-6 rounded-4xl border border-gray-200 bg-white px-6 py-8 lg:px-8">
 			<p class="text-sm font-semibold uppercase tracking-wider text-blue-700">{{ __('Modifica misurazione') }}</p>
 			<h1 class="mt-2 text-2xl font-bold text-slate-950">{{ __('Aggiorna') }} {{
 				__($parameterTypes[$type]['label'] ??
@@ -20,7 +20,7 @@
 		</section>
 
 		<form wire:submit="save" class="space-y-6">
-			<section class="rounded-xl border border-slate-200 bg-white p-6">
+			<section class="rounded-4xl border border-slate-200 bg-white p-6">
 				<div class="grid gap-5 sm:grid-cols-2">
 					<div>
 						<label for="type" class="mb-2 block text-xs font-semibold text-slate-700">{{ __('Parametro') }}</label>
@@ -68,9 +68,9 @@
 
 			<div class="flex justify-end gap-3">
 				<a wire:navigate href="{{ route('guest.parameters') }}"
-					class="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50">{{ __('Annulla') }}</a>
+					class="rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 transition-colors hover:bg-slate-50">{{ __('Annulla') }}</a>
 				<button type="submit" wire:loading.attr="disabled"
-					class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">
+					class="rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60 cursor-pointer">
 					<span wire:loading.remove>{{ __('Modifica') }}</span>
 					<span wire:loading>{{ __('Salvataggio...') }}</span>
 				</button>

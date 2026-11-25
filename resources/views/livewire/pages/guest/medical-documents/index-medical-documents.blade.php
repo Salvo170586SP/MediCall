@@ -1,7 +1,7 @@
 <div>
     <div class="mx-auto max-w-7xl">
         <button wire:navigate href="/guest/dashboard"
-            class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
+            class="mb-5 rounded-full border border-gray-200 bg-white p-4 hover:shadow-sm transition cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -9,13 +9,13 @@
         </button>
     </div>
 
-    <section
-        class="mx-auto mb-5 max-w-7xl rounded-xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
+    <section class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-200 bg-white px-6 py-8 lg:px-8">
         <div class="flex items-start gap-4">
-            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125 1.125 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 text-gray-700">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                 </svg>
             </div>
             <div>
@@ -24,7 +24,8 @@
             </div>
         </div>
     </section>
-    <section class="mx-auto max-w-7xl overflow-hidden rounded-xl border border-slate-200 bg-white">
+
+    <section class="mx-auto max-w-7xl overflow-hidden rounded-4xl border border-slate-200 bg-white">
         <div
             class="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -33,8 +34,7 @@
             </div>
 
             <div class="flex flex-col gap-5">
-                <span
-                    class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
+                <span class="rounded-lg bg-gray-100 px-4 py-1 font-semibold text-gray-800">
                     {{ $medicalRecordsAsPatient->total() }} {{ __('doc') }}
                 </span>
             </div>
@@ -66,7 +66,7 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     @foreach ($medicalRecordsAsPatient as $record)
-                    <tr class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                    <tr class="border-b border-slate-200 text-[14px]">
                         <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                             $record->doctor->name }}</td>
                         <td class="px-6 py-4 text-slate-600">{{
@@ -76,11 +76,10 @@
                         <td class="px-6 py-4 text-center">
                             @if($record->prescription)
                             <x-modal title="{{ __('Prescrizioni') }}" confirm-label="prescrizioni"
-                                wire:key="prescription-[{{$record->id}}]"
-                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                wire:key="prescription-[{{$record->id}}]">
                                 <x-slot:trigger>
                                     <button title="{{ __('Prescrizioni') }}"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="p-2 cursor-pointer border border-gray-300 hover:bg-gray-100 rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -103,11 +102,10 @@
                         <td class="px-6 py-4 text-center">
                             @if($record->instructions)
                             <x-modal title="{{ __('Consigli') }}" confirm-label="consigli"
-                                wire:key="instructions-[{{$record->id}}]"
-                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                wire:key="instructions-[{{$record->id}}]">
                                 <x-slot:trigger>
                                     <button title="{{ __('Consigli') }}"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="p-2 cursor-pointer border border-gray-300 hover:bg-gray-100 rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -131,7 +129,7 @@
                             @if($record->medicalRecordDocument)
                             <a download href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
                                 title="{{ __('Scarica') }} {{ $record->medicalRecordDocument->file_path }}"
-                                class="inline-flex items-center justify-center rounded-xl bg-emerald-100 p-2 text-emerald-800 transition-colors hover:bg-emerald-200">
+                                class="inline-flex items-center justify-center rounded-xl border border-gray-300 p-2 text-gray-800 transition-colors hover:bg-gray-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"

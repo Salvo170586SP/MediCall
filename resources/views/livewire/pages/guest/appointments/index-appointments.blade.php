@@ -1,32 +1,31 @@
 <div>
     <div class="mx-auto max-w-7xl">
         <button wire:navigate href="{{ route('guest.dashboard') }}"
-            class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
+            class="inline-flex mb-5 rounded-full border border-gray-200 bg-white p-4 hover:shadow-sm transition cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-5">
+                stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
             </svg>
         </button>
     </div>
 
     <section
-        class="mx-auto mb-5 max-w-7xl rounded-xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
+        class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-300 bg-white px-6 py-8 lg:px-8">
         <div class="flex items-start gap-4">
-            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gray-100">
+                <svg class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2Z" />
                 </svg>
             </div>
             <div>
                 <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi appuntamenti') }}</h1>
-                <p class="mt-1 text-sm text-slate-600">{{ __('Consulta le visite prenotate e i dettagli dei tuoi
-                    incontri con i dottori') }}</p>
+                <p class="mt-1 text-sm text-slate-600">{{ __('Consulta le visite prenotate e i dettagli dei tuoi incontri con i dottori') }}</p>
             </div>
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+    <section class="mx-auto max-w-7xl rounded-4xl border border-gray-300 bg-white p-5 sm:p-6">
         <div
             class="mb-6 flex flex-col gap-2 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -34,7 +33,7 @@
                 <p class="text-sm text-slate-500">{{ __('Gli appuntamenti più recenti sono mostrati per primi') }}</p>
             </div>
             <span
-                class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
+                class="inline-flex w-fit items-center rounded-lg bg-gray-100 px-4 py-1 font-semibold text-gray-500">
                 {{ $appointments->total() }} {{ $appointments->total() === 1 ? __('appuntamento') : __('appuntamenti')
                 }}
             </span>
@@ -58,7 +57,7 @@
                 <x-slot:trigger>
                     <article role="button" tabindex="0" @keydown.enter="$el.click()"
                         @keydown.space.prevent="$el.click()"
-                        class="group relative flex h-full cursor-pointer flex-col rounded-2xl border border-slate-300 bg-emerald-50 p-5 text-left transition duration-200 hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                        class="group relative flex h-full cursor-pointer flex-col rounded-4xl border border-gray-300 bg-white  p-5 text-left transition duration-200 hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-emerald-400">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex min-w-0 items-center gap-3">
                                 @if ($appointment->doctor?->photo)

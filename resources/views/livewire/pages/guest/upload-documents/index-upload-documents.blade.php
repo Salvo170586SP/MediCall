@@ -1,7 +1,7 @@
 <div>
     <div class="mx-auto max-w-7xl">
         <button wire:navigate href="/guest/dashboard"
-            class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
+            class="mb-5 rounded-full border border-gray-200 bg-white p-4 hover:shadow-sm transition cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -9,13 +9,13 @@
         </button>
     </div>
 
-    <section
-        class="mx-auto mb-5 max-w-7xl rounded-xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
+    <section class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-200 bg-white px-6 py-8 lg:px-8">
         <div class="flex items-start gap-4">
-            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125 1.125 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
                 </svg>
             </div>
             <div>
@@ -28,8 +28,7 @@
 
     <section x-data="{isOpen: false}" class="mx-auto mb-5 max-w-7xl">
         <div class="text-end">
-            <button
-                class="inline-flex items-center rounded-xl cursor-pointer bg-slate-400 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+            <button class="rounded-xl cursor-pointer bg-black p-3 text-white transition hover:bg-gray-700"
                 @click="isOpen = !isOpen">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
@@ -39,7 +38,7 @@
             </button>
         </div>
         <div x-show="isOpen" x-transition
-            class="mx-auto mb-5 max-w-7xl rounded-xl border border-slate-200 bg-white p-6 mt-5">
+            class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-200 bg-white p-6 mt-5">
             <h2 class="mb-1 text-lg font-semibold text-slate-950">{{ __('Invia un documento') }}</h2>
             <p class="mb-5 text-sm text-slate-500">
                 {{ __('Seleziona uno dei dottori associati al tuo profilo e carica il documento.') }}
@@ -99,7 +98,7 @@
                 <div class="flex flex-col items-start justify-start">
                     <span class=" text-sm font-medium mb-2">{{ __('Documento') }}</span>
                     <label for="document"
-                        class="w-30 text-center font-medium bg-slate-500 rounded-xl text-slate-50 px-2 py-1 hover:bg-slate-700 cursor-pointer">
+                        class="text-center font-bold bg-slate-50 rounded-xl text-gray-500 px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         {{ __('Seleziona file') }}
                         <input id="document" type="file" wire:model="document" accept=".jpg,.jpeg,.png,.webp,.pdf"
                             class="hidden ">
@@ -116,7 +115,7 @@
 
                 <div class="md:col-span-2">
                     <button type="submit"
-                        class="inline-flex items-center rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-700 cursor-pointer"
+                        class="inline-flex items-center rounded-xl bg-black px-5 py-2.5 font-semibold text-white transition hover:bg-gray-700 cursor-pointer"
                         wire:loading.attr="disabled">
                         <span wire:loading.remove>{{ __('Invia') }}</span>
                         <span wire:loading>{{ __('Invio in corso...') }}</span>
@@ -126,9 +125,9 @@
         </div>
     </section>
 
-    <section class="mx-auto mb-5 max-w-7xl overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <section class="mx-auto mb-5 max-w-7xl overflow-hidden rounded-4xl border border-slate-200 bg-white">
         <div class="border-b border-slate-200 px-5 py-5">
-            <h2 class="text-lg font-semibold text-slate-950">{{ __('Documenti inviati ai dottori') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-950">{{ __('Documentazioni inviate') }}</h2>
         </div>
 
         @if ($sentDocuments->isNotEmpty())
@@ -146,7 +145,7 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     @foreach ($sentDocuments as $sentDocument)
-                    <tr class="hover:bg-slate-50">
+                    <tr>
                         <td class="px-6 py-4 font-medium text-slate-900">{{ $sentDocument->title }}</td>
                         <td class="px-6 py-4 text-slate-600">{{ $sentDocument->type->label() }}</td>
                         <td class="px-6 py-4 text-slate-600">{{ $sentDocument->recipient?->name ?? '-' }}</td>
@@ -155,7 +154,7 @@
                         <td class="px-6 py-4 text-center">
                             <a download href="{{ asset('storage/'.$sentDocument->file_path) }}"
                                 title="{{ __('Scarica') }} {{ $sentDocument->original_filename }}"
-                                class="inline-flex items-center justify-center rounded-xl bg-emerald-100 p-2 text-emerald-800 transition-colors hover:bg-emerald-200">
+                                class="inline-flex p-2 cursor-pointer border border-gray-300 hover:bg-gray-100 rounded-xl transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -168,7 +167,7 @@
                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                 <x-slot:trigger>
                                     <button title="{{ __('Elimina') }}"
-                                        class="inline-flex items-center gap-1.5 p-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="p-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-xl transition-colors cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"

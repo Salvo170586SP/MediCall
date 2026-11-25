@@ -1,7 +1,7 @@
 <div>
     <div class="mx-auto max-w-7xl">
         <button wire:navigate href="/guest/dashboard"
-            class="inline-flex items-center gap-1.5 mb-5 rounded-xl border border-slate-200 bg-zinc-100 px-4 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-sky-100 hover:text-sky-800">
+            class="mb-5 rounded-full border border-gray-200 bg-white p-4 hover:shadow-sm transition cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -9,47 +9,40 @@
         </button>
     </div>
 
-    <section
-        class="mx-auto mb-5 max-w-7xl rounded-xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-6 py-8 lg:px-8">
+    <section class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-200 bg-white px-6 py-8 lg:px-8">
         <div class="flex items-start gap-4">
-            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-                <svg class="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gray-100">
+                <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                         d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125 1.125 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                 </svg>
             </div>
             <div>
                 <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi parametri') }}</h1>
-                <p class="mt-1 text-sm text-slate-600">{{ __('Lo storico delle misurazioni registrate nel tuo profilo') }}</p>
+                <p class="mt-1 text-sm text-slate-600">{{ __('Lo storico delle misurazioni registrate nel tuo profilo')
+                    }}</p>
             </div>
         </div>
     </section>
-    <section class="mx-auto max-w-7xl overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <section class="mx-auto max-w-7xl overflow-hidden rounded-4xl border border-gray-200 bg-white">
         <div
-            class="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+            class="flex flex-col gap-2 border-b border-gray-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h2 class="text-lg font-semibold text-slate-950">{{ __('Storico misurazioni') }}</h2>
                 <p class="text-sm text-slate-500">{{ __('Le misurazioni più recenti sono mostrate per prime') }}</p>
             </div>
 
             <div class="flex flex-col gap-5">
-                <button wire:navigate href="/guest/parameters/create"
-                    class="inline-flex items-center justify-center gap-2 px-3 py-2 cursor-pointer rounded-xl bg-black hover:bg-gray-700 font-medium text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                    {{ __('Aggiungi') }}
-                </button>
+
                 <span
-                    class="inline-flex w-fit items-center rounded-lg bg-sky-100 px-3 py-1 text-sm font-semibold text-sky-800">
+                    class="inline-flex rounded-lg bg-gray-100 px-4 py-1 font-semibold text-gray-800">
                     {{ $parameters->total() }} {{ $parameters->total() === 1 ? __('misurazione') : __('misurazioni') }}
                 </span>
             </div>
         </div>
 
-        <div class="grid gap-4 lg:grid-cols-3 m-6">
+
+        <div class="grid gap-4 lg:grid-cols-3 m-6 items-end">
             <x-search-input inputClass="bg-white" id="type" model="type" label="{{ __('Tipo') }}"
                 placeholder="{{ __('Cerca per tipo') }}" />
             <div>
@@ -67,6 +60,12 @@
                         {{ __('Wearable') }}
                     </option>
                 </select>
+            </div>
+            <div class="text-end">
+                <button wire:navigate href="/guest/parameters/create"
+                    class="w-50 inline-flex items-center justify-center px-3 py-2 cursor-pointer rounded-xl bg-black hover:bg-gray-700 font-medium text-white">
+                    {{ __('Aggiungi') }}
+                </button>
             </div>
         </div>
         @if ($parameters->isNotEmpty())
@@ -102,11 +101,10 @@
                         <td class="max-w-xs px-5 py-4 text-slate-500">
                             @if($parameter->notes)
                             <x-modal title="{{ __('Note') }}" confirm-label="Note"
-                                wire:key="noteParameter-[{{$parameter->id}}]"
-                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                wire:key="noteParameter-[{{$parameter->id}}]">
                                 <x-slot:trigger>
                                     <button title="{{ __('Note') }}"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                        class="p-2 cursor-pointer border border-gray-300 hover:bg-gray-100 rounded-xl transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,7 +128,7 @@
                             <div class="flex justify-end gap-3">
                                 <button wire:navigate href="/guest/parameters/{{$parameter->id}}/edit"
                                     title="{{ __('Modifica') }}"
-                                    class="inline-flex items-center gap-1.5 p-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
+                                    class="p-2 cursor-pointer border border-gray-300 hover:bg-gray-100 rounded-xl transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -142,7 +140,7 @@
                                     confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                     <x-slot:trigger>
                                         <button title="{{ __('Elimina') }}"
-                                            class="inline-flex items-center gap-1.5 p-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                            class="p-2 bg-red-100 hover:bg-red-200 rounded-xl transition-colors cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"

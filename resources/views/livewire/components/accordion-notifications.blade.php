@@ -1,9 +1,9 @@
 <div>
     <div x-data="{ isOpen: false }" class="relative">
         <button type="button" @click="isOpen = !isOpen" aria-label="Apri notifiche"
-            class="relative flex cursor-pointer items-center rounded-full px-1.5 py-1 text-start text-sm hover:bg-gray-100 focus:bg-gray-100 bg-sky-50 text-blue-800">
+            class="relative flex cursor-pointer items-center rounded-xl px-1.5 py-1 text-start text-sm hover:bg-gray-100 focus:bg-gray-100 border border-gray-300 text-gray-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-7">
+                stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
             </svg>
@@ -16,7 +16,7 @@
         </button>
 
         <div x-show="isOpen" x-cloak @click.outside="isOpen = false" x-transition
-            class="absolute right-0 top-12 z-50 h-96 w-120 overflow-y-auto rounded-xl border bg-white p-3 text-sm shadow-lg">
+            class="absolute -right-25 sm:right-0 top-12 z-50 h-96 w-100 sm:w-120  overflow-y-auto rounded-xl border bg-white p-3 text-sm shadow-lg">
             <div class="flex items-center justify-between border-b py-2 text-lg font-medium text-gray-800">
                 <span>{{ __('Notifiche') }}</span>
                 @if (count($notifications))

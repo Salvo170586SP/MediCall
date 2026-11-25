@@ -44,7 +44,7 @@
         {{-- Azioni --}}
         <div class="flex items-center justify-end gap-2 mt-5">
             <button @click="open = false @if($resetMethod) ; $wire.{{ $resetMethod }}() @endif" type="button"
-                class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-gray-800 text-sm font-medium rounded-xl transition-colors">
+                class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-300 hover:bg-gray-100 font-bold text-gray-800 cursor-pointer rounded-xl transition-colors">
                 {{ __('Annulla') }}
             </button>
 

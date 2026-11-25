@@ -82,11 +82,11 @@
             </nav>
             @endrole
             
-            @role(['Guest','Doctor'])
+         {{--    @role(['Guest','Doctor'])
             <div class="absolute top-0 right-15">
                 <x-accordion-notifications title="Notifiche" />
             </div>
-            @endrole
+            @endrole --}}
         </div>
 
         {{ $slot }}
