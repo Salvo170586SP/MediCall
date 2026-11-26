@@ -22,38 +22,35 @@
 
         <flux:spacer />
 
-        <div class=" flex gap-5">
+        <div class="flex items-center gap-5">
             <div class="hidden sm:block">
                 <livewire:components.language-switcher />
             </div>
 
             @role(['Guest','Doctor'])
-            <x-accordion-notifications title="Notifiche" />
+            <div class="flex items-center gap-3">
+                <x-accordion-notifications title="Notifiche" />
+            </div>
             @endrole
-        </div>
 
-        <flux:dropdown position="bottom" align="start" x-transition>
-            @role('Guest')
-            <form method="POST" action="{{ route('logout') }}" class="w-full">
-                @csrf
-                <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
-                    class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
-                    data-test="logout-button">
-                    {{ __('Log out') }}
-                </flux:menu.item>
-            </form>
-            @endrole
-        </flux:dropdown>
+            <flux:dropdown position="bottom" align="start">
+                @role('Guest')
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
+                        class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                        data-test="logout-button">
+                        {{ __('Log out') }}
+                    </flux:menu.item>
+                </form>
+                @endrole
+            </flux:dropdown>
 
-        @role(['Admin','Doctor'])
-        <div class="flex items-center">
+            @role(['Admin','Doctor'])
             <x-desktop-user-menu />
+            @endrole
         </div>
-        @endrole
-
     </flux:header>
-
-
 
 
     <!-- Mobile Menu -->

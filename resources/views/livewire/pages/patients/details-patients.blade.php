@@ -2,7 +2,7 @@
     <div class="h-full mx-auto">
 
         <button wire:navigate href="{{route('patients') }}"
-            class="inline-flex items-center gap-1.5 px-4 py-3 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-bold rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 px-4 py-3 bg-white hover:shadow-lg text-gray-700 text-sm font-bold rounded-xl transition border border-gray-200 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -15,51 +15,51 @@
             <div class="mt-10 flex justify-between">
                 <nav class="flex gap-2">
                     <button @click="activeTab = 'patient'"
-                        :class="activeTab === 'patient' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
-                        class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
+                        :class="activeTab === 'patient' ? 'bg-white text-gray-800 border-gray-200' : 'bg-white text-gray-400 hover:text-gray-600'"
+                        class="px-4 py-2 font-medium border border-b-0 rounded-t-2xl cursor-pointer">
                         {{ __('Dati paziente') }}
                     </button>
                     <button @click="activeTab = 'params'"
-                        :class="activeTab === 'params' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
-                        class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
+                        :class="activeTab === 'params' ? 'bg-white text-gray-800 border-gray-200' : 'bg-white text-gray-400 hover:text-gray-600'"
+                        class="px-4 py-2 font-medium border border-b-0 rounded-t-2xl cursor-pointer">
                         {{ __('Storico parametri') }}<span
-                            class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$healthParameters->total()}}</span>
+                            class="inline-flex ms-3 bg-gray-600 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$healthParameters->total()}}</span>
                     </button>
                     <button @click="activeTab = 'thresholds'"
-                        :class="activeTab === 'thresholds' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
-                        class="px-4 py-2 text-sm font-medium border  border-b-0 rounded-t-xl transition-colors">
+                        :class="activeTab === 'thresholds' ? 'bg-white text-gray-800 border-gray-200' : 'bg-white text-gray-400 hover:text-gray-600'"
+                        class="px-4 py-2 font-medium border  border-b-0 rounded-t-2xl cursor-pointer">
                         {{ __('Soglie') }}<span
-                            class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$healthThresholds->total()}}</span>
+                            class="inline-flex ms-3 bg-gray-600 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$healthThresholds->total()}}</span>
                     </button>
                     <button @click="activeTab = 'appointments'"
-                        :class="activeTab === 'appointments' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
-                        class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
+                        :class="activeTab === 'appointments' ? 'bg-white text-gray-800 border-gray-200' : 'bg-white text-gray-400 hover:text-gray-600'"
+                        class="px-4 py-2 font-medium border border-b-0 rounded-t-2xl cursor-pointer">
                         {{ __('Appuntamenti') }}<span
-                            class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$appointments->total()}}</span>
+                            class="inline-flex ms-3 bg-gray-600 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$appointments->total()}}</span>
                     </button>
                     <button @click="activeTab = 'records'"
-                        :class="activeTab === 'records' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
-                        class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
+                        :class="activeTab === 'records' ? 'bg-white text-gray-800 border-gray-200' : 'bg-white text-gray-400 hover:text-gray-600'"
+                        class="px-4 py-2 font-medium border border-b-0 rounded-t-2xl cursor-pointer">
                         {{ __('Cartella clinica') }}<span
-                            class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$medicalRecordsAsPatient->total()}}</span>
+                            class="inline-flex ms-3 bg-gray-600 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$medicalRecordsAsPatient->total()}}</span>
                     </button>
                     <button @click="activeTab = 'files'"
-                        :class="activeTab === 'files' ? 'bg-blue-50 text-blue-800 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'"
-                        class="px-4 py-2 text-sm font-medium border border-b-0 rounded-t-xl transition-colors">
+                        :class="activeTab === 'files' ? 'bg-white text-gray-800 border-gray-200' : 'bg-white text-gray-400 hover:text-gray-600'"
+                        class="px-4 py-2 font-medium border border-b-0 rounded-t-2xl cursor-pointer">
                         {{ __('Documenti caricati') }}<span
-                            class="inline-flex ms-3 bg-blue-400 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$documents->total()}}</span>
+                            class="inline-flex ms-3 bg-gray-600 font-bold justify-center items-center text-white w-6 h-6 rounded-lg">{{$documents->total()}}</span>
                     </button>
                 </nav>
-                <div class="px-4 py-2 border border border-b-0 rounded-t-xl bg-gray-100 border-gray-200">
-                    <p class="font-medium">
-                        {{ __('Paziente') }}:
-                        <span class="font-bold text-blue-700">{{ $patient->name }}</span>
+                <div class="px-4 py-2 border border border-b-0 rounded-t-xl bg-white border-gray-200">
+                    <p class="font-medium text-gray-500">
+                        {{ __('Paziente') }}
+                        <span class="font-bold text-gray-700">{{ $patient->name }}</span>
                     </p>
                 </div>
             </div>
 
             {{-- Tab content --}}
-            <div class="bg-gray-50 rounded-2xl rounded-b-2xl rounded-l-none rounded-r-none border border-gray-200 p-6">
+            <div class="bg-white rounded-4xl rounded-b-4xl rounded-l-none rounded-r-none border border-gray-200 p-6">
 
                 {{-- dati paziente tab --}}
                 <div x-show="activeTab === 'patient'">
@@ -76,24 +76,31 @@
                                 </h1>
                             </div>
 
-                            <p class="text-sm text-gray-400">{{ __('Città e data di nascita') }}: {{
-                                $patient->guestDetail?->birth_city ?? '-' }}, {{
-                                $patient->guestDetail?->formatDate($patient->guestDetail?->birth_date) }}
+                            <p class="text-sm text-gray-500 font-medium">{{ __('Città e data di nascita') }}:
+                                <span class="text-black">
+                                    {{ $patient->guestDetail?->birth_city ?? '-' }}, {{
+                                    $patient->guestDetail?->formatDate($patient->guestDetail?->birth_date) }}
+                                </span>
                             </p>
-
-                            <p class="text-sm text-gray-400">{{ __('Codice fiscale') }}: {{
-                                $patient->guestDetail?->tax_id_code ??
-                                '-'
-                                }}
+                            <p class="text-sm text-gray-500 font-medium">{{ __('Codice fiscale') }}:
+                                <span class="text-black">
+                                    {{
+                                    $patient->guestDetail?->tax_id_code ??
+                                    '-'
+                                    }}
+                                </span>
                             </p>
-                            <p class="text-sm text-gray-400">{{ __('Telefono') }}: {{ $patient->guestDetail?->phone }}
+                            <p class="text-sm text-gray-500 font-medium">{{ __('Telefono') }}:
+                                <span class="text-black">
+                                    {{ $patient->guestDetail?->phone }}
+                                </span>
                             </p>
                         </div>
 
                         {{-- Azioni --}}
                         <div class="flex gap-2 flex-wrap">
                             <button wire:navigate href="{{ route('patients.edit', $patient->id) }}"
-                                class="inline-flex items-center gap-1.5 px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-800 text-sm font-bold rounded-xl transition-colors">
+                                class="inline-flex justify-center items-center sm:justify-start gap-2 p-3 cursor-pointer rounded-xl bg-black hover:bg-gray-800 font-bold text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -105,21 +112,21 @@
                     </div>
 
                     <div class="flex gap-2 mb-2">
-                        <div class="w-1/8 text-center bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">{{ __('Gruppo sanguigno') }}</p>
+                        <div class="w-1/6 text-center bg-white rounded-2xl border border-gray-200 p-4">
+                            <p class="text-gray-500 mb-1">{{ __('Gruppo sanguigno') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $patient->guestDetail?->blood_type }}
                             </p>
                         </div>
 
-                        <div class="w-full bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">{{ __('Le mie allergie') }}</p>
+                        <div class="w-full bg-white rounded-2xl border border-gray-200 p-4">
+                            <p class="text-gray-500 mb-1">{{ __('Le mie allergie') }}</p>
                             <p class="font-medium text-gray-900">
                                 {{ $patient->guestDetail?->allergies }}
                             </p>
                         </div>
-                        <div class="w-1/6 text-center bg-white rounded-xl border border-gray-200 p-4">
-                            <p class="text-xs text-gray-400 mb-1">{{ __('Dottori che ti seguono') }}</p>
+                        <div class="w-1/6 text-center bg-white rounded-2xl border border-gray-200 p-4">
+                            <p class="text-gray-500 mb-1">{{ __('Dottori che ti seguono') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $patient->doctorsCount}}
                             </p>
@@ -128,7 +135,7 @@
                     </div>
 
                     <div class="rounded-2xl bg-white border border-gray-200 p-6">
-                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">{{ __('Storia
+                        <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">{{ __('Storia
                             clinica') }}</h2>
 
                         @if($patient->guestDetail)
@@ -143,7 +150,7 @@
 
                 {{-- Parametri Tab --}}
                 <div x-show="activeTab === 'params'">
-                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">{{ __('Storico
+                    <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">{{ __('Storico
                         parametri') }}
                     </h2>
 
@@ -174,10 +181,10 @@
                         {{ $healthParameters->links() }}
                     </div>
 
-                    <div class="w-full bg-white rounded-xl overflow-hidden border border-slate-200">
+                    <div class="w-full bg-white rounded-2xl overflow-hidden border border-gray-200">
                         <table class="w-full h-full" id="health-parameters-table">
                             <thead>
-                                <tr class="border-b border-slate-200 bg-white text-[11px]">
+                                <tr class="border-b border-gray-200 text-xs bg-gray-50">
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                                         {{ __('Tipo') }}</th>
@@ -203,7 +210,7 @@
                             <tbody>
                                 @forelse($healthParameters as $parameter)
                                 <tr wire:key="parameters-[{{$parameter->id}}]"
-                                    class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                                    class="border-b border-slate-200 text-[14px]">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                                         $parameter->type }}</td>
                                     <td class="px-6 py-4 text-slate-600">{{ $parameter->value }}</td>
@@ -218,11 +225,10 @@
                                     <td class="px-6 py-4 text-center">
                                         @if($parameter->notes)
                                         <x-modal title="{{ __('Note') }}" confirm-label="Note"
-                                            wire:key="noteParameter-[{{$parameter->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="noteParameter-[{{$parameter->id}}]">
                                             <x-slot:trigger>
                                                 <button title="{{ __('Note') }}"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -245,11 +251,10 @@
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
-                                            wire:key="deleteParameter-[{{$parameter->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="deleteParameter-[{{$parameter->id}}]">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -288,7 +293,7 @@
 
                 {{-- Soglie Tab --}}
                 <div x-show="activeTab === 'thresholds'">
-                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
+                    <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
                         {{ __('Soglie') }}
                     </h2>
 
@@ -315,9 +320,9 @@
                     <div class="mb-6">
                         {{ $healthThresholds->links() }}
                     </div>
-                    <div class="w-full  overflow-hidden rounded-xl border border-slate-200">
+                    <div class="w-full overflow-hidden rounded-2xl border border-gray-200">
                         <table class="w-full bg-white text-left text-sm">
-                            <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
+                            <thead class="bg-gray-50 text-xs uppercase tracking-wider text-gray-900">
                                 <tr>
                                     <th class="px-6 py-3">{{ __('Parametro') }}</th>
                                     <th class="px-6 py-3">{{ __('Min') }}</th>
@@ -330,7 +335,7 @@
                             </thead>
                             <tbody>
                                 @forelse($healthThresholds ?? [] as $threshold)
-                                <tr class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                                <tr class="border-b border-gray-200 transition text-[14px]">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                                         $threshold->parameter_type }}</td>
                                     <td class="px-6 py-4 text-slate-600">{{ $threshold->min_value ?? '-' }}
@@ -353,11 +358,10 @@
                                         '-' }}</td>
                                     <td class="px-6 py-4 text-right">
                                         <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
-                                            wire:key="deleteThreshold-[{{$threshold->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="deleteThreshold-[{{$threshold->id}}]">
                                             <x-slot:trigger>
                                                 <button title="{{ __('Elimina') }}"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -397,7 +401,7 @@
                 {{-- Appuntamenti Tab --}}
                 <div x-show="activeTab ===  'appointments'">
                     <div class="flex justify-between items-center mb-10">
-                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('Appuntamenti') }}
                         </h2>
 
@@ -446,9 +450,9 @@
                         {{ $appointments->links() }}
                     </div>
 
-                    <div class="w-full bg-white overflow-hidden rounded-xl border border-slate-200">
+                    <div class="w-full bg-white overflow-hidden rounded-2xl border border-slate-200">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-white text-[11px] uppercase tracking-wider text-slate-900">
+                            <thead class="bg-gray-50 text-xs uppercase tracking-wider text-gray-900">
                                 <tr>
                                     <th class="px-6 py-2">{{ __('Appuntamento con') }}</th>
                                     <th class="px-2 py-2">{{ __('Data') }}</th>
@@ -462,7 +466,7 @@
                             </thead>
                             <tbody>
                                 @forelse($appointments ?? [] as $appointment)
-                                <tr class="border-b border-slate-200 hover:bg-slate-50 transition">
+                                <tr class="border-b border-slate-200">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                         {{ $appointment->doctor->name }}</td>
                                     <td class="px-2 py-4 font-medium text-slate-900 capitalize w-[230px]">
@@ -496,11 +500,10 @@
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->reason)
                                         <x-modal title="reason" confirm-label="reason"
-                                            wire:key="reason-[{{$appointment->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="reason-[{{$appointment->id}}]">
                                             <x-slot:trigger>
                                                 <button title="reason"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -524,11 +527,10 @@
                                     <td class="px-6 py-4 text-center">
                                         @if($appointment->notes)
                                         <x-modal title="{{ __('Note') }}" confirm-label="notes"
-                                            wire:key="notes-[{{$appointment->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="notes-[{{$appointment->id}}]">
                                             <x-slot:trigger>
                                                 <button title="notes"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -551,11 +553,10 @@
                                     </td>
                                     <td class="px-6 py-4 text-end text-slate-600">
                                         <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
-                                            wire:key="deleteAppointment-[{{$appointment->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="deleteAppointment-[{{$appointment->id}}]">
                                             <x-slot:trigger>
                                                 <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">
@@ -595,7 +596,7 @@
                 {{-- Cartella clinica Tab --}}
                 <div x-show="activeTab ===  'records'">
                     <div class="flex justify-between items-center mb-10">
-                        <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
+                        <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
                             {{ __('Cartella clinica') }}
                         </h2>
 
@@ -615,10 +616,10 @@
                         {{ $medicalRecordsAsPatient->links() }}
                     </div>
 
-                    <div class="w-full bg-white rounded-xl overflow-hidden border border-slate-200">
+                    <div class="w-full bg-white rounded-2xl overflow-hidden border border-gray-200">
                         <table class="w-full h-full" id="health-records-table">
                             <thead>
-                                <tr class="border-b border-slate-200 bg-white text-[11px]">
+                                <tr class="border-b border-gray-200 bg-gray-50 text-xs">
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                                         {{ __('Dottore') }}</th>
@@ -644,8 +645,7 @@
                             </thead>
                             <tbody>
                                 @forelse($medicalRecordsAsPatient as $record)
-                                <tr wire:key="records-{{$record->id}}"
-                                    class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
+                                <tr wire:key="records-{{$record->id}}" class="border-b border-gray-200 text-[14px]">
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">{{
                                         $record->doctor->name }}</td>
                                     <td class="px-6 py-4 text-slate-600">{{
@@ -655,11 +655,10 @@
                                     <td class="px-6 py-4">
                                         @if($record->prescription)
                                         <x-modal title="{{ __('Prescrizioni') }}" confirm-label="prescrizioni"
-                                            wire:key="prescription-[{{$record->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="prescription-[{{$record->id}}]">
                                             <x-slot:trigger>
-                                                <button title="{{ __('Note') }}"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                <button title="{{ __('prescrizioni') }}"
+                                                    class="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -683,11 +682,10 @@
                                     <td class="px-6 py-4 text-slate-900">
                                         @if($record->instructions)
                                         <x-modal title="{{ __('Consigli') }}" confirm-label="consigli"
-                                            wire:key="instructions-[{{$record->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="instructions-[{{$record->id}}]">
                                             <x-slot:trigger>
-                                                <button title="note"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                <button title="Consigli"
+                                                    class="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-6">
@@ -712,8 +710,8 @@
                                         @if($record->medicalRecordDocument)
                                         <a download
                                             href="{{ asset('storage/'.$record->medicalRecordDocument->file_path) }}"
-                                            title="{{ __('Scarica') }} {{ $record->medicalRecordDocument->file_path }} "
-                                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                            title="{{ __('Scarica') }}"
+                                            class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -730,11 +728,10 @@
                                                 :medical-record="$record" wire:key="edit-records-{{$record->id}}"
                                                 :key="'edit-medical-records-'.$record->id" />
                                             <x-modal title="{{ __('Elimina definitivamente?') }}"
-                                                confirm-label="elimina" wire:key="deleteRecord-[{{$record->id}}]"
-                                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                                confirm-label="elimina" wire:key="deleteRecord-[{{$record->id}}]">
                                                 <x-slot:trigger>
                                                     <button title="{{ __('Elimina') }}"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                        class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-2xl transition-colors cursor-pointer">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                             class="size-5">
@@ -772,7 +769,7 @@
 
                 {{-- Files Tab --}}
                 <div x-show="activeTab ===  'files'">
-                    <h2 class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
+                    <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
                         {{ __('Documenti caricati') }}
                     </h2>
 
@@ -788,10 +785,10 @@
                         {{ $documents->links() }}
                     </div>
 
-                    <div class="w-full bg-white rounded-xl overflow-hidden border border-slate-200">
+                    <div class="w-full bg-white rounded-2xl overflow-hidden border border-gray-200">
                         <table class="w-full h-full" id="health-records-table">
                             <thead>
-                                <tr class="border-b border-slate-200 bg-white text-[11px]">
+                                <tr class="border-b border-slate-200 bg-gray-50 text-xs">
                                     <th
                                         class="px-6 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
                                         {{ __('Nome file') }}</th>
@@ -818,8 +815,8 @@
                             <tbody>
                                 @forelse($documents as $document)
                                 <tr wire:key="doc-[{{$document->id}}]"
-                                    class="border-b border-slate-200 hover:bg-slate-50 transition text-[14px]">
-                                    <td class="px-6 py-4 font-medium text-slate-900 capitalize">
+                                    class="border-b border-gray-200 text-[14px]">
+                                    <td class="px-6 py-4 font-medium text-gray-900 capitalize">
                                         {{ $document->original_filename }}</td>
                                     <td class="px-6 py-4 text-slate-600">
                                         {{ $document->title }}
@@ -835,7 +832,7 @@
                                                 confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
                                                 <x-slot:trigger>
                                                     <button title="{{ __('Note') }}"
-                                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                                        class="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                             class="size-6">
@@ -878,7 +875,7 @@
                                         @if($document->file_path)
                                         <a title="{{ __('Scarica') }}" download
                                             href="{{ asset('storage/'.$document->file_path) }}"
-                                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                                            class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -891,11 +888,10 @@
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
-                                            wire:key="deleteDoc-[{{$document->id}}]"
-                                            confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                            wire:key="deleteDoc-[{{$document->id}}]">
                                             <x-slot:trigger>
                                                 <button title="{{ __('Elimina') }}"
-                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-2xl transition-colors cursor-pointer">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="size-5">

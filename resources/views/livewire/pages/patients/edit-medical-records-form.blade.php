@@ -3,7 +3,7 @@
         close-on-event="medical-record-edited">
         <x-slot:trigger>
             <button type="button" title="{{ __('Modifica Referto o Ricetta') }}"
-                class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-100 hover:bg-sky-200 text-sky-800 text-sm font-medium rounded-xl transition-colors">
+                class="px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-800 rounded-2xl transition-colors cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -114,7 +114,7 @@
 
         <x-slot:action>
             <button type="button" wire:loading.attr="disabled" wire:click="edit"
-                class="rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:opacity-60">
+                class="rounded-xl bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-60 cursor-pointer">
                 <span wire:loading.remove wire:target="edit">{{ __('Modifica') }}</span>
                 <span wire:loading wire:target="edit">{{ __('Salvataggio...') }}</span>
             </button>

@@ -1,7 +1,7 @@
 <div>
     @role('Admin')
     <button wire:navigate href="/doctors"
-        class="inline-flex items-center gap-1.5 px-4 py-3 mb-5 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-bold rounded-xl transition-colors">
+        class="inline-flex items-center gap-1.5 px-4 py-3 bg-white hover:shadow-lg text-gray-700 text-sm font-bold rounded-xl transition border border-gray-200 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -12,7 +12,7 @@
 
     @role('Doctor')
     <button wire:navigate href="/doctor/profile"
-        class="inline-flex items-center gap-1.5 px-4 py-3 mb-5 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-bold rounded-xl transition-colors">
+        class="inline-flex items-center gap-1.5 px-4 py-3 bg-white hover:shadow-lg text-gray-700 text-sm font-bold rounded-xl transition border border-gray-200 cursor-pointer">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             class="size-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
@@ -24,7 +24,7 @@
 
 
 
-    <div class="bg-gray-50 overflow-hidden border sm:rounded-xl">
+    <div class="bg-white overflow-hidden border rounded-4xl mt-5">
         <div class="p-6 text-gray-900">
             <div class="flex justify-between items-center mb-10">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">

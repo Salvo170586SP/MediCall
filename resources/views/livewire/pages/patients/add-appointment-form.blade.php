@@ -4,7 +4,7 @@
 		confirm-class="max-w-200 border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
 		<x-slot:trigger>
 			<button type="button" title=" {{ __('Aggiungi appuntamento') }}"
-				class="inline-flex items-center gap-1.5 rounded-lg bg-sky-100 px-4 py-3 text-sm font-bold text-sky-900 transition-colors hover:bg-sky-200">
+				class="inline-flex items-center gap-1.5 rounded-2xl bg-black px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-gray-800 cursor-pointer">
 				<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
 				</svg>
@@ -171,7 +171,7 @@
 
 		<x-slot:action>
 			<button type="button" wire:loading.attr="disabled" wire:click="save"
-				class="rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:opacity-60">
+				class="rounded-lg bg-black px-4 py-2 font-medium text-white hover:bg-gray-800 disabled:opacity-60 cursor-pointer">
 				<span wire:loading.remove wire:target="save">{{ __('Salva') }}</span>
 				<span wire:loading wire:target="save">{{ __('Salvataggio...') }}</span>
 			</button>

@@ -1,6 +1,6 @@
-<div x-data="{isOpen: false}" class="relative">
+<div x-data="{isOpen: false}" class="relative border border-gray-200 rounded-xl">
 
-    <button @click="isOpen = true" class="flex items-center gap-2 px-1.5 py-1 text-start text-sm cursor-pointer hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
+    <button @click="isOpen = true" class="w-full flex items-center gap-2 px-1.5 py-1 text-start text-sm cursor-pointer hover:bg-gray-50 focus:bg-gray-100 rounded-lg">
         @if(auth()->user()->photo?->file_path)
         <figure class="w-9 h-9 overflow-hidden border rounded-lg">
             <img class="w-full h-full object-center" src="{{asset('storage/'.auth()->user()->photo?->file_path)}}" alt="{{auth()->user()->name}}">
@@ -9,7 +9,7 @@
         <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
         @endif
 
-        <div class="grid flex-1 text-start text-sm leading-tight">
+        <div class="w-full grid flex-1 text-start text-sm leading-tight pe-3">
             <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
             <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
         </div>

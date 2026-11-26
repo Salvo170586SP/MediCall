@@ -6,12 +6,12 @@
         </h2>
     </div>
 
-    <div class="w-full h-full flex gap-5">
+    <div class="w-full h-full flex gap-5 bg-white p-5 rounded-4xl border border-gray-300">
         <div class="w-[420px] min-w-[420px]">
-            <x-search-input inputClass="bg-gray-50 mt-4" id="searchUser" model="searchUser" label=""
-                placeholder="{{ __('Cerca per nome') }}" />
+            <x-search-input inputClass="bg-gray-50" id="searchUser" model="searchUser" label=""
+                placeholder="{{ __('Cerca per nome') }}" label="{{ __('Cerca') }}" />
 
-            <div class="rounded-xl overflow-hidden border border-slate-200 mt-3">
+            <div class="rounded-2xl overflow-hidden border border-gray-200 mt-3">
                 <table class="w-full h-full">
                     <thead>
                         <tr class="border-b border-zinc-200 bg-zinc-100 text-[11px]">
@@ -28,7 +28,7 @@
                         <tr wire:key="user-[{{ $user->id }}]" class="text-[14px]">
                             <td class="px-3 py-2 font-medium text-slate-900">
                                 <button type="button" wire:click="toggleUserSelection({{ $user->id }})"
-                                    class="w-full text-left px-3 py-2 rounded-xl capitalize cursor-pointer transition-colors {{ $selectedUserId === $user->id ? 'bg-sky-100 text-sky-800' : 'bg-zinc-100 hover:bg-zinc-200' }}">
+                                    class="w-full text-left px-3 py-2 rounded-2xl capitalize cursor-pointer transition-colors border border-gray-200 {{ $selectedUserId === $user->id ? 'bg-gray-100 text-gray-800' : 'hover:bg-gray-50' }}">
                                     {{ $user->name ?? '-' }}
                                 </button>
                             </td>
@@ -36,7 +36,7 @@
                                 <div class="inline-flex items-center justify-end gap-2">
                                     <button wire:navigate href="patients/details/{{ $user->id }}"
                                         title="{{ __('Dettagli') }}"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-2xl transition-colors cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -81,7 +81,7 @@
                     </select>
                 </div>
             </div>
-            <div class="rounded-xl overflow-hidden border border-slate-200 bg-white">
+            <div class="rounded-2xl overflow-hidden border border-slate-200 bg-white">
                 @if($selectedDocuments->count())
                 <table class="w-full h-full">
                     <thead>
@@ -116,7 +116,7 @@
                                 <div class="w-full flex justify-end space-x-3">
                                     <a href="{{asset('storage/'.$document->file_path)}}" target="_blank"
                                         title="{{ __('Guarda') }}"
-                                        class="w-8 h-8 rounded-xl inline-flex justify-center items-center bg-sky-100 hover:bg-sky-200">
+                                        class="px-3 py-2 rounded-2xl inline-flex justify-center items-center border border-gray-200 hover:bg-gray-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -128,7 +128,7 @@
 
                                     <a href="{{asset('storage/'.$document->file_path)}}" download
                                         title="{{ __('Scarica') }}"
-                                        class="w-8 h-8 rounded-xl inline-flex justify-center items-center bg-sky-100 hover:bg-sky-200">
+                                        class="px-3 py-2 rounded-2xl inline-flex justify-center items-center border border-gray-200 hover:bg-gray-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -137,11 +137,10 @@
                                     </a>
 
                                     <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="elimina"
-                                        wire:key="deleteDocument-[{{$document->id}}]"
-                                        confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                        wire:key="deleteDocument-[{{$document->id}}]">
                                         <x-slot:trigger>
                                             <button title="{{ __('Elimina') }}"
-                                                class="w-8 h-8 cursor-pointer rounded-xl inline-flex justify-center items-center bg-red-100 hover:bg-red-200">
+                                                class="px-3 py-2  cursor-pointer rounded-2xl inline-flex justify-center items-center bg-red-100 hover:bg-red-200">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -178,7 +177,7 @@
             </div>
             @else
             <div
-                class="rounded-xl border border-dashed border-slate-300 bg-zinc-50 px-6 py-12 mt-6 font-medium text-center text-zinc-400 flex flex-col items-center justify-center space-y-3">
+                class="rounded-2xl border border-dashed border-slate-300 bg-zinc-50 px-6 py-12 font-medium text-center text-zinc-400 flex flex-col items-center justify-center space-y-3">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-8">
                     <path stroke-linecap="round" stroke-linejoin="round"

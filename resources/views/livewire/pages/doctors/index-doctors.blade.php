@@ -5,7 +5,7 @@
             {{ __('Dottori') }}
         </h2>
         <button wire:navigate href="{{route('doctors.create') }}"
-            class="inline-flex items-center gap-1.5 px-4 py-3 bg-sky-50 hover:bg-sky-100 text-gray-700 font-bold rounded-xl transition-colors">
+            class="inline-flex items-center gap-1.5 px-4 py-3 bg-sky-50 hover:bg-shadow-lg text-gray-700 font-bold rounded-xl transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round"

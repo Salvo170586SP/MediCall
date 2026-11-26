@@ -1,12 +1,12 @@
 <div>
-    <div class="mb-8 flex flex-col gap-2">
+    <div class="mb-8 flex flex-col gap-2 mt-5">
         <p class="text-sm font-semibold uppercase tracking-[0.18em] text-sky-700">{{ __('Panoramica') }}</p>
         <h1 class="text-3xl font-semibold tracking-tight text-slate-950">{{ __('Dashboard') }}</h1>
         <p class="text-sm text-slate-500">{{ __('Una sintesi aggiornata dell\'attività di MediCall.') }}</p>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <flux:card class="border-sky-100 bg-sky-50/70 p-5">
+        <flux:card class="border border-gray-200 bg-white p-5 rounded-4xl shadow-none">
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <p class="text-sm font-medium text-slate-600">{{ __('Pazienti') }}</p>
@@ -20,7 +20,7 @@
         </flux:card>
 
         @role('Admin')
-        <flux:card class="border-emerald-100 bg-emerald-50/70 p-5">
+        <flux:card class="border border-gray-200 bg-white p-5 rounded-4xl shadow-none">
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <p class="text-sm font-medium text-slate-600">{{ __('Dottori') }}</p>
@@ -34,7 +34,7 @@
         </flux:card>
         @endrole
 
-        <flux:card class="border-amber-100 bg-amber-50/70 p-5">
+        <flux:card class="border border-gray-200 bg-white p-5 rounded-4xl shadow-none">
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <p class="text-sm font-medium text-slate-600">{{ __('Appuntamenti') }}</p>
@@ -47,7 +47,7 @@
             </div>
         </flux:card>
 
-        <flux:card class="border-violet-100 bg-violet-50/70 p-5">
+        <flux:card class="border border-gray-200 bg-white p-5 rounded-4xl shadow-none">
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <p class="text-sm font-medium text-slate-600">{{ __('Archivio complessivo') }}</p>
@@ -65,7 +65,7 @@
         </flux:card>
     </div>
 
-    <section class="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+    <section class="mt-8 overflow-hidden rounded-4xl border border-gray-200 bg-white">
         <div
             class="flex flex-col gap-2 border-b border-slate-200 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -73,13 +73,13 @@
                 <p class="text-sm text-slate-500">{{ __('Gli ultimi 10 appuntamenti registrati, dal più recente.') }}
                 </p>
             </div>
-            <flux:badge color="sky">{{ $latestAppointments->count() }} di {{ $appointmentsCount }}</flux:badge>
+            <flux:badge color="sky" class="px-4">{{ $latestAppointments->count() }} di {{ $appointmentsCount }}</flux:badge>
         </div>
 
         @if($latestAppointments->isNotEmpty())
         <div class="overflow-x-auto">
             <table class="w-full min-w-[680px] text-left text-sm">
-                <thead class="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+                <thead class="border-b border-gray-200 bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
                     <tr>
                         <th class="px-5 py-3 font-semibold">{{ __('Data e ora') }}</th>
                         <th class="px-5 py-3 font-semibold">{{ __('Paziente') }}</th>
