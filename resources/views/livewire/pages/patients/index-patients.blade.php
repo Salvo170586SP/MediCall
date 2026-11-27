@@ -96,8 +96,7 @@
                                     </svg>
                                 </button>
     
-                                <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
-                                    confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina">
                                     <x-slot:trigger>
                                         <button title="{{ __('Elimina') }}"
                                             class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-2xl transition-colors cursor-pointer">

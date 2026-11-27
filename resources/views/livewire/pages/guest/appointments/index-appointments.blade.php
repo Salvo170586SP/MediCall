@@ -9,8 +9,7 @@
         </button>
     </div>
 
-    <section
-        class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-300 bg-white px-6 py-8 lg:px-8">
+    <section class="mx-auto mb-5 max-w-7xl rounded-4xl border border-gray-300 bg-white px-6 py-8 lg:px-8">
         <div class="flex items-start gap-4">
             <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gray-100">
                 <svg class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,7 +19,8 @@
             </div>
             <div>
                 <h1 class="text-xl font-bold text-slate-900">{{ __('I tuoi appuntamenti') }}</h1>
-                <p class="mt-1 text-sm text-slate-600">{{ __('Consulta le visite prenotate e i dettagli dei tuoi incontri con i dottori') }}</p>
+                <p class="mt-1 text-sm text-slate-600">{{ __('Consulta le visite prenotate e i dettagli dei tuoi
+                    incontri con i dottori') }}</p>
             </div>
         </div>
     </section>
@@ -32,13 +32,12 @@
                 <h2 class="text-lg font-semibold text-slate-950">{{ __('Storico appuntamenti') }}</h2>
                 <p class="text-sm text-slate-500">{{ __('Gli appuntamenti più recenti sono mostrati per primi') }}</p>
             </div>
-            <span
-                class="inline-flex w-fit items-center rounded-lg bg-gray-100 px-4 py-1 font-semibold text-gray-500">
+            <span class="inline-flex w-fit items-center rounded-lg bg-gray-100 px-4 py-1 font-semibold text-gray-500">
                 {{ $appointments->total() }} {{ $appointments->total() === 1 ? __('appuntamento') : __('appuntamenti')
                 }}
             </span>
         </div>
-        <div class="w-full flex gap-5">
+        <div class="w-full flex gap-5 mb-5">
             <x-search-input inputClass="bg-gray-50 w-200" id="search_date" model="search_date" type="date"
                 label="{{ __('Cerca per data') }}" />
         </div>
@@ -48,16 +47,12 @@
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             @foreach ($appointments as $appointment)
-            @php
-            $status = $statuses->get($appointment->status);
-            $type = $types->get($appointment->type);
-            @endphp
             <x-modal title="{{ __('Dettagli appuntamento') }}" confirm-label="Chiudi"
                 wire:key="appointment-{{ $appointment->id }}">
                 <x-slot:trigger>
                     <article role="button" tabindex="0" @keydown.enter="$el.click()"
                         @keydown.space.prevent="$el.click()"
-                        class="group relative flex h-full cursor-pointer flex-col rounded-4xl border border-gray-300 bg-white  p-5 text-left transition duration-200 hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                        class="group relative flex h-full cursor-pointer flex-col rounded-4xl border border-gray-300 bg-white p-5 text-left transition hover:shadow-lg hover:scale-[1.03] focus:outline-none focus:ring-1 focus:ring-gray-400">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex min-w-0 items-center gap-3">
                                 @if ($appointment->doctor?->photo)
@@ -85,7 +80,7 @@
                             </svg>
                         </div>
 
-                        <div class="mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 text-sm">
+                        <div class="mt-5 flex justify-between gap-3 border-t border-slate-200 pt-4 text-sm">
                             <div>
                                 <p class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ __('Data') }}
                                 </p>
@@ -101,13 +96,23 @@
                         </div>
 
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <span
-                                class="rounded-full px-3 py-1 text-xs font-semibold {{ $status['color'] ?? 'bg-slate-100 text-slate-700' }}">
-                                {{ __( $status['label'] ?? str()->headline($appointment->status))}}
+                            <span class="rounded-full px-3 py-1 text-xs font-semibold"
+                                x-data="{ colors: @js($colorsAppointmentType), current: @js($appointment->type?->value ?? '') }"
+                                x-model="current" :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'">
+                                @foreach(App\Enums\AppointmentType::cases() as $type)
+                                @if($appointment->type === $type)
+                                {{ __($type->label()) }}
+                                @endif
+                                @endforeach
                             </span>
-                            <span
-                                class="rounded-full px-3 py-1 text-xs font-semibold {{ $type['color'] ?? 'bg-slate-100 text-slate-700' }}">
-                                {{ __($type['label'] ?? $appointment->typeLabel())}}
+                            <span class="rounded-full px-3 py-1 text-xs font-semibold"
+                                x-data="{ colors: @js($colorsAppointmentState), current: @js($appointment->status?->value ?? '') }"
+                                x-model="current" :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'">
+                                @foreach(App\Enums\AppointmentState::cases() as $state)
+                                @if($appointment->status === $state)
+                                {{ __($state->label()) }}
+                                @endif
+                                @endforeach
                             </span>
                         </div>
                     </article>
@@ -135,11 +140,34 @@
                             </div>
                             <div>
                                 <dt class="text-slate-500">{{ __('Tipo') }}</dt>
-                                <dd class="mt-1 font-semibold text-slate-900">{{ __( $type['label'] ?? $appointment->typeLabel())}}</dd>
+                                <dd class="mt-1 font-semibold text-slate-900">
+                                    <span class="rounded-full px-3 py-1 text-xs font-semibold"
+                                        x-data="{ colors: @js($colorsAppointmentType), current: @js($appointment->type?->value ?? '') }"
+                                        x-model="current"
+                                        :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'">
+                                        @foreach(App\Enums\AppointmentType::cases() as $type)
+                                        @if($appointment->type === $type)
+                                        {{ __($type->label()) }}
+                                        @endif
+                                        @endforeach
+                                    </span>
+
+                                </dd>
                             </div>
                             <div>
                                 <dt class="text-slate-500">{{ __('Stato') }}</dt>
-                                <dd class="mt-1 font-semibold text-slate-900">{{ __( $status['label'] ?? str()->headline($appointment->status))}}</dd>
+                                <dd class="mt-1 font-semibold text-slate-900">
+                                    <span class="rounded-full px-3 py-1 text-xs font-semibold"
+                                        x-data="{ colors: @js($colorsAppointmentState), current: @js($appointment->status?->value ?? '') }"
+                                        x-model="current"
+                                        :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'">
+                                        @foreach(App\Enums\AppointmentState::cases() as $state)
+                                        @if($appointment->status === $state)
+                                        {{ __($state->label()) }}
+                                        @endif
+                                        @endforeach
+                                    </span>
+                                </dd>
                             </div>
                         </dl>
                         @if ($appointment->reason)

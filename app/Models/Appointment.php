@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\AppointmentState;
+use App\Enums\AppointmentType;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -22,6 +24,8 @@ class Appointment extends Model
             'scheduled_at' => 'datetime',
             'reminder_sent_at' => 'datetime',
             'duration' => 'integer',
+            'type' => AppointmentType::class,
+            'status' => AppointmentState::class,
         ];
     }
 
@@ -85,13 +89,12 @@ class Appointment extends Model
         return $query->where('type', $type);
     }
 
-    /** @return array<string, mixed> */
-    public static function typeOptions(): array
+  /*    public static function typeOptions(): array
     {
         return config('appointments.types', []) ?? [];
-    }
+    } */
 
-    public function typeLabel(): string
+ /*    public function typeLabel(): string
     {
         return config("appointments.types.{$this->type}.label") ?? str()->title(str_replace('_', ' ', $this->type ?? ''));
     }
@@ -104,12 +107,12 @@ class Appointment extends Model
     public function statusLabel(): string
     {
         return config("appointments.status.{$this->status}.label") ?? str()->title(str_replace('_', ' ', $this->status ?? ''));
-    }
+    } */
 
-    public function statusClasses(): string
+   /*  public function statusClasses(): string
     {
         return config("appointments.status.{$this->status}.classes") ?? 'border-slate-200 bg-slate-100 text-slate-700';
-    }
+    } */
 
     // promemoria da inviare — confermati, nelle prossime 24h, senza promemoria già inviato
     /** @param Builder<Appointment> $query

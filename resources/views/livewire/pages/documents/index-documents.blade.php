@@ -1,14 +1,14 @@
 <div class="relative">
 
-    <div class="w-full flex items-center justify-between mb-10">
+    <div class="mb-10">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Archivio') }}
         </h2>
     </div>
 
-    <div class="w-full h-full flex gap-5 bg-white p-5 rounded-4xl border border-gray-300">
+    <section class="w-full h-full flex gap-5 bg-white p-5 rounded-4xl border border-gray-200">
         <div class="w-[420px] min-w-[420px]">
-            <x-search-input inputClass="bg-gray-50" id="searchUser" model="searchUser" label=""
+            <x-search-input inputClass="bg-gray-50" id="searchUser" model="searchUser" 
                 placeholder="{{ __('Cerca per nome') }}" label="{{ __('Cerca') }}" />
 
             <div class="rounded-2xl overflow-hidden border border-gray-200 mt-3">
@@ -177,7 +177,7 @@
             </div>
             @else
             <div
-                class="rounded-2xl border border-dashed border-slate-300 bg-zinc-50 px-6 py-12 font-medium text-center text-zinc-400 flex flex-col items-center justify-center space-y-3">
+                class="h-full font-medium text-gray-500 flex flex-col items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-8">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -187,7 +187,7 @@
             </div>
             @endif
         </div>
-    </div>
+    </section>
 
     <div class="fixed bottom-0 right-5">
         <x-flash-message type="success" />

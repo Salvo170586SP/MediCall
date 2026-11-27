@@ -10,7 +10,7 @@
             {{ __('Indietro') }}
         </button>
 
-        <div class="mt-5" x-data="{ activeTab: 'patient' }">
+        <div class="mt-5" x-data="{ activeTab: 'thresholds' }">
             {{-- Tab navigation --}}
             <div class="mt-10 flex justify-between">
                 <nav class="flex gap-2">
@@ -113,20 +113,21 @@
 
                     <div class="flex gap-2 mb-2">
                         <div class="w-1/6 text-center bg-white rounded-2xl border border-gray-200 p-4">
-                            <p class="text-gray-500 mb-1">{{ __('Gruppo sanguigno') }}</p>
+                            <p class="text-xs text-gray-500 mb-1 uppercase font-medium">{{ __('Gruppo sanguigno') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $patient->guestDetail?->blood_type }}
                             </p>
                         </div>
 
                         <div class="w-full bg-white rounded-2xl border border-gray-200 p-4">
-                            <p class="text-gray-500 mb-1">{{ __('Le mie allergie') }}</p>
+                            <p class="text-xs text-gray-500 mb-1 uppercase font-medium">{{ __('Le mie allergie') }}</p>
                             <p class="font-medium text-gray-900">
                                 {{ $patient->guestDetail?->allergies }}
                             </p>
                         </div>
                         <div class="w-1/6 text-center bg-white rounded-2xl border border-gray-200 p-4">
-                            <p class="text-gray-500 mb-1">{{ __('Dottori che ti seguono') }}</p>
+                            <p class="text-xs text-gray-500 mb-1 uppercase font-medium">{{ __('Dottori che ti seguono')
+                                }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $patient->doctorsCount}}
                             </p>
@@ -135,7 +136,7 @@
                     </div>
 
                     <div class="rounded-2xl bg-white border border-gray-200 p-6">
-                        <h2 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">{{ __('Storia
+                        <h2 class="text-xs font-medium text-gray-500 uppercase mb-4">{{ __('Storia
                             clinica') }}</h2>
 
                         @if($patient->guestDetail)
@@ -307,9 +308,9 @@
                             <select id="severity" wire:model.live="severity"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                                 <option value="">{{ __('Tutti') }}</option>
-                                @foreach($severities as $key => $value)
-                                <option wire:key="{{$key}}" value="{{$value['severity']}}">
-                                    {{ __($value['label']) }}
+                                @foreach(App\Enums\ThresholdSeverity::cases() as $sev)
+                                <option wire:key="{{$sev->value}}" value="{{$sev->value}}">
+                                    {{ __($sev->label()) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -343,11 +344,11 @@
                                     <td class="px-6 py-4 text-slate-600">{{ $threshold->max_value ?? '-' }}
                                     </td>
                                     <td class="px-2 py-4 text-slate-900 capitalize">
-                                        @foreach($severities as $value)
-                                        @if($threshold->severity == $value['severity'] )
+                                        @foreach(App\Enums\ThresholdSeverity::cases() as $sev)
+                                        @if($threshold->severity == $sev->value)
                                         <span
-                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$threshold->severity == $value['severity'] ? $value['color'] : '' }}">
-                                            {{ __($value['label']) }}
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$threshold->severity == $sev->value ? $sev->color() : '' }}">
+                                            {{ __($sev->label()) }}
                                         </span>
                                         @endif
                                         @endforeach
@@ -417,14 +418,15 @@
                         <x-search-input inputClass="bg-white" type="date" id="searchCreatedAt" model="searchCreatedAt"
                             label="{{ __('Cerca per data') }}" />
                         <div>
-                            <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">{{ __('Cerca per
-                                modalità') }}</label>
+                            <label for="type" class="block text-xs font-semibold text-slate-900 mb-2">
+                                {{ __('Cerca per modalità') }}
+                            </label>
                             <select id="type" wire:model.live="searchType"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                                 <option value="">{{ __('Tutti') }}</option>
-                                @foreach($types as $key => $value)
-                                <option wire:key="{{$key}}" value="{{$value['type']}}">
-                                    {{ __($value['label']) }}
+                                @foreach(App\Enums\AppointmentType::cases() as $type)
+                                <option wire:key="{{$type->value}}" value="{{$type->value}}">
+                                    {{ __($type->label()) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -436,9 +438,9 @@
                             <select id="status" wire:model.live="searchStatus"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                                 <option value="">{{ __('Tutti') }}</option>
-                                @foreach($statuses as $key => $value)
-                                <option wire:key="{{$key}}" value="{{$value['status']}}">
-                                    {{ __($value['label']) }}
+                                @foreach(App\Enums\AppointmentState::cases() as $state)
+                                <option wire:key="{{$state->value}}" value="{{$state->value}}">
+                                    {{ __($state->label()) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -474,27 +476,29 @@
                                     <td class="px-6 py-4 font-medium text-slate-900 capitalize">
                                         {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 text-center">
-                                        @foreach($types as $value)
-                                        <div wire:key="types-[{{$appointment->id}}-{{$value['type']}}]">
-                                            @if($appointment->type == $value['type'] )
-                                            <span
-                                                class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->type == $value['type'] ? $value['color'] : '' }}">
-                                                {{ __($value['label']) }}
-                                            </span>
-                                            @endif
+                                        @foreach(App\Enums\AppointmentType::cases() as $type)
+                                        @if($appointment->type == $type)
+                                        <div wire:key="statuses-[{{ $appointment->id }}-{{ $type->value }}]"
+                                            x-data="{ colors: @js($colorsAppointmentType), current: @js($appointment->type?->value ?? '') }"
+                                            x-model="current"
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border"
+                                            :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'">
+                                            {{ __($type->label()) }}
                                         </div>
+                                        @endif
                                         @endforeach
                                     </td>
                                     <td class="px-6 py-4 text-center">
-                                        @foreach($statuses as $value)
-                                        <div wire:key="statuses-[{{$appointment->id}}-{{$value['status']}}]">
-                                            @if($appointment->status == $value['status'] )
-                                            <span
-                                                class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium {{$appointment->status == $value['status'] ? $value['color'] : '' }}">
-                                                {{ __($value['label']) }}
-                                            </span>
-                                            @endif
+                                        @foreach(App\Enums\AppointmentState::cases() as $state)
+                                        @if($appointment->status == $state)
+                                        <div wire:key="statuses-[{{ $appointment->id }}-{{ $state->value }}]"
+                                            x-data="{ colors: @js($colorsAppointmentState), current: @js($appointment->status?->value ?? '') }"
+                                            x-model="current"
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border"
+                                            :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'">
+                                            {{ __($state->label()) }}
                                         </div>
+                                        @endif
                                         @endforeach
                                     </td>
                                     <td class="px-6 py-4 text-center">
@@ -814,8 +818,7 @@
                             </thead>
                             <tbody>
                                 @forelse($documents as $document)
-                                <tr wire:key="doc-[{{$document->id}}]"
-                                    class="border-b border-gray-200 text-[14px]">
+                                <tr wire:key="doc-[{{$document->id}}]" class="border-b border-gray-200 text-[14px]">
                                     <td class="px-6 py-4 font-medium text-gray-900 capitalize">
                                         {{ $document->original_filename }}</td>
                                     <td class="px-6 py-4 text-slate-600">

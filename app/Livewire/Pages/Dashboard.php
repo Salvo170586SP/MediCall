@@ -42,8 +42,6 @@ class Dashboard extends Component
         $appointmentsCount = (clone $appointmentsQuery)->count();
         $documentsCount = (clone $documentsQuery)->count();
         $medicalRecordsCount = $medicalRecordsQuery->count();
-
-        $statuses = config('medicall.appointments.statuses');
    
         $latestAppointments = $appointmentsQuery
             ->with([
@@ -61,7 +59,6 @@ class Dashboard extends Component
             'documentsCount',
             'medicalRecordsCount',
             'latestAppointments',
-            'statuses',
-        ));
+         ));
     }
 }

@@ -16,27 +16,16 @@ use Livewire\Component;
 class AddAppointmentForm extends Component
 {
     public User $patient;
-
     public ?int $doctor_id = null;
-
     public string $doctorSearch = '';
-
     public bool $showDoctorDropdown = false;
-
     public string $calendarMonth = '';
-
     public string $scheduled_date = '';
-
     public string $scheduled_time = '';
-
     public string $type = '';
-
     public string $status = '';
-
     public string $reason = '';
-
     public string $notes = '';
-
     protected int $maxMonthsAhead = 3;
 
     public function mount(User $patient): void
@@ -369,9 +358,6 @@ class AddAppointmentForm extends Component
 
     public function render(): View
     {
-        return view('livewire.pages.patients.add-appointment-form', [
-            'types' => config('medicall.appointments.types', []),
-            'statuses' => config('medicall.appointments.statuses', []),
-        ]);
+        return view('livewire.pages.patients.add-appointment-form');
     }
 }

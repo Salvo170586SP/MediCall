@@ -17,7 +17,6 @@
 				<div class="w-[500px] space-y-3">
 					<div class="relative text-start">
 						<label class="mb-1 block text-sm font-medium text-slate-700"> {{ __('Dottore') }}</label>
-
 						@if ($doctor_id)
 						<div
 							class="flex items-center justify-between rounded-lg border border-slate-300 bg-slate-50 px-3 py-2">
@@ -31,7 +30,6 @@
 						<input type="text" wire:model.live.debounce.300ms="doctorSearch"
 							placeholder="{{ __('Cerca per nome o email...') }}" autocomplete="off"
 							class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
-
 						@if ($showDoctorDropdown)
 						<div class="absolute z-10 mt-1 w-full rounded-lg border border-slate-200 bg-white shadow-lg">
 							@forelse ($this->filteredDoctors as $key => $doctor)
@@ -53,7 +51,8 @@
 					<div class="text-start">
 						<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Data') }}</label>
 						@if (! $doctor_id)
-						<p class="text-xs text-slate-500">{{ __('Seleziona prima un dottore per visualizzare la disponibilità') }}</p>
+						<p class="text-xs text-slate-500">{{ __('Seleziona prima un dottore per visualizzare la
+							disponibilità') }}</p>
 						@else
 						<div class="rounded-lg border border-slate-200 p-3">
 							<div class="mb-3 flex items-center justify-between">
@@ -115,56 +114,67 @@
 						@if (blank($scheduled_date))
 						<p class="text-xs text-slate-500">{{ __('Seleziona prima una data dal calendario') }}</p>
 						@elseif (empty($this->availableSlots))
-						<p class="text-xs text-amber-600">{{ __('Nessuno slot disponibile per il giorno selezionato') }}</p>
+						<p class="text-xs text-amber-600">{{ __('Nessuno slot disponibile per il giorno selezionato') }}
+						</p>
 						@else
-						<select wire:model="scheduled_time"
-							class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-							<option value="">- {{ __('Seleziona') }} -</option>
-							@foreach ($this->availableSlots as $key => $slot)
-							<option wire:key="scheduled_time-{{$key}}" value="{{ $slot['value'] }}">{{ __($slot['label']) }}</option>
-							@endforeach
-						</select>
+						<div class="space-y-3">
+							<select wire:model="scheduled_time"
+								class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+								<option value="">- {{ __('Seleziona') }} -</option>
+								@foreach ($this->availableSlots as $key => $slot)
+								<option wire:key="scheduled_time-{{$key}}" value="{{ $slot['value'] }}">{{
+									__($slot['label']) }}</option>
+								@endforeach
+							</select>
+	
+							{{-- Tipo --}}
+							<div class="text-start">
+								<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Tipo') }}</label>
+								<select wire:model="type"
+									class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+									<option value="">- {{ __('Seleziona') }} -</option>
+		
+									@foreach(App\Enums\AppointmentType::cases() as $type)
+									<option wire:key="{{ $type->value }}" value="{{ $type->value }}">
+										{{ __($type->label()) }}
+									</option>
+									@endforeach
+								</select>
+								@error('type') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+							</div>
+		
+							{{-- Status --}}
+							<div class="text-start">
+								<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Stato') }}</label>
+								<select wire:model="status"
+									class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+									@foreach(App\Enums\AppointmentState::cases() as $state)
+									<option wire:key="{{ $state->value }}" value="{{ $state->value }}">
+										{{ __($state->label()) }}
+									</option>
+									@endforeach
+								</select>
+								@error('status') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+							</div>
+		
+							<div class="text-start">
+								<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Motivo (opzionale)')
+									}}</label>
+								<input type="text" wire:model="reason"
+									class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
+							</div>
+		
+							<div class="text-start">
+								<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Nota (opzionale)')
+									}}</label>
+								<textarea wire:model="notes" rows="12"
+									class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+							</div>
+						</div>
 						@endif
 						@error('scheduled_time') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
 					</div>
 
-					<div class="text-start">
-						<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Tipo') }}</label>
-						<select wire:model="type"
-							class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-							<option value="">- {{ __('Seleziona') }} -</option>
-							@foreach ($types as $key => $data)
-							<option wire:key="type-{{$key}}" value="{{$data['type']}}">{{ __($data['label'] ?? $key) }}
-							</option>
-							@endforeach
-						</select>
-						@error('type') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-					</div>
-
-					<div class="text-start">
-						<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Stato') }}</label>
-						<select wire:model="status"
-							class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-							<option value="">- {{ __('Seleziona') }} -</option>
-							@foreach ($statuses as $key => $data)
-							<option wire:key="status-{{$key}}" value="{{$data['status']}}">{{ __($data['label'] ?? $key) }}  
-							</option>
-							@endforeach
-						</select>
-						@error('status') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-					</div>
-
-					<div class="text-start">
-						<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Motivo (opzionale)') }}</label>
-						<input type="text" wire:model="reason"
-							class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
-					</div>
-
-					<div class="text-start">
-						<label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Nota (opzionale)') }}</label>
-						<textarea wire:model="notes" rows="12"
-							class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-					</div>
 				</div>
 			</div>
 		</x-slot:body>

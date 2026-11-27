@@ -1,10 +1,9 @@
 <div>
     <x-modal title="{{ __('Aggiungi appuntamento') }}" confirm-label="addAppointments" :close-on-click="false"
-        reset-method="resetForm" close-on-event="appointment_created"
-        confirm-class="max-w-200 border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+        reset-method="resetForm" close-on-event="appointment_created">
         <x-slot:trigger>
             <button title="{{ __('Aggiungi appuntamento') }}"
-                class="inline-flex justify-center items-center sm:justify-start gap-2 px-3 py-2 cursor-pointer rounded-2xl bg-gray-500 hover:bg-gray-600 font-bold text-white">
+                class="inline-flex justify-center items-center sm:justify-start gap-2 px-3 py-2 cursor-pointer rounded-2xl bg-black hover:bg-gray-800 font-bold text-white">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -129,64 +128,70 @@
                         <p class="text-xs text-amber-600">{{ __('Nessuno slot disponibile per il giorno selezionato') }}
                         </p>
                         @else
-                        <select wire:model="scheduled_time"
-                            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">- {{ __('Seleziona') }} -</option>
-                            @foreach ($this->availableSlots as $key => $slot)
-                            <option wire:key="scheduled_time-{{$key}}" value="{{ $slot['value'] }}">
-                                {{ __($slot['label']) }}
-                            </option>
-                            @endforeach
-                        </select>
+                        <div class="space-y-3">
+                            <select wire:model="scheduled_time"
+                                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">- {{ __('Seleziona') }} -</option>
+                                @foreach ($this->availableSlots as $key => $slot)
+                                <option wire:key="scheduled_time-{{$key}}" value="{{ $slot['value'] }}">
+                                    {{ __($slot['label']) }}
+                                </option>
+                                @endforeach
+                            </select>
+
+                            {{-- Tipo --}}
+                            <div class="text-start">
+                                <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Tipo') }}</label>
+                                <select wire:model="type"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    <option value="">- {{ __('Seleziona') }} -</option>
+
+                                    @foreach(App\Enums\AppointmentType::cases() as $type)
+                                    <option wire:key="{{ $type->value }}" value="{{ $type->value }}">
+                                        {{ __($type->label()) }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('type') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                            </div>
+
+                            {{-- Status --}}
+                            <div class="text-start">
+                                <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Stato') }}</label>
+                                <select wire:model="status"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    @foreach(App\Enums\AppointmentState::cases() as $state)
+                                    <option wire:key="{{ $state->value }}" value="{{ $state->value }}">
+                                        {{ __($state->label()) }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('status') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                            </div>
+
+                            {{-- Motivo --}}
+                            <div class="text-start">
+                                <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Motivo (opzionale)')
+                                    }}</label>
+                                <input type="text" wire:model="reason"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                            </div>
+
+                            {{-- Note --}}
+                            <div class="text-start">
+                                <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Nota (opzionale)')
+                                    }}</label>
+                                <textarea wire:model="notes" rows="12"
+                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            </div>
+                        </div>
                         @endif
+
 
                         @error('scheduled_time') <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    {{-- Tipo --}}
-                    <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Tipo') }}</label>
-                        <select wire:model="type"
-                            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">- {{ __('Seleziona') }} -</option>
-                            @foreach ($types as $key => $data)
-                            <option wire:key="type-{{$key}}" value="{{$data['type'] }}">
-                                {{ __($data['label'] ?? $key) }}
-                            </option>
-                            @endforeach
-                        </select>
-                        @error('type') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    {{-- Status --}}
-                    <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Stato') }}</label>
-                        <select wire:model="status"
-                            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">- {{ __('Seleziona') }} -</option>
-                            @foreach ($statuses as $key => $data)
-                            <option wire:key="status-{{$key}}" value="{{$data['status'] }}">
-                             {{ __($data['label'] ?? $key) }}  
-                            </option>
-                            @endforeach
-                        </select>
-                        @error('status') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    {{-- Motivo --}}
-                    <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Motivo (opzionale)') }}</label>
-                        <input type="text" wire:model="reason"
-                            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" />
-                    </div>
-
-                    {{-- Note --}}
-                    <div class="text-start">
-                        <label class="mb-1 block text-sm font-medium text-slate-700">{{ __('Nota (opzionale)') }}</label>
-                        <textarea wire:model="notes" rows="12"
-                            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                    </div>
                 </div>
             </div>
         </x-slot:body>

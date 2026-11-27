@@ -133,7 +133,7 @@
                     {{-- Statistiche --}}
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 my-2">
                         <div class="bg-white rounded-2xl border border-gray-200 p-4">
-                            <p class="text-gray-500 mb-1">{{ __('Durata slot') }}</p>
+                            <p class="text-xs text-gray-500 mb-1 font-medium uppercase">{{ __('Durata slot') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $doctor->doctorDetail?->slot_duration }}
                                 <span class="text-sm text-gray-400 font-normal">min</span>
@@ -141,7 +141,8 @@
                         </div>
 
                         <div class="bg-white rounded-2xl border border-gray-200 p-4">
-                            <p class="text-gray-500 mb-1">{{ __('Giorni disponibili') }}</p>
+                            <p class="text-xs text-gray-500 mb-1 font-medium uppercase">{{ __('Giorni disponibili') }}
+                            </p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $availableDaysCount }}
                                 <span class="text-gray-500 text-sm font-normal">{{ __('giorni/sett') }}</span>
@@ -149,7 +150,7 @@
                         </div>
 
                         <div class="bg-white rounded-2xl border border-gray-200 p-4 col-span-2 sm:col-span-1">
-                            <p class="text-gray-500 mb-1">{{ __('Pazienti seguiti') }}</p>
+                            <p class="text-xs text-gray-500 mb-1 font-medium uppercase">{{ __('Pazienti seguiti') }}</p>
                             <p class="text-2xl font-medium text-gray-900">
                                 {{ $doctor->patientsCount }}
                             </p>
@@ -161,7 +162,7 @@
 
                         {{-- Biografia --}}
                         <div class="bg-white h-full rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">{{
+                            <h2 class="text-xs font-medium text-gray-500 uppercase mb-4">{{
                                 __('Biografia') }}</h2>
 
                             @if($doctor->doctorDetail && $doctor->doctorDetail->bio)
@@ -175,7 +176,7 @@
 
                         {{-- Disponibilità --}}
                         <div class="bg-white h-full rounded-2xl border border-gray-200 p-6">
-                            <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">{{
+                            <h2 class="text-xs font-medium text-gray-500 uppercase mb-4">{{
                                 __('Disponibilità') }}
                             </h2>
 
@@ -232,9 +233,9 @@
                             <select id="type" wire:model.live="searchType"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                                 <option value="">{{ __('Tutti') }}</option>
-                                @foreach($types as $key => $value)
-                                <option wire:key="{{$key}}" value="{{$value['type']}}">
-                                    {{ __($value['label']) }}
+                                @foreach(App\Enums\AppointmentType::cases() as $type)
+                                <option wire:key="{{$type->value}}" value="{{$type->value}}">
+                                    {{ __($type->label()) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -245,9 +246,9 @@
                             <select id="status" wire:model.live="searchStatus"
                                 class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-800 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200">
                                 <option value="">{{ __('Tutti') }}</option>
-                                @foreach($statuses as $key => $value)
-                                <option wire:key="{{$key}}" value="{{$value['status']}}">
-                                    {{ __($value['label']) }}
+                                @foreach(App\Enums\AppointmentState::cases() as $state)
+                                <option wire:key="{{$state->value}}" value="{{$state->value}}">
+                                    {{ __($state->label()) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -284,61 +285,65 @@
                                     <td class="px-2 py-4 text-center font-medium text-slate-900 capitalize">
                                         {{ $appointment->formatClock($appointment->scheduled_at) }}</td>
                                     <td class="px-6 py-4 text-center">
-                                        @php
-                                        $typesColor = collect($types)->firstWhere('type',
-                                        $appointment->type)['color'] ?? '';
-                                        @endphp
                                         @role('Doctor')
                                         <select id="type-{{ $appointment->id }}"
-                                            class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $typesColor }}"
+                                            x-data="{ colors: @js($colorsAppointmentType), current: @js($appointment->type?->value ?? '') }"
+                                            x-model="current"
+                                            :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'"
+                                            class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border"
                                             wire:change="editTypeAppointment({{ $appointment->id }}, $event.target.value)">
-                                            <option value="">- {{ __('Seleziona') }} -</option>
 
-                                            @foreach($types as $value)
-                                            <option wire:key="type-{{$value['type']}}" value="{{$value['type']}}"
-                                                @selected($appointment->type == $value['type'])>
-                                                {{ __($value['label']) }}
+                                            <option value="">- {{ __('Seleziona') }} -</option>
+                                            @foreach(App\Enums\AppointmentType::cases() as $type)
+                                            <option wire:key="type-{{ $appointment->id }}-{{ $type->value }}"
+                                                value="{{ $type->value }}" @selected($appointment->type === $type)>
+                                                {{ __($type->label()) }}
                                             </option>
                                             @endforeach
                                         </select>
                                         @endrole
+
                                         @role('Admin')
-                                        @foreach($types as $value)
-                                        @if($appointment->type == $value['type'])
-                                        <div wire:key="type-{{$value['type']}}"
-                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border {{ $typesColor }}">
-                                            {{ __($value['label']) }}
+                                        @foreach(App\Enums\AppointmentType::cases() as $type)
+                                        @if($appointment->type == $type)
+                                        <div wire:key="type-{{ $appointment->id }}-{{ $type->value }}"
+                                            x-data="{ colors: @js($colorsAppointmentType), current: @js($appointment->type?->value ?? '') }"
+                                            x-model="current"
+                                            :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'"
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border">
+                                            {{ __($type->label()) }}
                                         </div>
                                         @endif
                                         @endforeach
                                         @endrole
                                     </td>
                                     <td class="px-6 py-4 text-center">
-                                        @php
-                                        $statusColor = collect($statuses)->firstWhere('status',
-                                        $appointment->status)['color'] ?? '';
-                                        @endphp
                                         @role('Doctor')
                                         <select id="status-{{ $appointment->id }}"
-                                            class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border {{ $statusColor }}"
+                                            x-data="{ colors: @js($colorsAppointmentState), current: @js($appointment->status?->value ?? '') }"
+                                            x-model="current"
+                                            :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'"
+                                            class="inline-flex justify-center items-center w-full px-3 py-2 rounded-xl font-medium border"
                                             wire:change="editStatusAppointment({{ $appointment->id }}, $event.target.value)">
-                                            <option value="">- {{ __('Seleziona') }} -</option>
 
-                                            @foreach($statuses as $value)
-                                            <option wire:key="status-{{$value['status']}}" value="{{$value['status']}}"
-                                                @selected($appointment->status == $value['status'])>
-                                                {{ __($value['label']) }}
+                                            @foreach(App\Enums\AppointmentState::cases() as $state)
+                                            <option wire:key="type-{{ $appointment->id }}-{{ $state->value }}"
+                                                value="{{ $state->value }}" @selected($appointment->status === $state)>
+                                                {{ __($state->label()) }}
                                             </option>
                                             @endforeach
                                         </select>
                                         @endrole
 
                                         @role('Admin')
-                                        @foreach($statuses as $value)
-                                        @if($appointment->status == $value['status'])
-                                        <div wire:key="status-{{$value['status']}}"
-                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border {{ $statusColor }}">
-                                            {{ __($value['label']) }}
+                                        @foreach(App\Enums\AppointmentState::cases() as $state)
+                                        @if($appointment->status == $state)
+                                        <div wire:key="type-{{ $appointment->id }}-{{ $state->value }}"
+                                            x-data="{ colors: @js($colorsAppointmentState), current: @js($appointment->status?->value ?? '') }"
+                                            x-model="current"
+                                            :class="colors[current] ?? 'bg-white text-gray-700 border-gray-300'"
+                                            class="inline-flex justify-center items-center w-full px-3 py-1 rounded-xl font-medium border">
+                                            {{ __($state->label()) }}
                                         </div>
                                         @endif
                                         @endforeach

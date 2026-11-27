@@ -255,19 +255,19 @@
                 <div class="flex gap-3 pt-6 border-t border-gray-200">
                     @role('Doctor')
                     <button wire:navigate href="/doctor/profile"
-                        class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">
+                        class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer">
                         {{ __('Annulla') }}
                     </button>
                     @endrole
                     @role('Admin')
                     <button wire:navigate href="/doctors"
-                        class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition">
+                        class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer">
                         {{ __('Annulla') }}
                     </button>
                     @endrole
 
                     <button wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
-                        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition">
+                        class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition cursor-pointer">
                         <span wire:loading.remove>{{ __('Modifica') }}</span>
                         <span wire:loading>
                             <svg class="inline h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"

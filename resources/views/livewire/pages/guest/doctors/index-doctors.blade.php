@@ -45,7 +45,7 @@
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
             @forelse($users_doctor as $user_doctor)
             <article wire:key="doctors-{{ $user_doctor->id }}" wire:navigate href="doctors/details/{{$user_doctor->id}}"
-                class="flex h-full cursor-pointer flex-col overflow-hidden rounded-4xl border border-gray-200 transition hover:scale-[1.03]">
+                class="flex h-full cursor-pointer flex-col overflow-hidden rounded-4xl border border-gray-200 transition hover:shadow-lg hover:scale-[1.03]">
                 <div class="flex items-start justify-between gap-4 border-b border-slate-100 bg-gray-50 px-5 py-3">
                     <div class="min-w-0">
                         <div class="flex gap-3">

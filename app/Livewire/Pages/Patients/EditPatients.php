@@ -17,27 +17,16 @@ class EditPatients extends Component
     use WithFileUploads;
 
     public User $patient;
-
     public string $name = '';
-
     public string $img_url = '';
-
     public string $phone = '';
-
     public string $birth_city = '';
-
     public string $birth_date;
-
     public string $tax_id_code = '';
-
     public string $medical_history = '';
-
     public string $blood_type = '';
-
     public string $allergies = '';
-
     public ?TemporaryUploadedFile $identity_card = null;
-
     public ?TemporaryUploadedFile $fiscal_code = null;
 
     /**

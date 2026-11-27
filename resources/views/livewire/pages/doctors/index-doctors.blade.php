@@ -5,7 +5,7 @@
             {{ __('Dottori') }}
         </h2>
         <button wire:navigate href="{{route('doctors.create') }}"
-            class="inline-flex items-center gap-1.5 px-4 py-3 bg-sky-50 hover:bg-shadow-lg text-gray-700 font-bold rounded-xl transition-colors">
+            class="inline-flex justify-center items-center sm:justify-start gap-2 px-3 py-2 cursor-pointer rounded-xl bg-black hover:bg-gray-800 font-bold text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -15,137 +15,138 @@
         </button>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-3 mb-6">
-        <x-search-input :label="__('Cerca')" inputClass="bg-gray-50" id="search" model="search"
-            placeholder="{{ __('Cerca per nome o email...') }}" />
-    </div>
+    <section class="bg-white border border-gray-200 p-5 rounded-4xl">
+        <div class="grid gap-4 lg:grid-cols-3 mb-6">
+            <x-search-input :label="__('Cerca')" inputClass="bg-gray-50" id="search" model="search"
+                placeholder="{{ __('Cerca per nome o email...') }}" />
+        </div>
 
-    <div class="m-6">
-        {{$users_doctor->links()}}
-    </div>
+        <div class="m-6">
+            {{$users_doctor->links()}}
+        </div>
 
-    <div class="w-full rounded-xl overflow-hidden border border-slate-200">
-        <table class="w-full h-full">
-            <thead>
-                <tr class="border-b border-slate-200 bg-slate-100 text-[11px]">
-                    <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        ID</th>
-                    <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Nome e cognome') }}</th>
-                    <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Email') }}</th>
-                    <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Telefono') }}</th>
-                    <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Licenza') }}</th>
-                    <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Specializzazione') }}</th>
-                    <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Disponibilità') }}</th>
-                    <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Pazienti') }}</th>
-                    <th class="px-3 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
-                        {{ __('Azioni') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($users_doctor as $user_doctor)
-                <tr wire:key="doctors-[{{$user_doctor->id}}]" class="border-b border-slate-200 text-[14px]">
-                    <td class="px-3 py-4 font-bold text-slate-900">#{{$user_doctor->doctorDetail->code_item }}</td>
-                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->name }}</td>
-                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->email }}</td>
-                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->doctorDetail->phone ?? '-' }}
-                    </td>
-                    <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->doctorDetail->license_number
-                        ?? '-' }}</td>
-                    <td class="px-3 py-4">
-                        <span
-                            class="w-full inline-flex items-center justify-center w-[200px] rounded-full px-3 py-1 font-semibold bg-gray-200 text-slate-900">
-                            {{ $user_doctor->doctorDetail->specialty ?? '-' }}
-                        </span>
-                    </td>
-                    <td class="px-3 py-4">
-                        <span
-                            class="w-full inline-block text-center rounded-full max-w-[150px] px-5 py-1 font-semibold {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
-                            {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active
-                            ? __('Disponibile')
-                            : __('Non disponibile') }}
-                        </span>
-                    </td>
-                    <td class="px-3 py-4">
-                        <span
-                            class="w-full inline-flex items-center justify-center text-center font-semibold rounded-full w-[25px] h-[25px] bg-blue-100  }}">
-                            {{ $user_doctor->patientsCount }}
-                        </span>
-                    </td>
-                    <td class="px-3 py-4 text-right">
-                        <div class="inline-flex items-center justify-end gap-2">
-                            <button wire:navigate href="doctors/details/{{$user_doctor->id}}" title="{{ __('Dettagli') }}"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                                </svg>
-                            </button>
+        <div class="w-full rounded-2xl overflow-hidden bg-white border border-gray-200">
+            <table class="w-full h-full">
+                <thead>
+                    <tr class="border-b border-slate-200 bg-gray-100 text-xs">
+                        <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                            ID</th>
+                        <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Nome e cognome') }}</th>
+                        <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Email') }}</th>
+                        <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Telefono') }}</th>
+                        <th class="px-3 py-3 text-left font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Licenza') }}</th>
+                        <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Specializzazione') }}</th>
+                        <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Disponibilità') }}</th>
+                        <th class="px-3 py-3 text-center font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Pazienti') }}</th>
+                        <th class="px-3 py-3 text-right font-semibold text-slate-900 uppercase tracking-wider">
+                            {{ __('Azioni') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($users_doctor as $user_doctor)
+                    <tr wire:key="doctors-[{{$user_doctor->id}}]"
+                        class="border-b border-gray-200 font-medium text-[14px]">
+                        <td class="px-3 py-4 font-bold text-slate-900">#{{$user_doctor->doctorDetail->code_item }}</td>
+                        <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->name }}</td>
+                        <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->email }}</td>
+                        <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->doctorDetail->phone ?? '-'
+                            }}
+                        </td>
+                        <td class="px-3 py-4 font-semibold text-slate-900">{{ $user_doctor->doctorDetail->license_number
+                            ?? '-' }}</td>
+                        <td class="px-3 py-4">
+                            <span
+                                class="w-full inline-flex items-center justify-center w-[200px] rounded-full px-3 py-1 font-semibold bg-gray-200 text-slate-900">
+                                {{ $user_doctor->doctorDetail->specialty ?? '-' }}
+                            </span>
+                        </td>
+                        <td class="px-3 py-4">
+                            <span
+                                class="w-full inline-block text-center rounded-full max-w-[150px] px-5 py-1 font-semibold {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
+                                {{ $user_doctor->doctorDetail && $user_doctor->doctorDetail->is_active
+                                ? __('Disponibile')
+                                : __('Non disponibile') }}
+                            </span>
+                        </td>
+                        <td class="px-3 py-4 text-center">
+                            <span
+                                class="inline-flex items-center justify-center font-semibold rounded-full w-[25px] h-[25px] bg-gray-100 border border-gray-200">
+                                {{ $user_doctor->patientsCount }}
+                            </span>
+                        </td>
+                        <td class="px-3 py-4 text-right">
+                            <div class="inline-flex items-center justify-end gap-2">
+                                <button wire:navigate href="doctors/details/{{$user_doctor->id}}"
+                                    title="{{ __('Dettagli') }}"
+                                    class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-2xl transition-colors cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                    </svg>
+                                </button>
 
-                            <button wire:navigate href="doctors/edit/{{$user_doctor->id}}" title="{{ __('Modifica') }}"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium rounded-xl transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
-                                </svg>
-                            </button>
+                                <button wire:navigate href="doctors/edit/{{$user_doctor->id}}"
+                                    title="{{ __('Modifica') }}"
+                                    class="inline-flex px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-2xl transition-colors cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+                                    </svg>
+                                </button>
 
-                            @role('Admin')
-                            <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina"
-                                confirm-class="border-red-200 bg-red-50 hover:bg-red-100 text-red-800">
+                                @role('Admin')
+                                <x-modal title="{{ __('Elimina definitivamente?') }}" confirm-label="Elimina">
+                                    <x-slot:trigger>
+                                        <button title="{{ __('Elimina') }}"
+                                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-2xl transition-colors cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                            </svg>
+                                        </button>
+                                    </x-slot:trigger>
 
-                                {{-- Bottone che apre la modale --}}
-                                <x-slot:trigger>
-                                    <button title="{{ __('Elimina') }}"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 text-sm font-medium rounded-xl transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                        </svg>
-                                    </button>
-                                </x-slot:trigger>
+                                    <x-slot:body>
+                                        <div class="w-[400px]">
+                                            {{ __('Questa operazione è irreversibile') }}
+                                        </div>
+                                    </x-slot:body>
 
-                                {{-- Testo aggiuntivo nel corpo (opzionale) --}}
-                                <x-slot:body>
-                                    <div class="w-[400px]">
-                                        {{ __('Questa operazione è irreversibile') }}
-                                    </div>
-                                </x-slot:body>
+                                    <x-slot:action>
+                                        <button wire:click="deleteDoctor({{$user_doctor->id}})"
+                                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors cursor-pointer">
+                                            {{ __('Elimina') }}
+                                        </button>
+                                    </x-slot:action>
+                                </x-modal>
+                                @endrole
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="9" class="px-6 py-8 text-center text-slate-500">
+                            <p>Nessun dottore disponibile.</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
 
-                                <x-slot:action>
-                                    <button wire:click="deleteDoctor({{$user_doctor->id}})"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 text-sm font-medium rounded-xl transition-colors">
-                                        {{ __('Elimina') }}
-                                    </button>
-                                </x-slot:action>
-
-                            </x-modal>
-                            @endrole
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="9" class="px-6 py-8 text-center text-slate-500">
-                        <p>Nessun dottore disponibile.</p>
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-
-    <div class="fixed bottom-0 right-5">
-        <x-flash-message type="success" />
-        <x-flash-message type="error" />
-    </div>
+        <div class="fixed bottom-0 right-5">
+            <x-flash-message type="success" />
+            <x-flash-message type="error" />
+        </div>
+    </section>
 </div>

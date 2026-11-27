@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages\Patients;
 
 use App\Concerns\WithCustomPagination;
+use App\Enums\AppointmentState;
+use App\Enums\AppointmentType;
 use App\Models\Appointment;
 use App\Models\Document;
 use App\Models\HealthParameter;
@@ -20,29 +22,17 @@ class DetailsPatients extends Component
     use WithCustomPagination, WithPagination;
 
     public User $patient;
-
     public string $source = '';
-
     public string $type = '';
-
     public string $searchStatus = '';
-
     public string $searchType = '';
-
     public string $severity = '';
-
     public string $created_at = '';
-
     public string $searchDoctor = '';
-
     public string $searchCreatedAt = '';
-
     public string $searchVisit = '';
-
     public string $searchControll = '';
-
     public string $searchTypeDoc = '';
-
     public string $searchNameDoc = '';
 
     public function mount(User $patient): void
@@ -168,17 +158,18 @@ class DetailsPatients extends Component
         $document->forceDelete();
     }
 
+    #[On('appointment_created')]
     public function render(): View
     {
         // Thresholds
         $healthThresholdsQuery = $this->patient->healthThresholds()->with(['patient', 'createdBy']);
 
         if ($this->severity) {
-            $healthThresholdsQuery->where('severity', 'like', '%'.$this->severity.'%');
+            $healthThresholdsQuery->where('severity', 'like', '%' . $this->severity . '%');
         }
 
         if ($this->created_at) {
-            $healthThresholdsQuery->where('created_at', 'like', '%'.$this->created_at.'%');
+            $healthThresholdsQuery->where('created_at', 'like', '%' . $this->created_at . '%');
         }
 
         $healthThresholds = $healthThresholdsQuery->paginate(20)->withPath(route('patients.details', $this->patient));
@@ -187,11 +178,11 @@ class DetailsPatients extends Component
         $healthParametersQuery = $this->patient->healthParameters()->with('patient');
 
         if ($this->source) {
-            $healthParametersQuery->where('source', 'like', '%'.$this->source.'%');
+            $healthParametersQuery->where('source', 'like', '%' . $this->source . '%');
         }
 
         if ($this->type) {
-            $healthParametersQuery->where('type', 'like', '%'.$this->type.'%');
+            $healthParametersQuery->where('type', 'like', '%' . $this->type . '%');
         }
 
         $healthParameters = $healthParametersQuery->paginate(10)->withPath(route('patients.details', $this->patient));
@@ -200,20 +191,20 @@ class DetailsPatients extends Component
         $appointmentsQuery = $this->patient->appointmentsPatient()->with(['doctor', 'patient']);
 
         if ($this->searchStatus) {
-            $appointmentsQuery->where('status', 'like', '%'.$this->searchStatus.'%');
+            $appointmentsQuery->where('status', 'like', '%' . $this->searchStatus . '%');
         }
 
         if ($this->searchType) {
-            $appointmentsQuery->where('type', 'like', '%'.$this->searchType.'%');
+            $appointmentsQuery->where('type', 'like', '%' . $this->searchType . '%');
         }
 
         if ($this->searchCreatedAt) {
-            $appointmentsQuery->where('scheduled_at', 'like', '%'.$this->searchCreatedAt.'%');
+            $appointmentsQuery->where('scheduled_at', 'like', '%' . $this->searchCreatedAt . '%');
         }
 
         if ($this->searchDoctor) {
             $appointmentsQuery->whereHas('doctor', function ($query) {
-                $query->where('name', 'like', '%'.$this->searchDoctor.'%');
+                $query->where('name', 'like', '%' . $this->searchDoctor . '%');
             });
         }
 
@@ -227,11 +218,11 @@ class DetailsPatients extends Component
         ]);
 
         if ($this->searchControll) {
-            $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%'.$this->searchControll.'%');
+            $medicalRecordsAsPatientQuery->where('follow_up_date', 'like', '%' . $this->searchControll . '%');
         }
 
         if ($this->searchVisit) {
-            $medicalRecordsAsPatientQuery->where('visit_date', 'like', '%'.$this->searchVisit.'%');
+            $medicalRecordsAsPatientQuery->where('visit_date', 'like', '%' . $this->searchVisit . '%');
         }
 
         $medicalRecordsAsPatient = $medicalRecordsAsPatientQuery->paginate(10)->withPath(route('patients.details', $this->patient));
@@ -242,20 +233,32 @@ class DetailsPatients extends Component
         $documentsQuery = $this->patient->documents();
 
         if ($this->searchTypeDoc) {
-            $documentsQuery->where('title', 'like', '%'.$this->searchTypeDoc.'%');
+            $documentsQuery->where('title', 'like', '%' . $this->searchTypeDoc . '%');
         }
 
         if ($this->searchNameDoc) {
-            $documentsQuery->where('original_filename', 'like', '%'.$this->searchNameDoc.'%');
+            $documentsQuery->where('original_filename', 'like', '%' . $this->searchNameDoc . '%');
         }
 
         $documents = $documentsQuery->paginate(10)->withPath(route('patients.details', $this->patient));
 
-        // configs
-        $severities = config('medicall.defaultThresholds.severities');
-        $statuses = config('medicall.appointments.statuses');
-        $types = config('medicall.appointments.types');
+        //enums
+        $colorsAppointmentType = collect(AppointmentType::cases())
+            ->mapWithKeys(fn($t) => [$t->value => $t->color()]);
+        $colorsAppointmentState = collect(AppointmentState::cases())
+            ->mapWithKeys(fn($t) => [$t->value => $t->color()]);
 
-        return view('livewire.pages.patients.details-patients', compact('healthParameters', 'healthThresholds', 'appointments', 'medicalRecordsAsPatient', 'documents', 'severities', 'statuses', 'types'));
+        return view(
+            'livewire.pages.patients.details-patients',
+            compact(
+                'healthParameters',
+                'healthThresholds',
+                'appointments',
+                'medicalRecordsAsPatient',
+                'documents',
+                'colorsAppointmentState',
+                'colorsAppointmentType'
+            )
+        );
     }
 }

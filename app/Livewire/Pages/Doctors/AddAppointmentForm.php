@@ -387,9 +387,6 @@ class AddAppointmentForm extends Component
 
     public function render(): View
     {
-        return view('livewire.pages.doctors.add-appointment-form', [
-            'types' => config('medicall.appointments.types', []),
-            'statuses' => config('medicall.appointments.statuses', []),
-        ]);
+        return view('livewire.pages.doctors.add-appointment-form');
     }
 }

@@ -73,7 +73,8 @@
                 <p class="text-sm text-slate-500">{{ __('Gli ultimi 10 appuntamenti registrati, dal più recente.') }}
                 </p>
             </div>
-            <flux:badge color="sky" class="px-4">{{ $latestAppointments->count() }} di {{ $appointmentsCount }}</flux:badge>
+            <flux:badge color="sky" class="px-4">{{ $latestAppointments->count() }} di {{ $appointmentsCount }}
+            </flux:badge>
         </div>
 
         @if($latestAppointments->isNotEmpty())
@@ -96,12 +97,12 @@
                         <td class="px-5 py-4">{{ $appointment->patient?->name ?? __('Paziente rimosso') }}</td>
                         <td class="px-5 py-4">{{ $appointment->doctor?->name ?? __('Dottore rimosso') }}</td>
                         <td class="px-5 py-4">
-                            @foreach($statuses as $value)
-                            <div wire:key="statuses-[{{$appointment->id}}-{{$value['status']}}]">
-                                @if($appointment->status == $value['status'] )
+                            @foreach(App\Enums\AppointmentState::cases() as $state)
+                            <div wire:key="statuses-{{ $appointment->id }}-{{ $state->value }}">
+                                @if($appointment->status == $state)
                                 <span
-                                    class="inline-flex justify-center items-center font-bold px-3 py-1 rounded-lg {{$appointment->status == $value['status'] ? $value['color'] : '' }}">
-                                    {{ __($value['label']) }}
+                                    class="inline-flex justify-center items-center font-bold px-3 py-1 rounded-lg {{ $appointment->status == $state ? $state->color() : '' }}">
+                                    {{ __($state->label()) }}
                                 </span>
                                 @endif
                             </div>
